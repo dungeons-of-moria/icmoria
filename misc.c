@@ -1317,7 +1317,7 @@ void gain_mana(integer amount)
   }
 
   if (knows_spell) {
-    if (py.misc.lev | 1) {
+    if (py.misc.lev & 1) {
 
       switch (amount) {
       case 0:                    new_mana = 0;          break;

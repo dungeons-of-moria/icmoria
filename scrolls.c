@@ -10,7 +10,7 @@
 void rs__scroll_effect(integer effect, boolean *idented, 
 		       boolean *first, treas_ptr item_ptr)
 {
-  integer          i3,i4,randy;
+  integer          i2,i3,i4,randy;
   integer          y,x;
   integer          tmp[9];	/*: array [1..8] of integer;*/
   vtype            out_val,out_val2,str1,str2;
@@ -361,7 +361,7 @@ void rs__scroll_effect(integer effect, boolean *idented,
       msg_print(out_val2);
       flag = false;
       randy = randint(2);
-      for (i3 = 0; i3 < randy; i3++) {
+      for (i2 = 0; i2 < randy; i2++) {
 	if (enchant(&(equipment[i3].toac))) {
 	  flag = true;
 	}

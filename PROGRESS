@@ -333,4 +333,15 @@ couple of other little bugs.
    probably from when those rings were invented originally...
 
 -------------------------------------------------------------------------------
+4.85.20
+
+Patches from John Guthrie to fix various things:
+
+Fix help message about what flags exist.
+Fix *Enchant Armor* scrolls so they actually enchant armor.
+Fix a bunch of item prices in the stores that depended on how identified the item is.
+Fix mhelp.pl to be smarter about figuring out how many lines are on the screen.
+Fix gain_mana() so it does the right thing on even level ups.
+
+-------------------------------------------------------------------------------
 /* end progress */

@@ -33,7 +33,7 @@ void intro_qualifier_help()
   printf("Invalid Moria option!  Valid qualifiers are:\n\r");
   printf("  -f file    Load saved character in file.\n\r");
   printf("  -d num     Set difficulity from 1-5, default is 3.\n\r");
-  printf("  -h         Warn about hearing things in water.\n\r");
+  printf("  -w         Warn about hearing things in water.\n\r");
   printf("  -s         List top 20 high scores.\n\r");
   printf("  -t num     List <num> high scores after death or for -s.\n\r");
   printf("  -Q         Quit after checking for data files.\n\r");

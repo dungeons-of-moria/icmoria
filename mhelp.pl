@@ -20,7 +20,14 @@ $total_rows = get_rows();
 
 sub get_rows {
 	&Tgetent($ENV{'TERM'});	# sets $TC{'cm'}, etc.
-	$TC{'li'};
+ 	if (exists($TC{'li'})) {
+	    return $TC{'li'};
+ 	} elsif (exists($ENV{'LINES'})) {
+	    return $ENV{'LINES'};
+ 	} else {
+	    return 24;          # a reasonable default
+ 	}
+
 }
 ##############################
 

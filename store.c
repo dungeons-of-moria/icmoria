@@ -486,6 +486,10 @@ integer item_value(treasure_type *item)
       }
     } else if (strstr(item->name,"^") != NULL) {
       return_value = (item->cost > 0) ? (item->cost div GOLD_VALUE) : 0;
+    } else {
+      return_value = (item->cost > 0) ? ((item->cost div GOLD_VALUE) +
+			 trunc(item->cost/COST_ADJ/20.0)*(item->tohit +
+			       item->todam + item->toac + 2*item->p1)) : 0;
     }
     break;
 
@@ -501,7 +505,7 @@ integer item_value(treasure_type *item)
       case horn:
 	return_value =   80;  break;
       }
-    } else if (strstr(item->name,"^") != NULL) {
+    } else if (strstr(item->name,"^") == NULL) {
       return_value = ((item->cost div GOLD_VALUE) + 
 		      trunc(item->cost/COST_ADJ/20.0)*(item->p1));
     }
@@ -522,7 +526,7 @@ integer item_value(treasure_type *item)
       case wand:
 	return_value =   50;  break;
       }
-    } else if (strstr(item->name,"^") != NULL) {
+    } else if (strstr(item->name,"^") == NULL) {
       return_value = ((item->cost div GOLD_VALUE) + 
 		      trunc(item->cost/COST_ADJ/20.0)*(item->p1));
     }
@@ -540,7 +544,7 @@ integer item_value(treasure_type *item)
       case valuable_gems:
 	return_value =   20;  break;
       }
-    } else if (strstr(item->name,"^") != NULL) {
+    } else if (strstr(item->name,"^") == NULL) {
       return_value = (item->cost div GOLD_VALUE);
     }
     break;
