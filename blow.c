@@ -317,6 +317,7 @@ void b__misc_effects(integer effect, boolean *idented, treas_ptr item_ptr)
       ident = true;
       PF.slow  = 1;
     }
+    /* bitwise or, otherwise it shortcuts and not everything happens */
     if (cure_me(&PF.blind) | cure_me(&PF.poisoned) |
 	cure_me(&PF.confused) | cure_me(&PF.afraid) | restore_level()) {
       ident = true;

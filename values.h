@@ -148,6 +148,8 @@
 //	{  Following are set definitions				}
 	obj_set		floor_set =
 		{1,2,4,5,6,7,16,17,18,0,0,0,0,0,0,0};
+	obj_set		open_dry_floors =
+		{1,2,4,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	obj_set		wall_set =
 		{10,11,12,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	obj_set		pwall_set =

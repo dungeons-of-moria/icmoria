@@ -361,14 +361,17 @@ char loc_symbol(integer y,integer x)
 	sym = c_list[mptr].cchar;
       } else if (tptr > 0) {
 	sym = t_list[tptr].tchar;
-      } else if (fval < 10) {
+      } else if (is_in(fval,earth_set)) { /* 0, 3, 8 and 9 were here too */
 	sym = '.';
-      } else if (fval < 16) {
+      } else if (is_in(fval,pwall_set)) {
 	sym = '#';
-      } else {
+      } else if (is_in(fval,water_set)) {
 	sym = '`' + 0x80;
-      }
-      
+      } else {
+	/* unknown terrain type */
+	sym = '.' + 0x80;
+      }      
+
     } else if (tptr > 0) {
       
       if (is_in(fval,water_set)) {
@@ -383,13 +386,16 @@ char loc_symbol(integer y,integer x)
 	sym = t_list[tptr].tchar;
       }
       
-    } else if (fval < 10) {
+    } else if (is_in(fval,earth_set)) { /* 0, 3, 8 and 9 were here too */
       sym = '.';
-    } else if (fval < 16) {
+    } else if (is_in(fval,pwall_set)) {
       sym = '#';
-    } else {
+    } else if (is_in(fval,water_set)) {
       sym = '`' + 0x80;
-    }
+    } else {
+      /* unknown terrain type */
+      sym = '.' + 0x80;
+    }      
   }
   
 #if DO_DEBUG
@@ -2365,15 +2371,14 @@ void place_stairs(integer typ,integer num,integer walls)
 	x2 = x1 + 12;
 	do {
 	  do {
-	    switch (cave[y1][x1].fval) {/*if (fval in [1,2,4]) {*/
-	    case 1: case 2: case 4:
+	    if (is_in(cave[y1][x1].fval, open_dry_floors)) {
 	      if (cave[y1][x1].tptr == 0) {
 		if (next_to4(y1,x1,wall_set) >= walls) {
 		  flag = true;
 		  place_a_staircase(y1,x1,typ);
 		}
 	      }
-	    } /* end switch */
+	    }
 	    x1++;
 	  } while (!((x1 == x2) || (flag)));
 	  x1 = x2 - 12;
@@ -3355,7 +3360,6 @@ void place_win_monster()
 
   integer   cur_pos;
   integer   y,x;
-  obj_set   onetwofour = {1,2,4,0};
 
   if (!total_winner) {
     popm(&cur_pos);
@@ -3363,7 +3367,7 @@ void place_win_monster()
     do {
       y = randint(cur_height-2)+1;
       x = randint(cur_width-2)+1;
-    } while (!((is_in(cave[y][x].fval, onetwofour))     &&
+    } while (!((is_in(cave[y][x].fval, open_dry_floors))     &&
 	       (cave[y][x].cptr == 0)             &&
 	       (cave[y][x].tptr == 0)             &&
 	       (distance(y,x,char_row,char_col) > MAX_SIGHT)));

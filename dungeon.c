@@ -1735,10 +1735,16 @@ void rest()
   integer    rest_num;
   vtype      rest_str;
 
-  prt("Rest for how long? ",1,1);
-  get_string(rest_str,1,20,10);
-  rest_num = 0;
-  sscanf(rest_str,"%ld",&rest_num);
+  prt("Rest for how long (or *) ? ",1,1);
+  get_string(rest_str,1,28,10);
+
+  if ( !strcmp(rest_str, "*") ) {
+    rest_num = 20;
+    PF.resting_till_full = true;
+  } else {
+    rest_num = 0;
+    sscanf(rest_str,"%ld",&rest_num);
+  }
 
   if (rest_num > 0) {
     if (search_flag) {
@@ -1879,21 +1885,21 @@ void search(integer y, integer x, integer chance)
 void  lr__find_light(integer y1,integer x1,integer y2,integer x2)
 {
 
-  integer    i1,i2,i3,i4;
-  obj_set    something_nifty = {1,2,17,0};
+  integer  i1,i2,i3,i4;
+  obj_set  room_floors = {dopen_floor.ftval,lopen_floor.ftval,water2.ftval,0};
 
   for (i1 = y1; i1 <= y2; i1++) {
     for (i2 = x1; i2 <= x2; i2++) {
-      if (is_in(cave[i1][i2].fval, something_nifty)) {
+      if (is_in(cave[i1][i2].fval, room_floors)) {
 	for (i3 = i1-1; i3 <= i1+1; i3++) {
 	  for (i4 = i2-1; i4 <= i2+1; i4++) {
 	    cave[i3][i4].pl = true;
 	  }
 	}
-	if (cave[i1][i2].fval == 17) {
-	  cave[i1][i2].fval = 18;
+	if (cave[i1][i2].fval == water2.ftval) {  /* water on room floor */
+	  cave[i1][i2].fval = water3.ftval;       /* lit rm water on floor */
 	} else {
-	  cave[i1][i2].fval = 2;
+	  cave[i1][i2].fval = lopen_floor.ftval;  /* lit rm floor */
 	}
       }
     }
@@ -2035,12 +2041,12 @@ void area_affect(integer dir, integer y, integer x)
 
   integer    z[4];        /*: array [1..3] of integer;*/
   integer    i1,row,col;
-  obj_set    fourfivesix = {4, 5, 6, 0};
+  obj_set    corridors = {4, 5, 6, 0};
   obj_set    some_hidden_stuff = {Unseen_trap,Secret_door, 0};
 
-  if (cave[y][x].fval == 4) {
+  if (cave[y][x].fval == corr_floor1.ftval) {
     i1 = 0;
-    if (next_to4(y,x,fourfivesix) > 2) {
+    if (next_to4(y,x,corridors) > 2) {
       find_flag = false;
     }
   }
@@ -2069,7 +2075,7 @@ void area_affect(integer dir, integer y, integer x)
 	//with cave[row,col] do;
 
 	/* { Empty doorways        }*/
-	if (cave[row][col].fval == 5) {
+	if (cave[row][col].fval == corr_floor2.ftval) {
 	  find_flag = false;
 	}
 
@@ -2633,7 +2639,8 @@ integer movement_rate(integer cspeed,integer mon)
   //with m_list[mon] do;
   //with c_list[mptr] do;
   //with cave[fy,fx] do;
-  if (xor( is_in(cave[MY(mon)][MX(mon)].fval, earth_set), 
+  if (xor( (is_in(cave[MY(mon)][MX(mon)].fval, earth_set) ||
+	    is_in(cave[MY(mon)][MX(mon)].fval, pwall_set)),
 	   (uand(c_list[m_list[mon].mptr].cmove,0x00000010) == 0))) {
     c_rate =(integer)(uand(c_list[m_list[mon].mptr].cmove,0x00000300) div 256);
   } else {
@@ -3660,9 +3667,7 @@ void d__update_blindness()
 	prt_blind();
 	prt_map();
 	msg_print("The veil of darkness lifts.");
-	if (find_flag) {
-	  move_char(5);
-	}
+	move_char(5);
       }
     }
 };
@@ -3942,6 +3947,7 @@ void d__update_resting()
       if ((equipment[Equipment_primary].flags2 & Soul_Sword_worn_bit) != 0) {
 	bother(randint(10));
 	PF.rest = 1;
+	PF.resting_till_full = false;
       }
     }
     PF.rest--;
@@ -3953,7 +3959,12 @@ void d__update_resting()
     inkey_delay(&command,0);
     /*if (want_trap) { dump_ast_mess; XXXX}*/
     if (PF.rest == 0) {               /*{ Resting over          }*/
-      rest_off();
+      if (PF.resting_till_full && (PM.cmana < PM.mana || PM.chp < PM.mhp) ) {
+	PF.rest = 20;
+	turn_counter += PF.rest;
+      } else {
+	rest_off();
+      }
     } else if (command != 0) {  /*{ Resting aborted       }*/
       rest_off();
     }

@@ -1066,7 +1066,7 @@ boolean c__make_move(integer monptr, mm_type mm, integer *hear_count)
     newx = m_list[monptr].fx;
     move_dir(mm[i1],&newy,&newx);
     //with cave[newy][newx]. do;
-    if (cave[newy][newx].fval != 15) {
+    if (cave[newy][newx].fval != boundry_wall.ftval) {
       tflag = false;
       if (cave[newy][newx].cptr == 1) {
 	tflag = true;
@@ -1389,10 +1389,12 @@ boolean c__cast_spell(integer monptr, boolean *took_turn)
     switch (thrown_spell) {
     case 5 :          /*{Teleport Short}*/
       teleport_away(monptr,5);
+      return_value = true;
       break;
       
     case 6 :    /*{Teleport Long }*/
       teleport_away(monptr,MAX_SIGHT);
+      return_value = true;
       break;
       
     case 7 :    /*{Teleport To   }*/
@@ -1875,7 +1877,7 @@ void creatures(boolean attack)
 		  }
 		}
 	      }
-	    }
+	    } /* end if (cdis < aaf) || ml */
 	    c__update_mon(i1, &hear_count);
 	  } /*{end for 1 to i3 loop}*/
 	} else {

@@ -31,4 +31,9 @@ oct 12		^M is not working, getch returns a 10
 		exits w/o error if ncurses dislikes term type?
 		move file paths to Makefile?
 
+
+THIS FILE IS WAY OUT OF DATE.  I'm tracking bugs on scraps of paper next
+to my mouse.  Lots of them are logged in the PROGRESS file as they are
+fixed.
+
 /* end bugs */

@@ -290,7 +290,7 @@ boolean ic__show_inven(treas_ptr *ret_ptr,boolean want_back,boolean clean_flag,
   integer    count, count2;
   vtype      out_str;
   boolean    caps_flag;
-  obj_set    tenTo12 = {10,11,12};
+  obj_set    stuff_to_fire = {sling_ammo,bolt,arrow,0};
   boolean    return_value = false;
 
   ENTER("ic__show_inven","iu");
@@ -380,7 +380,8 @@ boolean ic__show_inven(treas_ptr *ret_ptr,boolean want_back,boolean clean_flag,
 		}
 	      }
 	      if ((!((*ret_ptr)->is_in)) && (wgt == 0)) {
-		if ((caps_flag) && (!(is_in((*ret_ptr)->data.tval, tenTo12)))){
+		if ((caps_flag) && (!(is_in((*ret_ptr)->data.tval,
+					    stuff_to_fire)))){
 		  count = (*ret_ptr)->data.number;
 		} else {
 		  count = 1;

@@ -262,6 +262,7 @@ unsigned long	status;	        // { Status of player    }
 	boolean	petri_resist;	// { Resist Petrification}
         boolean	quested;	// { Performing a Quest  } /*{FUBAR}*/
         boolean light_on;       // { Light source is active }
+        boolean resting_till_full;
 } p_flags;
 
 typedef struct player_type

@@ -1126,7 +1126,7 @@ boolean unlight_area(integer y,integer x)
   integer   end_row,end_col;
   vtype     out_val;
   obj_set   room_floors = {1,2,17,18,0};
-  obj_set   four_five_six = {4,5,6,0};
+  obj_set   doors_and_corridors = {4,5,6,0};
   boolean   flag = false;
 
   if (is_in(cave[y][x].fval,room_floors) && (dun_level > 0)) {
@@ -1143,7 +1143,7 @@ boolean unlight_area(integer y,integer x)
 	//with cave[i1][i2];
 	if (is_in(cave[i1][i2].fval, room_floors)) {
 	  cave[i1][i2].pl = false;
-	  cave[i1][i2].fval = 1;
+	  cave[i1][i2].fval = dopen_floor.ftval;
 	  if (!(test_light(i1,i2))) {
 	    if (i3 == 0) {
 	      i3 = i2;
@@ -1178,7 +1178,7 @@ boolean unlight_area(integer y,integer x)
       for (i2 = x-1; i2 <= x+1; i2++) {
 	if (in_bounds(i1,i2)) {
 	  //with cave[i1][i2]. do;
-	  if (is_in(cave[i1][i2].fval, four_five_six)) {
+	  if (is_in(cave[i1][i2].fval, doors_and_corridors)) {
 	    if (cave[i1][i2].pl) {
 	      cave[i1][i2].pl = false;
 	      flag = true;
@@ -1778,7 +1778,7 @@ boolean destroy_area(integer y,integer x)
     for (i1 = (y-15); i1 <= (y+15); i1++) {
       for (i2 = (x-15); i2 <= (x+15); i2++) {
 	if (in_bounds(i1,i2)) {
-	  if (cave[i1][i2].fval != 15) {
+	  if (cave[i1][i2].fval != boundry_wall.ftval) {
 	    i3 = distance(i1,i2,y,x);
 	    if (i3 < 13) {
 	      da__replace_spot(i1,i2,randint(6));
@@ -1806,7 +1806,7 @@ boolean earthquake ()
   /*{ them into walls.  An "Earthquake" effect...           -RAK-   }*/
 
   integer    i1,i2;
-  obj_set    one_or_two = {1,2,0};
+  obj_set    room_floors = {1,2,0};
 
   for (i1 = char_row-8; i1 <= char_row+8; i1++) {
     for (i2 = char_col-8; i2 <= char_col+8; i2++) {
@@ -1821,7 +1821,7 @@ boolean earthquake ()
 	      mon_take_hit(cave[i1][i2].cptr,damroll("2d8"));
 	    }
 	    if (is_in(cave[i1][i2].fval, wall_set)) {
-	      if (next_to4(i1,i2,one_or_two) > 0) {
+	      if (next_to4(i1,i2,room_floors) > 0) {
 		cave[i1][i2].fval  = corr_floor2.ftval;
 		cave[i1][i2].fopen = corr_floor2.ftopen;
 	      } else {
@@ -1922,7 +1922,7 @@ boolean light_line(integer dir, integer y, integer x, integer power)
     if (panel_contains(y,x)) {
       
       if (!((cave[y][x].tl) || (cave[y][x].pl))) {
-	if (cave[y][x].fval == 2) {
+	if (cave[y][x].fval == lopen_floor.ftval) {
 	  light_room(y,x);
 	} else {
 	  lite_spot(y,x);
@@ -2318,7 +2318,7 @@ boolean disarm_all(integer dir,integer y,integer x)
       } else if (tval == chest) {
 	if (t_list[cave[y][x].tptr].flags > 0) {
 	  msg_print("Click!");
-	  t_list[cave[y][x].tptr].flags = 0;
+	  t_list[cave[y][x].tptr].flags &= 0xFFFFFE0F;
 	  flag = true;
 	  achar = strstr(t_list[cave[y][x].tptr].name," (");
 	  if (achar != NULL) {

@@ -137,4 +137,111 @@ july 18:
 
   sep 16 1998		announced package to freshmeat.net
 
+-------------------------------------------------------------------------------
+4.85.6
+
+Sep 27 1998
+
+Fixes a crash in the speeded up identify selection code.<br>
+Call endwin to clean up ncurses on exit.<br>
+-------------------------------------------------------------------------------
+4.85.7
+
+Sep 29 1998
+
+Should fix a problem in monk.c where a for loop should have begun at 0.
+Added break; to paladin, druid and priest spells so only one is cast
+at a time.  I don't think I play them very often!
+-------------------------------------------------------------------------------
+4.85.8
+
+Oct 05 1998
+
+Made mhelp.pl output \n\r rather than just \n, should fix messed up output
+when using help from within the game.
+Replaced index call with strchr
+Fixed bug in bi__insure_all_items that made the game look like it had hung.
+-------------------------------------------------------------------------------
+4.85.9
+
+Oct 12 1998
+
+Finished writing the put/take commands for bags of holding, and fixed
+two bugs that showed up now that bags can be used.
+Also finished the 'I' command (selective inventory) which had also been
+skipped.
+Staves of darkness no longer mess up the screen when used.
+Enter can be used to reply to "-more-"
+^M is still broken, getch returns 10 (^J) and I don't know why. Use 'V'.
+-------------------------------------------------------------------------------
+4.85.10
+
+Oct 14 1998
+
+Now all the data files are checked before ncurses is given control of the
+screen.  This should help all the people who have reported that the game
+exits with no errors right after starting.
+I also added a message if the help file could not be executed so the
+screen does not just flash.
+
+-------------------------------------------------------------------------------
+4.85.11
+
+Dec 5 1999
+
+After a one year break I finally started playing again.
+Reannounced on Freshmeat.
+
+Fixed a big problem in compact_monsters that would create loops in 
+the monster list (m_list).  This locks up the program fairly fast.
+Also added USE_CURSES_ATTRS to configure.h to make it easy for the
+people who have had problems with attr_get().  Some minor graphics
+fixes including one caused by using the J command (parts of the map
+were not redrawn correctly).
+-------------------------------------------------------------------------------
+4.85.12
+
+Dec 13 1999
+
+Fixed another bug in compact_monsters that was fixed in the 4.94 sources.
+No loops in the list, but it still locked the game up for quite a while.
+Show % full on bags of holding.
+Interrupt rest when hunger messages are printed. This nearly killed me.
+Sort magic/prayer/song books so you they are always in the same order.
+Let petrification wear off over time, partly taken from the 4.94 sources.
+Fixed message printed by area spells that killed things (monster names
+were sometimes lost)
+
+-------------------------------------------------------------------------------
+4.85.13
+
+Dec 18 1999
+
+Fixed a huge problem where items that were removed by putting on something
+else of the same type did not undo some of the magic bonuses.
+Fixed a few item sets that caused crashes if DO_DEBUG was on.
+Fixed an off by one problem with the material types of magic items.
+Fixed some of the monster death messages.
+
+-------------------------------------------------------------------------------
+4.85.14
+
+Dec 22 1999
+
+Added a break; between Storm Giant and Cloud Giant Belts. Ooops.
+Fixed % full description for empty bags of holding.  Do not strcat to
+a string that has not been set yet!
+Added '*' option for resting: rest until mana and hits are at maximum.
+Chimes of disarming no longer cause chests to be empty.
+When blindness ends show area around character.
+Wand of wall building no longer pins creatures that do not move in water.
+They are in a wall, not water!
+Changed most of the floor_type checks to not use literals.
+If a monster was in the dark, hit by something and cast teleport on itself
+then the old position (shown when the monster was hit) was not redrawn.
+I never noticed that at UW, but this week it happened at least 3 times. Odd.
+
+-------------------------------------------------------------------------------
+
+
 /* end progress */

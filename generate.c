@@ -261,10 +261,10 @@ void gc__tunnel(integer row1,integer col1,integer row2,integer col2,
 //////////////////////////////////////////////////////////////////////
 boolean gc__next_to(integer y, integer x)
 {
-  obj_set fourfivesix = {4, 5, 6, 0};
+  obj_set corridors = {4, 5, 6, 0};
   boolean next_to = false;
 
-  if (next_to8(y,x,fourfivesix) > 2) {
+  if (next_to8(y,x,corridors) > 2) {
     if (is_in(cave[y-1][x].fval, wall_set) &&
 	is_in(cave[y+1][x].fval, wall_set)) {
       next_to = true;
@@ -762,8 +762,8 @@ void gc__town_gen()
   boolean   roomdone[36]; /* array [0..35] of boolean;*/
   integer   center;
 
-  obj_set allocSet1 = {1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-  obj_set allocSet2 = {16,17,18,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  obj_set allocSet1 = {1,2,0};
+  obj_set allocSet2 = {16,17,18,0};
 
 //  for (i1 = 0; i1 < MAX_MONS_LEVEL+1; i1++) {
 //    printf ("\n m_level[%d] : %d",i1,m_level[i1]);  fflush(stdout);

@@ -18,6 +18,11 @@ void magic_init(unsigned long random_seed)
 
   for (i1 = 1; i1 <= MAX_OBJECTS; i1++) {
 
+    /*
+     * The arrays of the object materals all start at 0.
+     * Object subvals start at 1.  When doing the lookup
+     * subtract one from subval!
+     */
     tmpv = (0xFF & object_list[i1].subval);
 
     switch (object_list[i1].tval) {
@@ -141,6 +146,10 @@ void r__randdesloop(atype str_array[], int count)
   for (i1 = 0; i1 < count; i1++) {
 	  i2 = randint(count)-1;
 	  if (i1 != i2) {
+#if DO_DEBUG && 0
+	    fprintf(debug_file,"%2ld:%2ld \"%s\" swapped with \"%s\"\n",
+		    i1,i2,str_array[i1],str_array[i2]);
+#endif
 	    strcpy(tmp, str_array[i1]);
 	    strcpy(str_array[i1], str_array[i2]);
 	    strcpy(str_array[i2], tmp);
@@ -389,7 +398,7 @@ char *bag_descrip(treas_ptr bag, string result)  // was func
  treas_ptr  ptr;
  
  if ((bag->next == nil) || (bag->next->is_in == false)) {
-   strcat(result," (empty)");
+   sprintf(result," (empty)");
  } else {
    count = 0;
    wgt = 0;

@@ -102,6 +102,7 @@ extern	floor_type	boundry_wall;
 
 //	{  Following are set definitions				}
 extern	obj_set		floor_set;
+extern	obj_set		open_dry_floors;
 extern	obj_set		wall_set;
 extern	obj_set		pwall_set;
 extern	obj_set		corr_set;

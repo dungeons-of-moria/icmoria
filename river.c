@@ -92,8 +92,8 @@ void r__plot_water(integer y, integer x, integer font, integer tdir)
   for (i1 = 1; i1 <= num_dots; i1++) {
     if (in_bounds(dots[i1].y,dots[i1].x)) {
       //with cave[dots[i1].y][dots[i1].x]. do;
-      if ((cave[dots[i1].y][dots[i1].x].fval == 1) ||
-	  (cave[dots[i1].y][dots[i1].x].fval == 2)) {
+      if ((cave[dots[i1].y][dots[i1].x].fval == dopen_floor.ftval) ||
+	  (cave[dots[i1].y][dots[i1].x].fval == lopen_floor.ftval)) {
 	cave[dots[i1].y][dots[i1].x].fval  = water2.ftval;
 	cave[dots[i1].y][dots[i1].x].fopen = water2.ftopen;
       } else {

@@ -38,6 +38,7 @@ void rest_off()
 {
   py.flags.rest = 0;
   py.flags.status &= ~IS_RESTING;
+  py.flags.resting_till_full = false;
   if (msg_flag) {
     erase_line(1,1);
   }
@@ -116,8 +117,8 @@ void move_char(integer dir)
 	      }
 	    }
 	    /*{ In doorway of light-room?             }*/
-	  } else if ((cave[test_row][test_col].fval == 5) || 
-		     (cave[test_row][test_col].fval == 6)) {
+	  } else if ((cave[test_row][test_col].fval == corr_floor2.ftval) || 
+		     (cave[test_row][test_col].fval == corr_floor3.ftval)) {
 	    if (py.flags.blind < 1) {
 	      for (i1=(test_row-1); i1<=(test_row+1); i1++) {
 		for (i2=(test_col-1); i2<=(test_col+1); i2++) {

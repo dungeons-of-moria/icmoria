@@ -858,6 +858,7 @@ void mt__belt(integer x,integer level,integer chance,
 	    t_list[x].p1      = 6;
 	    t_list[x].cost   += 3500000;
 	  }
+	  break;
 	case 2 :
 	  strcat(t_list[x].name," of Cloud Giant Strength");
 	  t_list[x].flags |= (Resist_Lightning_worn_bit  |

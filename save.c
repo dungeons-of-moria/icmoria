@@ -875,6 +875,7 @@ void gc__read_player_record(FILE *f1, encrypt_state *cf_state, ntype in_rec,
   PM.cur_quest = x2;
   PM.quests    = x3;
   PF.light_on  = x4;
+  PF.resting_till_full = false;
     
 //    sys_gettim(&current_time);
 //    sub_quadtime(current_time,start_time,&delta_time);
