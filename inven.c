@@ -436,7 +436,7 @@ void ic__show_equip(integer *scr_state,integer r1)
     prt("",equip_ctr+3,1);
   } else if (r1 > 0) {       /*{ R1 = 0 dummy call             }*/
     i2 = 0;
-    for (i1 = Equipment_min; i1 <= EQUIP_MAX-1; i1++) { 
+    for (i1 = Equipment_min; i1 <= EQUIP_MAX-2; i1++) { 
       /*{ Range of equipment }*/
       //with equipment[i1] do;
       if (equipment[i1].tval > 0) {
@@ -532,7 +532,7 @@ treas_ptr ic__remove(integer item_val)
   sprintf(out_val,"%s%s",prt1,prt2);
   msg_print(out_val);
 
-  if (item_val != EQUIP_MAX-1) {     /*{ For secondary weapon  }*/
+  if (item_val != Equipment_secondary) {     /* Secondary weapon already off */
     py_bonuses(&(inven_temp->data),-1);
   }
   

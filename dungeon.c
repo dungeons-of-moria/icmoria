@@ -5505,10 +5505,12 @@ void d__execute_command(integer *com_val)
 	if (get_string(tmp_str,1,31,10)) {
 	  i1 = -1;
 	  sscanf(tmp_str,"%ld",&i1);
-	  if (i1 > -1) {
+	  if (i1 > -1 || !strcmp(tmp_str, "*")) {
 	    dun_level = i1;
 	    if (dun_level > 1200) {
 	      dun_level = 1200;
+	    } else if (dun_level < 0) {
+	      dun_level = py.misc.max_lev;
 	    }
 	    moria_flag = true;
 	  } else {

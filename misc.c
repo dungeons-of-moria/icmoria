@@ -114,6 +114,7 @@ void init_t_level()
   for (i1 = 1; i1 <= MAX_OBJ_LEVEL; i1++) {
     t_level[i1] += t_level[i1-1];
   }
+
 }; /* end init_t_level */ 
 
 //////////////////////////////////////////////////////////////////////

@@ -385,7 +385,7 @@ void c__monster_eaten_message(char *squash, char *doesit, integer cptr)
 
   case 3 :
     sprintf(out_val, "Look out!  The %s is going to-- Eeeeew...never mind.",
-	    squash);
+	    doesit);
     break;
 
   case 4 :
@@ -395,8 +395,8 @@ void c__monster_eaten_message(char *squash, char *doesit, integer cptr)
     break;
 
   case 5 :
-    sprintf(out_val, "The nice %s took out the for you.",
-	    doesit);
+    sprintf(out_val, "The nice %s took out the %s for you.",
+	    doesit, squash);
     break;
 
   case 6 :

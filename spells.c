@@ -1676,7 +1676,7 @@ boolean za__no_it_didnt(integer monptr, integer cflag, integer dmge,
 			integer typ)
 {
   vtype      out_val;
-  obj_set    some_stuff = {c_confuse,c_sleep,c_speed,c_hold,c_joke,0};
+  obj_set    some_stuff = {c_sleep,c_confuse,c_speed,c_hold,c_joke,0};
   boolean    flag = false;
 
   //with m_list[i1]. do;

@@ -172,8 +172,8 @@
 		potion1,potion2,flask_of_oil,Food,magic_book,
 		prayer_book,song_book};
 	obj_set		slow_set =
-		{hafted_weapon,pole_arm,sword,dagger,pick_or_shovel,
-		maul,helm,gem_helm,shield,valuable_metal,0,0,0,0,0,0};
+		{hafted_weapon,pole_arm,dagger,sword,pick_or_shovel,
+		maul,gem_helm,helm,shield,valuable_metal,0,0,0,0,0,0};
 	obj_set		stable_set =
 	       {chest,spike,hard_armor,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
@@ -1344,7 +1344,7 @@ Monk, Adventurer, Bard, Druid, Paladin, Ranger, Rogue, Priest, Mage, Warrior }
 	    // {Inn	 	}
 	{106,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},         
 	    // {Library	}
-	{91,90,71,70,0,0,0,0,0,0,0,0,0,0,0,0},	     
+	{71,70,90,91,0,0,0,0,0,0,0,0,0,0,0,0},	     
 	    // {Music Shop	}
 	{85,86,92,93,0,0,0,0,0,0,0,0,0,0,0,0},	     
 	    // {Jewelry Shop	}

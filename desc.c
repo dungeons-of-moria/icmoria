@@ -24,7 +24,7 @@ void magic_init(unsigned long random_seed)
       
     case potion1: case potion2: 
       if (tmpv <= MAX_COLORS) {
-	insert_str(object_list[i1].name,"%C",colors[tmpv]);
+	insert_str(object_list[i1].name,"%C",colors[tmpv-1]);
       }
       break;
       
@@ -35,55 +35,55 @@ void magic_init(unsigned long random_seed)
       
     case ring: 
       if (tmpv <= MAX_ROCKS) {
-	insert_str(object_list[i1].name,"%R",rocks[tmpv]);
+	insert_str(object_list[i1].name,"%R",rocks[tmpv-1]);
       }
       break;
       
     case valuable_gems:
       if (tmpv <= MAX_ROCKS) {
-	insert_str(object_list[i1].name,"%R",rocks[tmpv]);
+	insert_str(object_list[i1].name,"%R",rocks[tmpv-1]);
       }
       break;
       
     case valuable_gems_wear:
       if (tmpv <= MAX_ROCKS) {
-	insert_str(object_list[i1].name,"%R",rocks[tmpv]);
+	insert_str(object_list[i1].name,"%R",rocks[tmpv-1]);
       }
       break;
       
     case amulet:
       if (tmpv <= MAX_AMULETS) {
-	insert_str(object_list[i1].name,"%A",amulets[tmpv]);
+	insert_str(object_list[i1].name,"%A",amulets[tmpv-1]);
       }
       break;
       
     case wand:
       if (tmpv <= MAX_METALS) {
-	insert_str(object_list[i1].name,"%M",metals[tmpv]);
+	insert_str(object_list[i1].name,"%M",metals[tmpv-1]);
       }
       break;
       
     case chime:
       if (tmpv <= MAX_METALS) {
-	insert_str(object_list[i1].name,"%M",metals[tmpv]);
+	insert_str(object_list[i1].name,"%M",metals[tmpv-1]);
       }
       break;
       
     case horn:
       if (tmpv <= MAX_HORNS) {
-	insert_str(object_list[i1].name,"%H",horns[tmpv]);
+	insert_str(object_list[i1].name,"%H",horns[tmpv-1]);
       }
       break;
       
     case staff:
       if (tmpv <= MAX_WOODS) {
-	insert_str(object_list[i1].name,"%W",woods[tmpv]);
+	insert_str(object_list[i1].name,"%W",woods[tmpv-1]);
       }
       break;
       
     case Food:
       if (tmpv <= MAX_MUSH) {
-	insert_str(object_list[i1].name,"%M",mushrooms[tmpv]);
+	insert_str(object_list[i1].name,"%M",mushrooms[tmpv-1]);
       }
       break;
       
@@ -91,35 +91,43 @@ void magic_init(unsigned long random_seed)
       /* what happened to the rods? */
       /*
       if (tmpv <= MAX_RODS) {
-	insert_str(object_list[i1].name,"%D",rods[tmpv]);
+	insert_str(object_list[i1].name,"%D",rods[tmpv-1]);
       }
       */
       break;
       
     case bag_or_sack:
       if (tmpv <= MAX_CLOTHS) {
-	insert_str(object_list[i1].name,"%N",cloths[tmpv]);
+	insert_str(object_list[i1].name,"%N",cloths[tmpv-1]);
       }
       break;
       
     case misc_usable:
       if (tmpv <= MAX_ROCKS) {
-	insert_str(object_list[i1].name,"%R",rocks[tmpv]);
+	insert_str(object_list[i1].name,"%R",rocks[tmpv-1]);
       }
       if (tmpv <= MAX_WOODS) {
-	insert_str(object_list[i1].name,"%W",woods[tmpv]);
+	insert_str(object_list[i1].name,"%W",woods[tmpv-1]);
       }
       if (tmpv <= MAX_METALS) {
-	insert_str(object_list[i1].name,"%M",metals[tmpv]);
+	insert_str(object_list[i1].name,"%M",metals[tmpv-1]);
       }
       if (tmpv <= MAX_AMULETS) { 
-	insert_str(object_list[i1].name,"%A",amulets[tmpv]);
+	insert_str(object_list[i1].name,"%A",amulets[tmpv-1]);
       }
       break;
     default:
       break;
     } /* end switch */
   } /* end for */
+
+#if DO_DEBUG && 0
+  for (i1 = 1; i1 <= MAX_OBJECTS; i1++) {
+    fprintf(debug_file,": object_list[%ld] = %s\n", 
+	    i1, object_list[i1].name);
+  }
+  fflush(debug_file);
+#endif
 };
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
