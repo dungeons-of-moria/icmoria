@@ -244,6 +244,7 @@
 #define	USE_DEVICE	  3    //{ x> Harder devices x< Easier devices	}
 #define	MAX_BACKGROUND	  177  //{ Number of types of histories for univ }
 #define	NUM_QUESTS	  5    //{ # of possible quests to select from	}
+#define BASE_FOOD_DIGESTED 2   // food digested per turn
 #define	PLAYER_FOOD_FULL 10000 //{ Getting full				}
 #define	PLAYER_FOOD_MAX	 15000 //{ Maximum food value, beyond is wasted	}
 #define	PLAYER_FOOD_FAINT  300 //{ Character begins fainting		}
@@ -611,5 +612,6 @@
 #define get_string(s,r,c,l) Get_String((s),(r)-1,(c)-1,(l))
 #define pause_line(r)       Pause_Line((r)-1)
 #define pause_exit(r,d)     Pause_Exit((r)-1,(d))
+#define print_null(r,c) (move_cursor((r)-panel_row_prt-1,(c)-panel_col_prt-1))
 
 /* END FILE  constants.h */

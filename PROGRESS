@@ -243,5 +243,19 @@ I never noticed that at UW, but this week it happened at least 3 times. Odd.
 
 -------------------------------------------------------------------------------
 
+4.85.15
 
+Jan 7 2000
+
+Fixed bug in starlight/light_line that would crash the game if the light
+killed a creature before all of the power was used up.
+
+Many thanks to Marc Lehmann for his patch to fix the attr_get call with
+newer curses.  If things are still broken let me know.
+
+Don't just detrap chests when disarming them, unlock them too.
+
+
+
+-------------------------------------------------------------------------------
 /* end progress */

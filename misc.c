@@ -54,7 +54,7 @@ void sort_objects()
 
 //  Verify that the sort worked
 //    i2 = 0;
-//    for (i1=1; i1<=max_objects; i1++) {
+//    for (i1=1; i1<=MAX_OBJECTS; i1++) {
 //      if (i2 > object_list[i1].level) {
 //	printf("Error: sort_objects failed\n");
 //	exit_game();

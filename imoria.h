@@ -1,4 +1,4 @@
-/* imoria.c */
+/* imoria.h */
 /* include flies for all the modlues */
 
 #include <stdio.h>
@@ -35,7 +35,5 @@
 #define PM         (py.misc)
 #define PS         (py.stat)
 #define PF         (py.flags)
-
-#define print_null(r,c) (move_cursor((r)-panel_row_prt-1,(c)-panel_col_prt-1))
 
 /* END FILE  imoria.h */

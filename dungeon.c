@@ -155,12 +155,6 @@ void py_bonuses(treasure_type *tobj, integer factor)
   integer          i1,old_dis_ac;
   stat_set         tstat;
 
-  if (PF.slow_digest) {
-    PF.food_digested += 1;
-  }
-  if (PF.regenerate) {
-    PF.food_digested -= 3;
-  }
   PF.see_inv     = false;
   PF.teleport    = false;
   PF.free_act    = false;
@@ -332,13 +326,6 @@ void py_bonuses(treasure_type *tobj, integer factor)
 	py.flags.sustain[equipment[i1].p1-1] = true;
       }
     }
-  }
-
-  if (PF.slow_digest) {
-    PF.food_digested -= 1;
-  }
-  if (PF.regenerate) {
-    PF.food_digested += 3;
   }
 
 }; /* end py_bonuses */
@@ -1754,8 +1741,6 @@ void rest()
     turn_counter    += rest_num;
     py.flags.status |= IS_RESTING;
     prt_rest();
-    //with py.flags do;
-    PF.food_digested--;
     msg_print("Press any key to wake up...");
     put_qio();
   } else {
@@ -2210,6 +2195,7 @@ integer mon_take_hit(integer monptr,integer dam)
 
     return_value = m_list[monptr].mptr;
     delete_monster(monptr);
+
     if (i1 > 0) {
       prt_experience();
     }
@@ -2351,8 +2337,8 @@ void delete_monster(integer i2)
       unlite_spot(m_list[i2].fy,m_list[i2].fx);
     }
   }
+
   pushm(i2);
-  
   mon_tot_mult--;
   
   LEAVE("delete_monster","c");
@@ -3622,6 +3608,26 @@ void d__eat_food()
 {
     /*{ Food consumtion       }*/
     /*{ Note: Speeded up characters really burn up the food!  }*/
+
+    PF.food_digested = BASE_FOOD_DIGESTED;
+
+    if (PF.status & IS_RESTING) {
+        PF.food_digested -= 1;
+    }
+    if (PF.slow_digest) {
+        PF.food_digested -= 1;
+    }
+    if (PF.status & IS_SEARCHING) {
+        PF.food_digested += 1;
+    }
+    if (PF.regenerate) {
+        PF.food_digested += 3;
+    }
+
+    if (PF.food_digested < 0) {
+        PF.food_digested = 0;
+    }
+
     if (PF.speed < 0) {
       PF.foodc -= (PF.speed*PF.speed) + PF.food_digested;
     } else {
@@ -4471,7 +4477,7 @@ void d__bash()
 	  if (randint(10) == 1) {
 	    /* just "unlocks", traps are still in place */
 	    msg_print("The lock breaks open!");
-	    t_list[cave[y][x].tptr].flags &= 0xFFFFFFFE;
+	    t_list[cave[y][x].tptr].flags &= 0xFFFFFFFE; /* unlock */
 	  }
 	}
 
@@ -4590,7 +4596,7 @@ void d__openobject()
 	
 	//with t_list[tptr] do;
 	flag = false;
-	if (uand(0x00000001,t_list[cave[y][x].tptr].flags) != 0) {
+	if (uand(0x00000001,t_list[cave[y][x].tptr].flags) != 0) {/* locked? */
 	  if (py.flags.confused > 0) {
 	    msg_print("You are too confused to pick the lock.");
 	  } else if ((tmp-(2*t_list[cave[y][x].tptr].level)) > randint(100)) {
@@ -4606,7 +4612,7 @@ void d__openobject()
 	}
 	
 	if (flag) {
-	  t_list[cave[y][x].tptr].flags &= 0xFFFFFFFE;
+	  t_list[cave[y][x].tptr].flags &= 0xFFFFFFFE; /* unlock */
 	  tmpc = strstr(t_list[cave[y][x].tptr].name," (");
 	  if (tmpc != NULL) {
 	    *tmpc = 0;
@@ -4619,7 +4625,7 @@ void d__openobject()
 	flag = false;
 
 	/*{ Was chest still trapped?  (Snicker)   }*/
-	if (uand(0x00000001,t_list[cave[y][x].tptr].flags) == 0) {
+	if (uand(0x00000001,t_list[cave[y][x].tptr].flags) == 0) {/*unlocked?*/
 	  d__chest_trap(y,x);
 	  if (cave[y][x].tptr > 0) {
 	    flag = true;
@@ -4631,7 +4637,7 @@ void d__openobject()
 	
 	if (flag) {
 	  monster_death(y,x,t_list[cave[y][x].tptr].flags);
-	  t_list[cave[y][x].tptr].flags = 0;
+	  t_list[cave[y][x].tptr].flags = 0;  /* clear traps, lock, treasure */
 	}
 	
       } else {

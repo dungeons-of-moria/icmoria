@@ -1,5 +1,5 @@
 /* term.c */
-/* stuff to print stuff to the screen */
+/* stuff to print stuff to the screen. This file originaly came from umoria. */
 
 #include "imoria.h"
 #include <sys/wait.h>
@@ -140,7 +140,8 @@ typedef struct { int stuff; } fpvmach;
 /*#include "externs.h"*/
 
 #ifndef VINTR
-#include "termbits.h"
+# include <termios.h>
+/*#include "termbits.h"*/   /* try this one if termios.h does not work */
 #endif
 
 #if defined(SYS_V) && defined(lint)
@@ -600,8 +601,15 @@ int attrs;
    * you might want to change the USE_CURSES_ATTRS setting in
    * configure.h
    */
+#if NCURSES_VERSION_MAJOR == 5
+  attr_t old_attr;
+  short unused_pair, unused_opts;
+  attr_get(&old_attr, &unused_pair, &unused_opts);
+#else
   int old_attr;
   old_attr = attr_get();
+#endif
+
   attrset(attrs);
   put_buffer(out_str, row, col);
   attrset(old_attr);

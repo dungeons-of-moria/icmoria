@@ -1939,14 +1939,15 @@ boolean light_line(integer dir, integer y, integer x, integer power)
 		    c_list[m_list[cave[y][x].cptr].mptr].name);
 
 	    msg_print(out_val);
+
 	    i1 = 0;
 	    for (i2 = 1; i2 <= power; i2++) {
-	      i1 += mon_take_hit(cave[y][x].cptr,damroll("2d8"));
+	      i1 += damroll("2d8");
 	    }
-	    if (i1 > 0) {
+
+	    if (mon_take_hit(cave[y][x].cptr,i1) > 0) {
 	      sprintf(out_val, "The %s dies in a fit of agony.", 
 		      c_list[m_list[cave[y][x].cptr].mptr].name);
-
 	      msg_print(out_val);
 	    }
 	  }
@@ -2318,7 +2319,8 @@ boolean disarm_all(integer dir,integer y,integer x)
       } else if (tval == chest) {
 	if (t_list[cave[y][x].tptr].flags > 0) {
 	  msg_print("Click!");
-	  t_list[cave[y][x].tptr].flags &= 0xFFFFFE0F;
+	  t_list[cave[y][x].tptr].flags &= 0xFFFFFE0F; /* detrap */
+	  t_list[cave[y][x].tptr].flags &= 0xFFFFFFFE; /* unlock */
 	  flag = true;
 	  achar = strstr(t_list[cave[y][x].tptr].name," (");
 	  if (achar != NULL) {

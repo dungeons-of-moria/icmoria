@@ -40,7 +40,7 @@ void dispose(void *ptr, int size, char *message)
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-extern  char * chomp(char *input_line)
+char * chomp(char *input_line)
 {
   /* remove \n from the end of a string if there is one */
   integer x;

@@ -36,6 +36,7 @@ void intro_qualifier_help()
   printf("  -h         Warn about hearing things in water.\n\r");
   printf("  -s         List top 20 high scores.\n\r");
   printf("  -t num     List <num> high scores after death or for -s.\n\r");
+  printf("  -Q         Quit after checking for data files.\n\r");
   printf("  -V         Print version info.\n\r");
 
 //  printf("  /trap=[keep]        (Put all incoming messages on the message line)\n\r");
@@ -82,6 +83,11 @@ boolean intro_parse_switches(vtype finame, int argc, char *argv[])
   for (--argc, ++argv; (argc > 0) && (argv[0][0] == '-'); --argc, ++argv) {
     switch (argv[0][1])
       {
+      case 'Q':
+	printf("Data files already exist, exiting.\n\r");
+	exit_flag = true;
+	break;
+
       case 'V':
 	/* version info */
 	show_version = true;
@@ -345,7 +351,7 @@ fprintf(file1,"                      Robert DeLoura, Dan Flye,\n");
 fprintf(file1,"                      Todd Gardiner, Dave Jungck,\n");
 fprintf(file1,"                      Andy Walker, Dean Yasuda.\n");
 fprintf(file1,"\n");
-fprintf(file1,"Linux port by Stephen Kertes, 1997-98.\n");
+fprintf(file1,"Linux port by Stephen Kertes, 1997-2000.\n");
 fprintf(file1,"\n");
 fprintf(file1,"Dungeon Master: This file may contain updates and news.\n");
 
@@ -458,13 +464,13 @@ void intro(vtype finame, int argc, char *argv[])
     exit_flag = intro_ensure_file_exists(exit_flag, MORIA_TRD);
     
     writeln("");
-    writeln("Notice: System MORIA wizard should set the protection");
-    writeln("        on  files  just created.  See INSTALL.HLP for");
+    writeln("Notice: System IMORIA wizard should set the protection");
+    writeln("        on  files  just created.  See the README file for");
     writeln("        help on setting protection on the files.");
     writeln("        Hint: make privs");
     writeln("");
     writeln("Notice: File hours.dat may be edited to set operating");
-    writeln("        hours for MORIA.");
+    writeln("        hours for IMORIA.");
     writeln("");
     writeln("Notice: File moria.dat may be edited to contain  news");
     writeln("        items, etc...");
@@ -479,7 +485,10 @@ void intro(vtype finame, int argc, char *argv[])
 
   if (!exit_flag) {
     exit_flag = intro_parse_switches(finame, argc, argv);
-
+  }
+  if (exit_flag) {
+    exit_game();
+  } else {
     if (!wizard1) {
       no_controly();
       if (already_playing()) {
