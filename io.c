@@ -42,9 +42,9 @@ void priv_switch(integer switch_val)
   //	{ system areas are secure					}
 
   if (switch_val) {
-    setgid(games_gid);
+    setegid(games_gid);
   } else {
-    setgid(getgid());
+    setegid(getgid());
   }
   
 };
@@ -500,6 +500,16 @@ void get_paths()
   char *datapath = DATA_FILE_PATH;
 
   // fill in the MORIA_ names;
+
+  if ( strlen(datapath) > ( sizeof(MORIA_HOU) - 20 ) ) { // "moria_gcustom.mst"
+	printf("Umm, DATA_FILE_PATH is too long (%d chars).\n\r",
+	       strlen(datapath));
+	printf("Keep it under %d chars or change the type\n\r",
+	       sizeof(MORIA_HOU) - 20);
+	printf("of MORIA_HOU and friends in variables.h.\n\r");
+	printf("Or fix the get_paths() code in io.c.  Your choice.\n\r");
+	exit_game();
+  }
 
   sprintf(MORIA_HOU,  "%s/hours.dat",         datapath);
   sprintf(MORIA_LCK,  "%s/morialock.lock",    datapath);

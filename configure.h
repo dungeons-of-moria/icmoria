@@ -29,7 +29,7 @@
 #define DATA_FILE_PATH "/home/kertes/icmoria"
 
 /*
-  Keep this one under 80 characters, it points to the help program...
+  Keep this one under 160 characters, it points to the help program...
   You may have to edit mhelp.pl to set the path to perl.
 */
 #define HELP_FILE_PATH DATA_FILE_PATH "/mhelp.pl"

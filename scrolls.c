@@ -341,6 +341,10 @@ void rs__scroll_effect(integer effect, boolean *idented,
       i3 = Equipment_helm;
     } else if (uand(Cursed_worn_bit,equipment[Equipment_gloves].flags) != 0) {
       i3 = Equipment_gloves;
+    } else if (uand(Cursed_worn_bit,equipment[Equipment_boots].flags) != 0) {
+      i3 = Equipment_boots;
+    } else if (uand(Cursed_worn_bit,equipment[Equipment_cloak].flags) != 0) {
+      i3 = Equipment_cloak;
     } else if (equipment[Equipment_armor].tval > 0) {
       i3 = Equipment_armor;
     } else if (equipment[Equipment_shield].tval > 0) {
@@ -349,6 +353,10 @@ void rs__scroll_effect(integer effect, boolean *idented,
       i3 = Equipment_helm;
     } else if (equipment[Equipment_gloves].tval > 0) {
       i3 = Equipment_gloves;
+    } else if (equipment[Equipment_boots].tval > 0) {
+      i3 = Equipment_boots;
+    } else if (equipment[Equipment_cloak].tval > 0) {
+      i3 = Equipment_cloak;
     } else {
       i3 = 0;
     }

@@ -335,6 +335,8 @@ couple of other little bugs.
 -------------------------------------------------------------------------------
 4.85.20
 
+June 6, 2001
+
 Patches from John Guthrie to fix various things:
 
 Fix help message about what flags exist.
@@ -342,6 +344,51 @@ Fix *Enchant Armor* scrolls so they actually enchant armor.
 Fix a bunch of item prices in the stores that depended on how identified the item is.
 Fix mhelp.pl to be smarter about figuring out how many lines are on the screen.
 Fix gain_mana() so it does the right thing on even level ups.
+
+-------------------------------------------------------------------------------
+4.85.21
+
+May 28, 2002
+
+Additional patches from John Guthrie (from Oct 2001, work got busy):
+
+Correct the Reputation and Swimming values in the character printouts.
+Fix the learn_* functions to not segfault when picking new spells.
+Fix more problems with enchant armor.
+Spell dispel correctly.
+
+Also, NetBSD patches from Ben Wong:
+
+io.c
+This patch is necessary since on NetBSD, using setgid is final; if you
+give up privileges you can't get them back. Setegid is the way to go
+since it only changes your effective gid. I believe this change should
+work fine under Linux as well.  [ kertes: I tested this breifly, and
+had no trouble. ]
+
+term.c
+This patch fixes a few problems in term.c. Primarily, it makes it
+#include <sgtty.h> instead of <termios.h>. It also has some of the
+#ifdef code cleaned up a bit since I couldn't figure out the multiply
+nested conditional macros. Finally, it fixes a non-portable way of
+using curses: I believe using stdscr->_cury is deprecated. I replaced
+it with getcury(stdscr), which hopefully will work everywhere.
+
+unix.c
+This patch is necessary since on NetBSD, the symbol "unix" is no
+longer automatically defined by the compiler. However, __NetBSD__ is.
+Again, this should work fine under Linux. (If the #includes cause a
+problem, they can be removed; they are only to prevent warnings from
+gcc).
+
+Also includes his patches for the Makefile and configure.h in the NetBSD
+directory.
+
+Added some code to bother to check the length of the DATA_FILE_PATH rather
+than just trusting people to notice that segfaults are caused by long
+paths.  And I upped the max path length to 170 chars from 60 to accommodate
+NetBSD packages installed without root access.  I hope that is plenty, it
+was certainly lazy.  But at least it checks for overflows now!
 
 -------------------------------------------------------------------------------
 /* end progress */

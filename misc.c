@@ -1024,7 +1024,7 @@ boolean learn_prayer()
 {
   /*{ Learn some prayers (Priest)				-RAK-	}*/
   integer        i1,i2,i3,i4,new_spell;
-  integer        test_array[32];	    /*	: array [1..32] of integer;*/
+  integer        test_array[33];	    /*	: array [1..32] of integer;*/
   unsigned long  spell_flag,spell_flag2;
   treas_ptr      curse;
   boolean        return_value = false;
@@ -1041,7 +1041,7 @@ boolean learn_prayer()
     curse = curse->next;
   }
 
-  i1 = 0;
+  i1 = 0; // btw, we only use test_array[1..32] 
   while ((spell_flag > 0) || (spell_flag2 > 0)) {
     i2 = bit_pos64(&spell_flag2,&spell_flag);
     if (i2 > 31) {
@@ -1058,7 +1058,7 @@ boolean learn_prayer()
   new_spell = 0;
 
   while ((i1 > 0) && (i2 > 0)) {
-    i3 = randint(i1)-1;
+    i3 = randint(i1);
     PSPELL(test_array[i3]).learned = true;
     new_spell++;
 
@@ -1099,13 +1099,13 @@ boolean learn_discipline()
   /*{ Learn some disciplines (Monk)				-RAK-	}*/
 
   integer        i1,i2,i3,i4,new_spell;
-  integer        test_array[32];	    /*	: array [1..32] of integer;*/
+  integer        test_array[33];	    /*	: array [1..32] of integer;*/
   unsigned long  spell_flag,spell_flag2;
   boolean        return_value = false;
 
 //  printf("\n\n  ^^^ENTER learn_discip^^^\n\n");fflush(stdout);
 
-  i1 = 0;
+  i1 = 0; // btw, we only use test_array[1..32] 
   spell_flag  = 0x00003FFF;
   spell_flag2 = 0x00000000;
 
@@ -1126,7 +1126,7 @@ boolean learn_discipline()
   new_spell = 0;
   
   while ((i1 > 0) && (i2 > 0)) {
-    i3 = randint(i1)-1;
+    i3 = randint(i1);
     PSPELL(test_array[i3]).learned = true;
     new_spell++;
     
@@ -1233,7 +1233,7 @@ boolean learn_druid()
   /*{ Learn some druid spells (Druid)			-Cap'n-	}*/
 
   integer        i1,i2,i3,i4,new_spell;
-  integer        test_array[32];	    /*	: array [1..32] of integer;*/
+  integer        test_array[33];	    /*	: array [1..32] of integer;*/
   unsigned long  spell_flag,spell_flag2;
   treas_ptr      curse;
   boolean        return_value = false;
@@ -1250,7 +1250,7 @@ boolean learn_druid()
     curse = curse->next;
   }
 
-  i1 = 0;
+  i1 = 0; // btw, we only use test_array[1..32] 
   while ((spell_flag > 0) || (spell_flag2 > 0)) {
     i2 = bit_pos64(&spell_flag2,&spell_flag);
       if (i2 > 31) {
@@ -1267,7 +1267,7 @@ boolean learn_druid()
   new_spell = 0;
 
   while ((i1 > 0) && (i2 > 0)) {
-    i3 = randint(i1)-1;
+    i3 = randint(i1);
     PSPELL(test_array[i3]).learned = true;
     new_spell++;
 

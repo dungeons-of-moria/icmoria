@@ -1,0 +1,118 @@
+From benjamin.wong@cc.gatech.edu Tue May 28 01:08:21 2002
+Date: Sat, 25 May 2002 18:51:15 -0400 (EDT)
+From: Ben Wong <benjamin.wong@cc.gatech.edu>
+To: kertes@amazon.com
+Subject: imoria patch: NetBSD installation
+
+You won't want to apply this patch. It changes the Makefile to install
+the files in the /usr/pkg hierarchy that NetBSD uses for package
+management. You may want to look, though, at some of the choices I've
+made:
+
+* I disabled the Mersenne Twister because it was not compiling
+  correctly. I think MT may be overkill. If rand(3) isn't good enough,
+  it'd make more sense to use random(3), which is available under most
+  Unixes these days.
+
+* I chose to link with the default BSD curses library instead of
+  requiring ncurses. (I'm not sure how much benefit ncurses gives, so
+  I didn't bother getting it to work).
+
+* I added an "install:" target which copies over the basic files plus
+  monsters.info, runs imoria to install the "first time" files, and
+  then sets the proper privileges.
+
+  Note the ugly kludge of giving the -q flag to imoria. I'm not sure
+  why, but imoria just quits when given any flag. This prevents imoria
+  from actually starting a game if the "first time" files are already
+  installed. 
+
+
+--- Makefile.orig	Fri Feb 18 02:42:28 2000
++++ Makefile
+@@ -13,13 +13,13 @@
+ # make privs
+ #
+ ###############################################################################
+-DESTDIR =	/usr/local
++DESTDIR =	/usr/pkg
+ 
+ BINDEST =	$(DESTDIR)/bin
+ MANDEST =	$(DESTDIR)/man
+ 
+-#LIBDEST =	$(DESTDIR)/lib
+-LIBDEST =	/usr/lib
++LIBDEST =	$(DESTDIR)/lib
++#LIBDEST =	/usr/lib
+ INCDEST =	$(DESTDIR)/include
+ 
+ MANEXT =	1
+@@ -29,10 +29,10 @@
+ HARDLINK =	ln -f
+ 
+ # For BSD Systems
+-CURSES = -lncurses -ltermcap
++CURSES = -lcurses -ltermcap
+ 
+ CC =		gcc
+-#INCLUDES =	-I/usr/include/tcl
++INCLUDES =	-I/usr/pkg/include
+ #INCLUDES =	-I.
+ 
+ DEFINES =	-DDO_DEBUG=0
+@@ -44,12 +44,12 @@
+ COPTS =		-Wall -g3
+ 
+ CFLAGS =	$(COPTS) $(INCLUDES) $(DEFINES)
+-LDFLAGS =	
++LDFLAGS =	-L/usr/pkg/lib -Wl,-rpath,/usr/pkg/lib
+ 
+ #
+ # the owner and group for the game and data files
+ #
+-OWNER =	games
++OWNER =	root
+ GROUP =	games
+ 
+ #
+@@ -59,7 +59,7 @@
+ WRITEFILES =	death.log moriamas.dat moriatop.dat moriatrd.dat
+ DATAFILES =	$(READFILES) $(WRITEFILES)
+ 
+-all:	mtwist imoria
++all:	imoria
+ 
+ #############################################################################
+ #
+@@ -104,7 +104,7 @@
+ 
+ 
+ imoria: $(IMORIAOBJS)
+-	$(CC) $(LDFLAGS) $(IMORIAOBJS) $(LIBS) $(MTWIST) -o $@
++	$(CC) $(LDFLAGS) $(IMORIAOBJS) $(LIBS) -o $@
+ 	chown $(OWNER):$(GROUP) imoria
+ 	chmod 2711 imoria
+ 	echo
+@@ -258,3 +258,21 @@
+ wizard.o: wizard.c imoria.h mtwist/mtwist.h patchlevel.h configure.h \
+  constants.h types.h pascal.h routines.h term.h debug.h variables.h \
+  dungeon.h
++
++install: all
++	mkdir -p /usr/pkg/share/imoria
++	chgrp games /usr/pkg/share/imoria
++	chmod 2775 /usr/pkg/share/imoria
++	cp -p monsters.dat /usr/pkg/share/imoria/
++	cp -p monsters.info /usr/pkg/share/imoria/
++	cp -p mhelp.pl /usr/pkg/share/imoria/
++	cp -p imoria /usr/pkg/bin/
++	./imoria -q >/dev/null
++	chown $(OWNER):$(GROUP) /usr/pkg/bin/imoria
++	chown $(OWNER):$(GROUP) /usr/pkg/share/imoria/*
++	chmod 2711 /usr/pkg/bin/imoria
++	(cd /usr/pkg/share/imoria; \
++	    chmod 640 $(READFILES); \
++	    chmod 660 $(WRITEFILES); \
++	    chmod 755 mhelp.pl)
++
+

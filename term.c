@@ -47,26 +47,31 @@ char *_procname = "Moria";
 #undef NLS
 #endif
 
-#if !defined(GEMDOS)
+/* Default if not Atari or Mac */
+#if !defined(GEMDOS) && !defined(MAC)
+#  include <curses.h>
+#endif
+
+/* Macintosh */
 #ifdef MAC
-#ifdef THINK_C
-#include "ScrnMgr.h"
-#else
-#include <scrnmgr.h>
+#  ifdef THINK_C
+#    include "ScrnMgr.h"
+#  else
+#    include <scrnmgr.h>
+#  endif
 #endif
-#else
-#include <curses.h>
-#endif
-#else	/* GEMDOS i.e. Atari ST */
-#include "curses.h"
-long wgetch();
-#ifdef ATARIST_TC
-#include <tos.h>	/* TC */
-#include <ext.h>
-#else
-#include <osbind.h>	/* MWC */
-#endif
-char *getenv();
+
+/* GEMDOS i.e. Atari ST */
+#if defined(GEMDOS)
+#  include "curses.h"
+  long wgetch();
+#  ifdef ATARIST_TC
+#    include <tos.h>	/* TC */
+#    include <ext.h>
+#  else
+#    include <osbind.h>	/* MWC */
+#  endif
+  char *getenv();
 #endif
 
 
@@ -139,7 +144,7 @@ typedef struct { int stuff; } fpvmach;
 /*#include "types.h"*/
 /*#include "externs.h"*/
 
-#ifndef VINTR
+#if !defined(VINTR) && !defined(__NetBSD__)
 # include <termios.h>
 /*#include "termbits.h"*/   /* try this one if termios.h does not work */
 #endif
@@ -212,6 +217,10 @@ void exit();
 void sleep();
 #endif
 
+#ifdef __NetBSD__
+#include <sgtty.h>
+#endif
+
 #if !defined(MAC) && !defined(MSDOS) && !defined(ATARI_ST) && !defined(VMS)
 #ifndef AMIGA
 #ifdef USG
@@ -258,7 +267,6 @@ int suspend()
   struct sgttyb tbuf;
   struct ltchars lcbuf;
   struct tchars cbuf;
-  int lbuf;
   long time();
 
 /*  py.misc.male |= 2;*/
@@ -653,7 +661,7 @@ void restore_term()
   Pause_Line(15);
 #endif
   /* this moves curses to bottom right corner */
-  mvcur(stdscr->_cury, stdscr->_curx, LINES-1, 0);
+  mvcur(getcury(stdscr), getcurx(stdscr), LINES-1, 0);
   endwin();  /* exit curses */
   (void) fflush (stdout);
 #ifdef MSDOS
@@ -868,7 +876,7 @@ void shell_out()
       msg_print("Fork failed. Try again.");
       return;
     }
-#if defined(USG) || defined(__386BSD__)
+#if defined(USG) || defined(__386BSD__) || defined(__NetBSD__)
   (void) wait((int *) 0);
 #else
   (void) wait((union wait *) 0);

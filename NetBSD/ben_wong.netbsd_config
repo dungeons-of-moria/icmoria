@@ -1,0 +1,50 @@
+From benjamin.wong@cc.gatech.edu Tue May 28 01:08:30 2002
+Date: Sat, 25 May 2002 18:54:20 -0400 (EDT)
+From: Ben Wong <benjamin.wong@cc.gatech.edu>
+To: kertes@amazon.com
+Subject: imoria patch: NetBSD configuration
+
+You won't want to apply this patch. It changes configure.h to install
+the files in the /usr/pkg hierarchy, and to disable the Mersenne
+twister. It also turns off the "USE_CURSES_ATTRS" since it wasn't
+compiling nicely with the standard BSD curses. (I don't know if using
+ncurses would have made it work, but I poked at it a bit and it didn't
+seem to help).
+
+What do I lose by not having USE_CURSES_ATTRS? Is it worth fixing?
+
+[ kertes: Various status indicators like blind/hungry/confused get drawn
+  in bold or blinking if they are important.  The game plays the same
+  without USE_CURSES_ATTRS, I just like to make sure I see that I'm about
+  to die of hunger. ]
+
+--- configure.h.orig	Tue Jul 28 01:24:44 1998
++++ configure.h
+@@ -13,7 +13,8 @@
+    If USE_MTWIST is 0 then rand() will be used rather than the
+    Mersenne Twister library.
+ */
+-#define USE_MTWIST    1
++/*#define USE_MTWIST    1*/
++#define USE_MTWIST    0
+ 
+ /*
+   Keep the path under 60 characters or it will overflow some variables.
+@@ -26,7 +27,7 @@
+ 	    it is run.
+ 	    
+ */
+-#define DATA_FILE_PATH "/home/kertes/icmoria"
++#define DATA_FILE_PATH "/usr/pkg/share/imoria"
+ 
+ /*
+   Keep this one under 80 characters, it points to the help program...
+@@ -46,6 +47,7 @@
+   This is only used in put_buffer_attr (term.c).  If you get it working
+   with a curses that it does not currently work with please let me know!
+ */
+-#define USE_CURSES_ATTRS 1
++/*#define USE_CURSES_ATTRS 1*/
++#define USE_CURSES_ATTRS 0
+ 
+ /* END FILE  configure.h */

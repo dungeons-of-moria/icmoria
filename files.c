@@ -627,7 +627,7 @@ void file_character()
       
       fprintf(file1,
       "  Reputation  : %10s                            Swimming    : %10s\n",
-      likert(xswm , 1,s1),likert(xrep , 1,s3));
+      likert(xrep , 1,s1),likert(xswm , 1,s3));
       
       /*{ Write out the character's history     }*/
       

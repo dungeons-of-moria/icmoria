@@ -63,17 +63,17 @@ extern	bytlint		dy_of[10];	//  array [1..9] of bytlint;
 extern	unsigned long	bit_array[33];  //  array [1..32] of unsigned;
 
 //	{ External file names; are all located in directory with image	}
-extern	vtype		MORIA_HOU;
-extern	vtype		MORIA_MOR;
-extern	vtype		MORIA_MAS;
-extern	vtype		MORIA_TOP;
-extern	vtype		MORIA_TRD;
-extern	vtype		MORIA_HLP;
-extern	vtype		MORIA_LCK;
-extern	vtype		MORIA_DTH;
-extern	vtype		MORIA_MON;
-extern	vtype		MORIA_CST;
-extern	vtype		MORIA_GCST;
+extern	mtype		MORIA_HOU;
+extern	mtype		MORIA_MOR;
+extern	mtype		MORIA_MAS;
+extern	mtype		MORIA_TOP;
+extern	mtype		MORIA_TRD;
+extern	mtype		MORIA_HLP;
+extern	mtype		MORIA_LCK;
+extern	mtype		MORIA_DTH;
+extern	mtype		MORIA_MON;
+extern	mtype		MORIA_CST;
+extern	mtype		MORIA_GCST;
 
 //	{  following are calculated from max dungeon sizes		}
 extern	integer		max_panel_rows, max_panel_cols;

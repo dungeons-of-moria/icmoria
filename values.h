@@ -721,7 +721,7 @@ Monk, Adventurer, Bard, Druid, Paladin, Ranger, Rogue, Priest, Mage, Warrior }
  {"Cure Critical Wounds"	    ,15,11, 65, 45,false},	//{28}
  {"Turn Undead"		    ,15,12, 80, 50,false},	//{29}
  {"Holy Prayer"		    ,17,14, 90, 50,false},	//{30}
- {"Dispell Undead"		    ,17,14,125, 55,false},	//{31}
+ {"Dispel Undead"		    ,17,14,125, 55,false},	//{31}
  {"Resist Paralysis"	    ,19,15,150, 55,false},	//{32}
  {"Blade Barrier"		    ,21,16,175, 60,false},	//{33}
  {"Dispel Evil"		    ,23,18,200, 70,false},	//{34}
@@ -798,7 +798,7 @@ Monk, Adventurer, Bard, Druid, Paladin, Ranger, Rogue, Priest, Mage, Warrior }
 {"Resist Petrification"	       ,13, 11, 60, 55,false},
 {"Transplant"		       ,13, 11, 60, 45,false},
 {""			       ,99, 99,	 0,  0,false},
-{"Dispell Magic"	       ,15, 11, 60, 58,false},
+{"Dispel Magic"	       ,15, 11, 60, 58,false},
 {"Fire Stream"	       ,15, 11, 60, 70,false},	//{25}
 {"Protection from Nature"      ,17, 12, 65, 55,false},
 {"Stone to Mud"		       ,17, 12, 65, 55,false},
@@ -851,10 +851,10 @@ Monk, Adventurer, Bard, Druid, Paladin, Ranger, Rogue, Priest, Mage, Warrior }
  {"Turn Undead"			,25,21, 90, 50,false},
  {"Holy Prayer"			,27,22,100, 50,false},
 
- {"Dispell Undead"		,29,24,110, 60,false},
+ {"Dispel Undead"		,29,24,110, 60,false},
  {"Resist Paralysis"		,31,26,125, 55,false},
  {"Blade Barrier"		,33,27,150, 60,false},
- {"Dispell Evil"		,35,28,175, 70,false},
+ {"Dispel Evil"		,35,28,175, 70,false},
  {"Heal"			,37,32,200, 75,false},
  {"Resist Magic"		,38,32,250, 75,false},
  {"Holy Thunder"		,39,30,250, 80,false},
@@ -886,7 +886,7 @@ Monk, Adventurer, Bard, Druid, Paladin, Ranger, Rogue, Priest, Mage, Warrior }
     {"Resist Petrification"		,11,  7, 60, 45,false},
     {"Transplant"			,11,  8, 70, 55,false},
     {"Sunray"				,11,  9, 70, 60,false},
-    {"Dispell Magic"			,11,  9, 80, 50,false},
+    {"Dispel Magic"			,11,  9, 80, 50,false},
 {"Fire Stream"			,11,  9, 80, 65,false},	//{25}
     {"Protection from Nature"		,13,  9, 90, 40,false},
     {"Stone to Mud"			,13,  9,100, 50,false},
@@ -1960,7 +1960,7 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
     0,	   50, 284,   5,   1,	0,   0,	  0,   0, "0d0"	 , 30},
 {"& Scroll~ %T| of Create Food",  scroll1, '?',0x00000000,0x10000000,
     0,	   15, 285,   5,   1,	0,   0,	  0,   0, "0d0"	 , 10},
-{"& Scroll~ %T| of Dispell Undead",  scroll1, '?',0x00000000,0x20000000,
+{"& Scroll~ %T| of Dispel Undead",  scroll1, '?',0x00000000,0x20000000,
     0,	  200, 286,   5,   1,	0,   0,	  0,   0, "0d0"	 , 40},
 {"& Scroll~ %T| of *Enchant Weapon*",  scroll1, '?',0x00001000,0x00000000,
     0,	  500, 257,   5,   1,	0,   0,	  0,   0, "0d0"	 , 50},
@@ -2180,7 +2180,7 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
     0,	  350,	21,  50,   1,	0,   0,	  0,   0, "1d2"	 , 20},
 {"& %W Staff| of Curing^ (%P1 charges)",  staff, '_',0x00000000,0x00200000,
     0,	 1000,	22,  50,   1,	0,   0,	  0,   0, "1d2"	 , 25},
-{"& %W Staff| of Dispell Evil^ (%P1 charges)",  staff, '_',0x00000000,0x00400000,
+{"& %W Staff| of Dispel Evil^ (%P1 charges)",  staff, '_',0x00000000,0x00400000,
     0,	 1200,	23,  50,   1,	0,   0,	  0,   0, "1d2"	 , 49},
 {"& %W Staff| of Darkness^ (%P1 charges)",  staff, '_',0x00000000,0x01000000,
     0,	    0,	25,  50,   1,	0,   0,	  0,   0, "1d2"	 , 50},
@@ -2262,7 +2262,7 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
     0,	   20,	14,  10,   1,	0,   0,	  0,   0, "1d2"	 ,  25},
 {"& Finely cut %R| of Detect Monsters^ (%P1 charges)", valuable_gems , '*',nothing_flag,0x00040000,
     0,	  350,   1,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  14},
-{"& Finely cut %R| of Dispell Evil^ (%P1 charges)", valuable_gems , '*',nothing_flag,0x00080000,
+{"& Finely cut %R| of Dispel Evil^ (%P1 charges)", valuable_gems , '*',nothing_flag,0x00080000,
     0,	  1200,  2,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  49},
 {"& Finely cut %R| of Darkness^ (%P1 charges)", valuable_gems , '*',nothing_flag,0x00100000,
     0,	  0,   3,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  7},
@@ -2364,7 +2364,7 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
     0,	  675,	13,   1,   1,	0,   0,	  0,   0, "0d0"	 , 47},
 {"& %M Chime| of Curing^ (%P1 charges)",  85, '%',0x00000000,0x00002000,
     0,	 1100,	14,   1,   1,	0,   0,	  0,   0, "0d0"	 , 27},
-{"& %M Chime| of Dispell Evil^ (%P1 charges)",  85, '%',0x00000000,0x00004000,
+{"& %M Chime| of Dispel Evil^ (%P1 charges)",  85, '%',0x00000000,0x00004000,
     0,	 1300,	15,   1,   1,	0,   0,	  0,   0, "0d0"	 , 49},
 {"& %M Chime| of Darkness^ (%P1 charges)",  85, '%',0x00000000,0x00008000,
     0,	    0,	16,   1,   1,	0,   0,	  0,   0, "0d0"	 , 20},
@@ -2755,7 +2755,7 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
     0,     450, 268,  5,   1,   0,   0,   0,   0, "0d0",     15}, //{133}
 {"& Finely cut Gem of Detect Monsters (%P1 charges)", valuable_gems, '*',nothing_flag,0x00040000,
     0,	  350,   1,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{134}
-{"& Finely cut Gem of Dispell Evil (%P1 charges)", valuable_gems, '*',nothing_flag,0x00080000,
+{"& Finely cut Gem of Dispel Evil (%P1 charges)", valuable_gems, '*',nothing_flag,0x00080000,
     0,	  1200,  2,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{135}
 {"& Finely cut Gem of Acid Balls (%P1 charges)", valuable_gems, '*',nothing_flag,0x00200000,
     0,	  1000,   4,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{136}

@@ -1,0 +1,10 @@
+In May 2002 Ben Wong sent me some patches to help build imoria on NetBSD.
+Changes that were easy to include in the main codeline have already been
+applied.  Makefile and configure.h changes have been left out.
+
+This directory has the original email he sent me for those two files,
+I don't have NetBSD installed anyplace so I haven't tested them.
+
+Enjoy,
+
+-steve

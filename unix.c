@@ -23,7 +23,13 @@
 
 #include "term.h"
 
-#ifdef unix
+#if defined(unix) || defined(__NetBSD__)
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/time.h>
+#include <unistd.h>
+
 
 #if defined(SYS_V) && defined(lint)
 /* for AIX, prevent hundreds of unnecessary lint errors, must define before
@@ -273,7 +279,7 @@ char *p;
 unsigned short getuid();
 #else
 #ifndef SECURE
-#ifdef BSD4_3
+#if defined(BSD4_3) || defined(__NetBSD__)
 uid_t getuid();
 #else  /* other BSD versions */
 int getuid();
