@@ -1066,7 +1066,7 @@ void edit_score_file()
 {
   /*{ Wizard routine to edit high score file                -DMF-   }*/
 
-  string    list[MAX_HIGH_SCORES+1];
+  string    list[MAX_HIGH_SCORES+2];
   boolean   want_save, exit_flag;
   int       n1, cur_top, blegga, cur_display_size = 0;
   FILE     *f1;

@@ -35,8 +35,17 @@
 #define HELP_FILE_PATH DATA_FILE_PATH "/mhelp.pl"
 
 /*
+  The curses I have on my system defines attr_get() and attrset(attr)
+  differently than the one that a lot of people using Red Hat have.
   
-*/
+  I don't know what to use to get and set the attributes with the
+  newer library so change this to 1 if you want to try the nifty
+  attr changes I added.  Otherwise you can leave it set to 0 and
+  always wonder what the game could be like...
 
+  This is only used in put_buffer_attr (term.c).  If you get it working
+  with a curses that it does not currently work with please let me know!
+*/
+#define USE_CURSES_ATTRS 1
 
 /* END FILE  configure.h */

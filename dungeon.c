@@ -2782,11 +2782,11 @@ boolean cast_spell(vtype prompt, treas_ptr item_ptr, integer *sn, integer *sc,
   /*{ Return spell number and failure chance                -RAK-   }*/
 
   unsigned long   i2, i4;
-  integer         i1,i3;
+  integer         i1,i3,num;
   spl_type        aspell;
   boolean         flag = false;
 
-  i1 = 0;
+  i1 = num = 0;
   i2 = item_ptr->data.flags;
   i4 = item_ptr->data.flags2;
 
@@ -2802,6 +2802,7 @@ boolean cast_spell(vtype prompt, treas_ptr item_ptr, integer *sn, integer *sc,
       if ((magic_spell[py.misc.pclass][i3].slevel <= py.misc.lev)  &&
 	  (magic_spell[py.misc.pclass][i3].learned)) {
 	aspell[i1++].splnum = i3;
+	num = i1;
       } else {
 	aspell[i1++].splnum = -1;  /* leave gaps for unknown spells */
       }
@@ -2809,11 +2810,11 @@ boolean cast_spell(vtype prompt, treas_ptr item_ptr, integer *sn, integer *sc,
     
   } while (!((i2 == 0) && (i4 == 0)));
   
-  if (i1 > 0) {
-    flag = get_spell(aspell,i1,sn,sc,prompt,redraw);
+  if (num > 0) {
+    flag = get_spell(aspell,num,sn,sc,prompt,redraw);
   }
   
-  if (redraw) {
+  if (*redraw) {
     draw_cave();
   }
   
@@ -5460,7 +5461,9 @@ void d__execute_command(integer *com_val)
 	//with py.flags do;
 	hp_player(1000,"cheating");
 	PM.cmana = PM.mana;
-	prt_mana();
+	if (is_magii) {
+	  prt_mana();
+	}
 	remove_curse();
 	cure_me(&(PF.blind)); cure_me(&(PF.hoarse)); cure_me(&(PF.afraid));
 	cure_me(&(PF.poisoned)); cure_me(&(PF.confused));

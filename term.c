@@ -488,11 +488,15 @@ void moriaterm()
 
 void highlite_on()
 {
+#if 1 || USE_CURSES_ATTRS
   attron(A_DIM);
+#endif
 };
 void highlite_off()
 {
+#if 1 || USE_CURSES_ATTRS
   attroff(A_DIM);
+#endif
 };
 
 int cool_mvaddch(int row, int col, char ch)
@@ -590,12 +594,20 @@ char *out_str;
 integer row, col;
 int attrs;
 {
+#if USE_CURSES_ATTRS
+  /*
+   * If you are getting an error about attr_get in here then
+   * you might want to change the USE_CURSES_ATTRS setting in
+   * configure.h
+   */
   int old_attr;
-
   old_attr = attr_get();
   attrset(attrs);
   put_buffer(out_str, row, col);
   attrset(old_attr);
+#else
+  put_buffer(out_str, row, col);
+#endif
 }
 
 /* Dump the IO buffer to terminal			-RAK-	*/
@@ -1841,6 +1853,7 @@ void screen_map()
 #endif
   (void) inkey();
   restore_screen();
+  draw_cave();
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

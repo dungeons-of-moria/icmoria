@@ -96,7 +96,7 @@ void cc__get_minimums(stat_s_type user, boolean *minning, stat_s_type max_r)
       user[CON] = cc__get_min_stat("CON",max_r[CON]);
       user[CHR] = cc__get_min_stat("CHR",max_r[CHR]);
       prt("Printing Stats...",1,1);
-      prt_6_stats(user,3,65);
+      prt_6_stats(user,NULL,3,65);
     }
   }
   erase_line(1,1);
@@ -806,7 +806,7 @@ void put_stats()
 
 /*	{ Prints the following information on the screen.	-JWT-	}*/
 
-	  prt_6_stats(py.stat.c,3,65);
+	  prt_6_stats(py.stat.c,NULL,3,65);
 	  prt_num("+ To Hit   : ",py.misc.dis_th,10,4);
 	  prt_num("+ To Damage: ",py.misc.dis_td,11,4);
 	  prt_num("+ To AC    : ",py.misc.dis_tac,12,4);

@@ -214,7 +214,7 @@ void top_twenty(integer this_many)
 {
   /*{ Enters a players name on the top twenty list		-JWT-	}*/
 
-  string    list[MAX_HIGH_SCORES+1];
+  string    list[MAX_HIGH_SCORES+2];
   integer   players_line = 0;
   integer   i1,i2,i3,i4;
   int       n1;

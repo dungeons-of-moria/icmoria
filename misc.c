@@ -1877,10 +1877,13 @@ void popm(integer *x)
 
   if (mfptr < 1) {
     compact_monsters();
+
+    validate_monsters();
   }
 
   *x = mfptr;
   mfptr = m_list[*x].nptr;
+  m_list[*x].nptr = 0;
 
 };
 
@@ -1895,10 +1898,92 @@ void pushm(integer x)
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+void report_mlist_error(const char *err_msg, int error_node, int prev_node)
+{
+  (void)error_node;
+  (void)prev_node;
+
+  msg_print((char *)err_msg);
+}
+
+void validate_monsters()
+{
+  boolean	used_list[MAX_MALLOC+1];
+  boolean       free_list[MAX_MALLOC+1];
+  boolean       busted;
+  int i1,i2;
+
+  for (i1 = 0; i1 <= MAX_MALLOC; i1++ ) {
+    used_list[i1] = false;
+    free_list[i1] = false;
+  }
+  
+  busted = false;
+  for (i2=0,i1 = muptr ; i1 ; i2=i1, i1 = m_list[i1].nptr) {
+    if ( used_list[i1] ) {
+      /*
+       * there is a loop in the monster list!
+       */
+      report_mlist_error("Internal Error: m_list has a loop!",
+			 i1,i2);
+      busted = true;
+    } else {
+      used_list[i1] = true;
+    }
+  }
+
+  if ( busted ) {
+    if ( i2 ) {
+      m_list[i2].nptr = 0;
+    } else {
+      muptr = 0;
+    }
+  }
+
+
+  busted = false;
+  for (i2=0,i1 = mfptr ; i1 ; i2=i1, i1 = m_list[i1].nptr) {
+    if ( free_list[i1] ) {
+      /*
+       * there is a loop in the free list
+       */
+      report_mlist_error("Internal Error: m_list has a free list loop!",
+			 i1,i2);
+      busted = true;
+      break;
+    } else {
+      free_list[i1] = true;
+    }
+
+    if ( used_list[i1] ) {
+      /*
+       * the monster list and free list overlap!
+       */
+      report_mlist_error("Internal Error: m_list lists overlap!",
+			 i1,i2);
+      busted = true;
+      break;
+    } 
+  }
+
+  if ( busted ) {
+    if ( i2 ) {
+      m_list[i2].nptr = 0;
+    } else {
+      mfptr = 0;
+    }
+  }
+
+}
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 void compact_monsters()
 {
   integer   i1,i2,i3,ctr,cur_dis;
   boolean   delete_1,delete_any;
+
+  validate_monsters();
   
   cur_dis = 66;
   delete_any = false;
@@ -1917,14 +2002,14 @@ void compact_monsters()
 	  } else {
 	    m_list[i2].nptr = i3;
 	  }
+	  cave[m_list[i1].fy][m_list[i1].fx].cptr = 0;
+	  m_list[i1]       =  blank_monster;
+	  m_list[i1].nptr  =  mfptr;
+	  mfptr            =  i1;
+	  delete_1         =  true;
+	  delete_any       =  true;
+	  ctr++;
 	}
-	cave[m_list[i1].fy][m_list[i1].fx].cptr = 0;
-	m_list[i1]       =  blank_monster;
-	m_list[i1].nptr  =  mfptr;
-	mfptr            =  i1;
-	delete_1         =  true;
-	delete_any       =  true;
-	ctr++;
       }
       if (!(delete_1)) {
 	i2 = i1;

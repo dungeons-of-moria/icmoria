@@ -299,6 +299,12 @@
 		byteint	stat,
 		integer row,
 		integer column); 
+ extern void prt_stat_attr(
+		vtype 	stat_name,
+		byteint	stat,
+		byteint	loss,
+		integer row,
+		integer column); 
  extern void prt_field(vtype info, integer row, integer column); 
  extern void prt_num(
 		vtype header,
@@ -324,7 +330,7 @@
  extern void prt_quested(); 
  extern void prt_winner(); 
  extern void prt_experience(); 
- extern void prt_6_stats(stat_s_type p, byteint row, byteint col); 
+ extern void prt_6_stats(stat_s_type p, stat_s_type l, byteint row, byteint col); 
  extern void prt_stat_block(); 
  extern void draw_cave(); 
 
@@ -602,6 +608,7 @@
  extern char get_loc_symbol(integer y, integer x);
  extern char loc_symbol(integer y,integer x); 
  extern boolean test_light(integer y,integer x);
+ extern void validate_monsters(); 
  extern void compact_monsters(); 
  extern void popm(integer *x); 
  extern void pushm(integer x); 

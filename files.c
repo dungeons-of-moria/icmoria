@@ -1504,7 +1504,13 @@ void decrypt_file(vtype fnam)
 	  fprintf(f2, "%s\n", save_line);
 	}
       }	
+    } else {
+      printf("\nDecrypt failed on first line.\n"
+	     "Is the file actually encrypted?\n");
+      printf("\nBtw, saveFilesAreEncrypted = %s\n", 
+	     saveFilesAreEncrypted ? "true" : "false");
     }
+
     fclose(f1);
     fclose(f2);
   }

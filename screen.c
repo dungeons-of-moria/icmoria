@@ -104,15 +104,45 @@ void prt_map()
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-void prt_6_stats(stat_s_type p, byteint row, byteint col)
+void prt_6_stats(stat_s_type p, stat_s_type l, byteint row, byteint col)
 { 
-  prt_stat("STR : ",p[STR],row  ,col);
-  prt_stat("INT : ",p[INT],row+1,col);
-  prt_stat("WIS : ",p[WIS],row+2,col);
-  prt_stat("DEX : ",p[DEX],row+3,col);
-  prt_stat("CON : ",p[CON],row+4,col);
-  prt_stat("CHR : ",p[CHR],row+5,col);
+  if (l != NULL) {
+    prt_stat_attr("STR : ",p[STR],l[STR], row  ,col);
+    prt_stat_attr("INT : ",p[INT],l[INT], row+1,col);
+    prt_stat_attr("WIS : ",p[WIS],l[WIS], row+2,col);
+    prt_stat_attr("DEX : ",p[DEX],l[DEX], row+3,col);
+    prt_stat_attr("CON : ",p[CON],l[CON], row+4,col);
+    prt_stat_attr("CHR : ",p[CHR],l[CHR], row+5,col);
+  } else {
+    prt_stat("STR : ",p[STR],row  ,col);
+    prt_stat("INT : ",p[INT],row+1,col);
+    prt_stat("WIS : ",p[WIS],row+2,col);
+    prt_stat("DEX : ",p[DEX],row+3,col);
+    prt_stat("CON : ",p[CON],row+4,col);
+    prt_stat("CHR : ",p[CHR],row+5,col);
+  }
 };
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+void prt_stat_attr(	vtype 	stat_name,
+			byteint	stat,
+			byteint	loss,
+			integer row,
+			integer column)
+{
+/* { Print character stat in given row, column		-RAK-	}*/
+
+  stat_s_type out_val1;
+
+  if (loss == 0) {
+    prt_stat(stat_name, stat, row, column);
+  } else {
+    cnv_stat(stat, out_val1);
+    put_buffer_attr(stat_name,row,column,A_DIM);
+    put_buffer(out_val1,row,column+strlen(stat_name));
+  }
+}
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -171,7 +201,7 @@ void prt_stat_block()
   prt_field(py.misc.race,                    RACE_ROW,STAT_COLUMN);
   prt_field(py.misc.tclass,                  CLASS_ROW,STAT_COLUMN);
   prt_title();
-  prt_6_stats(py.stat.c,                     STR_ROW,STAT_COLUMN);
+  prt_6_stats(py.stat.c,py.stat.l,           STR_ROW,STAT_COLUMN);
   prt_num( "LEV : ",py.misc.lev,             LEVEL_ROW,STAT_COLUMN);
   prt_num( "EXP : ",py.misc.exp,             EXP_ROW,STAT_COLUMN);
   if (is_magii) {
@@ -487,7 +517,17 @@ void prt_level()
 //////////////////////////////////////////////////////////////////////
 void prt_a_stat(stat_set tstat)
 {
-  prt_stat("",py.stat.c[(int)tstat],STR_ROW+tstat,STAT_COLUMN+6);
+  char *stat_names[STAT_SET_MAX+1] = {"STR : ",
+				      "INT : ",
+				      "WIS : ",
+				      "DEX : ",
+				      "CON : ",
+				      "CHR : "};
+
+  prt_stat_attr(stat_names[(int)tstat],
+		py.stat.c[(int)tstat],
+		py.stat.l[(int)tstat],
+		STR_ROW+tstat,STAT_COLUMN);
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

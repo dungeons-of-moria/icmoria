@@ -549,7 +549,7 @@ boolean teleport_to(integer ny,integer nx)
       ctr = 0;
       dis++;
     }
-  } while (!((cave[y][x].fopen) && (cave[y][x].cptr < 2)));
+  } while ((cave[y][x].fopen) && (cave[y][x].cptr < 2));
   
   move_rec(char_row,char_col,y,x);
   for (i1 = char_row-1; i1 <= char_row+1; i1++) {
