@@ -125,7 +125,7 @@ void load_monsters()
   } else {
     printf("\n\rUnable to open custom name file for reading: %s\n\r",
 	   MORIA_GCST);
-    pause_game(24);
+    //pause_game(24);
   }
 
   /* now get the users custom names */

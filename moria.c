@@ -33,6 +33,7 @@ wrong somehow):
 #include "imoria.h"
 
 /***********************************************************************/
+
 void	main(int argc, char *argv[], char *envp[])
 {
   /*// { SYSPRV stays off except when needed...	}*/
@@ -42,13 +43,10 @@ void	main(int argc, char *argv[], char *envp[])
 
   ENTER("main", "")
 
+    //init_signals();
+
 	// { Get the time player entered game		}
     start_time = time(NULL);
-
-	// { Check the terminal type and see if it is supported}
-    init_curses();
-    //init_signals();
-    termdef();
 
 	// { Get the directory location of the image	}
     get_paths();
@@ -79,9 +77,6 @@ void	main(int argc, char *argv[], char *envp[])
     old_mess_count         = 0;
     turn_counter           = 100000;
 
-	// { Init an IO channel for QIO			}
-//    init_channel();
-
 	// { Grab a random seed from the clock		}
     seed = get_seed();
 
@@ -105,6 +100,10 @@ void	main(int argc, char *argv[], char *envp[])
 	// { If not wizard then No_Control_Y               }
 	// { Check or create hours.dat, print message	}
     intro(finam, argc, argv);
+
+        // { Init an IO channel for QIO			}
+    /* init_channel(); */
+
     clear_screen();
 
 	// { Generate a character, or retrieve old one...	}

@@ -3180,5 +3180,6 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
 	byteint saveFileKey[8]           = {8,7,6,5,4,3,2,1};
 
 	int game_state;
+	boolean curses_is_running        = false;
 
 /* END FILE  values.h */

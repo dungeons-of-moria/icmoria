@@ -293,7 +293,8 @@ boolean intro_do_hours_file (boolean already_exiting, char * the_file)
 
 //////////////////////////////////////////////////////////////////////
 
-boolean intro_do_msg_file(boolean already_exiting, char * the_file)
+boolean intro_do_msg_file(boolean already_exiting, char * the_file, 
+			  boolean write_to_screen)
 {
 //      { Print the introduction message, news, ect...          }
 
@@ -305,7 +306,7 @@ boolean intro_do_msg_file(boolean already_exiting, char * the_file)
   file1 = priv_fopen(the_file,"r");
   if (file1 != NULL)
     {
-      if (!already_exiting) {
+      if (!already_exiting  &&  write_to_screen) {
         /* print out the MORIA_MOR file, move to upper left */
 	clear_rc(1,1);
         for (i1 = 1; !feof(file1); i1++) {
@@ -442,11 +443,39 @@ void intro(vtype finame, int argc, char *argv[])
   GDBM_FILE file2;
   boolean  exit_flag = false;
 
-  clear_rc(1,1);
+  /* make sure that various files exist */
+  
+  exit_flag = intro_do_hours_file(exit_flag,      MORIA_HOU);
+  exit_flag = intro_do_msg_file(exit_flag,        MORIA_MOR, false);
+  exit_flag = intro_do_death_file(exit_flag,      MORIA_DTH);
+//exit_flag = intro_do_master_file(exit_flag,     MORIA_MAS);  
+  exit_flag = intro_ensure_file_exists(exit_flag, MORIA_GCST);
+  exit_flag = intro_ensure_file_exists(exit_flag, MORIA_TOP);
 
-  /* read or create the hours.dat file */
+  if (exit_flag) {
+    master_file_open(&file2);
+    master_file_close(&file2);
+    exit_flag = intro_ensure_file_exists(exit_flag, MORIA_TRD);
+    
+    writeln("");
+    writeln("Notice: System MORIA wizard should set the protection");
+    writeln("        on  files  just created.  See INSTALL.HLP for");
+    writeln("        help on setting protection on the files.");
+    writeln("        Hint: make privs");
+    writeln("");
+    writeln("Notice: File hours.dat may be edited to set operating");
+    writeln("        hours for MORIA.");
+    writeln("");
+    writeln("Notice: File moria.dat may be edited to contain  news");
+    writeln("        items, etc...");
+    writeln("");
+    exit_game();
+  } /* end if exit_flag */
 
-  exit_flag = intro_do_hours_file(exit_flag, MORIA_HOU);
+  // { Check the terminal type and see if it is supported}
+  init_curses();
+  termdef();
+  curses_is_running = true;
 
   if (!exit_flag) {
     exit_flag = intro_parse_switches(finame, argc, argv);
@@ -476,35 +505,10 @@ void intro(vtype finame, int argc, char *argv[])
       exit_game();
     } /* end if !check_time and !wizard1 */
 
+    intro_do_msg_file(false, MORIA_MOR, true);
+
   } /* end if !exit_flag */
 
-  /* make sure that various files exist */
-  
-  exit_flag = intro_do_msg_file(exit_flag,        MORIA_MOR);
-  exit_flag = intro_do_death_file(exit_flag,      MORIA_DTH);
-  //exit_flag = intro_do_master_file(exit_flag,   MORIA_MAS);  
-  exit_flag = intro_ensure_file_exists(exit_flag, MORIA_GCST);
-  exit_flag = intro_ensure_file_exists(exit_flag, MORIA_TOP);
-  
-  if (exit_flag) {
-    master_file_open(&file2);
-    master_file_close(&file2);
-    exit_flag = intro_ensure_file_exists(exit_flag, MORIA_TRD);
-    
-    writeln("");
-    writeln("Notice: System MORIA wizard should set the protection");
-    writeln("        on  files  just created.  See INSTALL.HLP for");
-    writeln("        help on setting protection on the files.");
-    writeln("        Hint: make privs");
-    writeln("");
-    writeln("Notice: File hours.dat may be edited to set operating");
-    writeln("        hours for MORIA.");
-    writeln("");
-    writeln("Notice: File moria.dat may be edited to contain  news");
-    writeln("        items, etc...");
-    writeln("");
-    exit_game();
-  } /* end if exit_flag */
 }; /* end intro */
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

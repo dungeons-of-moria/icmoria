@@ -192,13 +192,17 @@ void exit_game()
 {
 //	{ Immediate exit from program					}
   controly();	// { Turn control-Y back on	}
-  put_qio();	// { Dump any remaining buffer	}
 
-  /* clean up the terminal */
-  echo();
-  nocbreak();
-  endwin();
+  if (curses_is_running) {
+    put_qio();	// { Dump any remaining buffer	}
 
+    /* clean up the terminal */
+    echo();
+    nocbreak();
+    endwin();
+  }
+
+  fflush(stdout);
   exit(0);      // { exit from game		}
 };
 

@@ -301,6 +301,8 @@ void init_curses()
 }
 #else
 {
+  printf("Attempting to start curses...\n");
+  fflush(stdout);
   /*  int i, y, x;*/
 
 #ifdef AMIGA

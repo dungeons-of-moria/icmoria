@@ -274,5 +274,6 @@ extern  byteint highScoreKey[8];
 extern  byteint saveFileKey[8];
 
 extern  int game_state;
+extern	boolean curses_is_running;
 
 /* END FILE  variables.h */
