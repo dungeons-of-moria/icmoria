@@ -275,7 +275,6 @@
 
 // { QUEST.PAS		}
  extern void enter_fortress(); 
- extern itos(integer i, ctype *result); // used to return ctype
 
 // { SAVE.PAS		}
 // extern void coder(ntype line); 

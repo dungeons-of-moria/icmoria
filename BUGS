@@ -19,4 +19,9 @@ july 28	        light off, walk up dark hall to panel change, @ is at top
                 of screen [ used_line is not set in term.c ] (fixed)
 
 
+aug  15         combat with a siren teleported me on top of her, messed stuff
+		up.  light on did not draw me, only w/ light off did @ show up
+
+		poisonus berries showed up with a * in the ident list
+
 /* end bugs */

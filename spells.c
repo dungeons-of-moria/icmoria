@@ -1066,7 +1066,7 @@ boolean ident_spell()
   } else {
 
     if (get_item(&item_ptr,"Item you wish identified?",
-		 &redraw,inven_ctr,&trash_char,false,false)) {
+		 &redraw,count,&trash_char,false,false)) {
       //with item_ptr->data. do;
       identify(&(item_ptr->data));
       known2(item_ptr->data.name);
@@ -1440,7 +1440,7 @@ boolean recharge(integer num)
   }
   
   if (redraw) {
-    msg_print(" ");
+    /*msg_print(" ");*/
     draw_cave();
   } else {
     prt_weight();

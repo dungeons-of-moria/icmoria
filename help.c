@@ -154,6 +154,7 @@ void moria_help(vtype help_level)
     nocbreak();
     clear_screen();
     put_qio();
+    endwin();
     execlp(HELP_FILE_PATH,
            "mhelp.pl", help_string, 0);
     exit(1);

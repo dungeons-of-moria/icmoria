@@ -193,6 +193,12 @@ void exit_game()
 //	{ Immediate exit from program					}
   controly();	// { Turn control-Y back on	}
   put_qio();	// { Dump any remaining buffer	}
+
+  /* clean up the terminal */
+  echo();
+  nocbreak();
+  endwin();
+
   exit(0);      // { exit from game		}
 };
 
@@ -473,7 +479,7 @@ integer get_hex_value(integer row,integer col,integer slen)
 void print_hex_value(integer num,integer row,integer col) 
 {
   vtype    out_val;
-  sprintf(out_val, "%8p", (void *)num);
+  sprintf(out_val, "0x%08lx", num);
   prt(out_val, row, col);
 };
 
