@@ -2641,7 +2641,7 @@ integer movement_rate(integer cspeed,integer mon)
   }
 
   if (c_rate == 3) {
-    c_rate = 4;  /* I wish I knew why they did this... */
+    c_rate = 4;  /* I wish I knew why they did this... rounding up? */
   }
 
   py_rate = py.flags.move_rate;
@@ -3533,6 +3533,13 @@ void d__check_light_status()
   LEAVE("d__check_light_status", "d");
 };
 //////////////////////////////////////////////////////////////////////
+void d__hunger_interrupt(char *message)
+{
+  msg_print(message);
+  msg_flag = 0;
+  rest_off(); 
+}
+//////////////////////////////////////////////////////////////////////
 void d__check_food()
 {
     /*{ Check food status             }*/
@@ -3554,13 +3561,13 @@ void d__check_food()
 
 	if ((IS_WEAK & PF.status) == 0) {
 	  PF.status |= (IS_WEAK | IS_HUNGERY);
-	  msg_print("You are getting weak from hunger.");
+	  d__hunger_interrupt("You are getting weak from hunger.");
 	  if (find_flag) {
 	    move_char(5);
 	  }
 	  prt_hunger();
 	  py.misc.wt -= trunc(py.misc.wt*0.015);
-	  msg_print ( "Your clothes seem to be getting loose.");
+	  d__hunger_interrupt ( "Your clothes seem to be getting loose.");
 	  if (py.misc.wt < min_allowable_weight()) {
 	    msg_print ( "Oh no...  Now you've done it." ) ;
 	    death = true ;
@@ -3573,14 +3580,14 @@ void d__check_food()
 	if (PF.foodc < 0) {
 	  if (randint(5) == 1) {
 	    PF.paralysis += randint(3);
-	    msg_print("You faint from the lack of food.");
+	    d__hunger_interrupt("You faint from the lack of food.");
 	    if (find_flag) {
 	      move_char(5);
 	    }
 	  } else if (PF.foodc < PLAYER_FOOD_FAINT) {
 	    if (randint(8) == 1) {
 	      PF.paralysis += randint(5);
-	      msg_print("You faint from the lack of food.");
+	      d__hunger_interrupt("You faint from the lack of food.");
 	      if (find_flag) {
 		move_char(5);
 	      }
@@ -3592,7 +3599,7 @@ void d__check_food()
 	/* alert, but not weak */
 	if ((IS_HUNGERY & PF.status) == 0) {
 	  PF.status |= IS_HUNGERY;
-	  msg_print("You are getting hungry.");
+	  d__hunger_interrupt("You are getting hungry.");
 	  if (find_flag) {
 	    move_char(5);
 	  }
@@ -3966,6 +3973,15 @@ void d__update_hallucinate()
 //////////////////////////////////////////////////////////////////////
 void d__update_petrify()
 {
+  /*{  Petrification wears off slowly  } */
+  if ( (turn % 100) == 0) {
+    //with py.flags do;
+    if (PF.petrification > 100) {
+      PF.petrification--;
+    }
+  }
+
+
   /* not sure what this did, but it was commented out... */
   /*
   if (PF.speed > 0) and (paral_init = speed_paral) then

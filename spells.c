@@ -549,7 +549,7 @@ boolean teleport_to(integer ny,integer nx)
       ctr = 0;
       dis++;
     }
-  } while ((cave[y][x].fopen) && (cave[y][x].cptr < 2));
+  } while (!((cave[y][x].fopen) && (cave[y][x].cptr < 2)));
   
   move_rec(char_row,char_col,y,x);
   for (i1 = char_row-1; i1 <= char_row+1; i1++) {
@@ -1613,12 +1613,14 @@ void za__yes_it_did(integer monptr, integer cflag, integer dmge,
 {
   vtype      out_val;
 
+  integer mptr = m_list[monptr].mptr;  /* monster might get deleted */
+
   //with m_list[i1]. do;
 
   switch (typ) {
   case c_confuse:
   case c_turn:
-    sprintf(out_val, "The %s runs frantically!",c_list[m_list[monptr].mptr].name);
+    sprintf(out_val, "The %s runs frantically!",c_list[mptr].name);
     msg_print(out_val);
     m_list[monptr].confused = true;
     break;
@@ -1646,18 +1648,18 @@ void za__yes_it_did(integer monptr, integer cflag, integer dmge,
     //with c_list[m_list[i1].mptr]. do;
     if (mon_take_hit(monptr,randint(dmge))>0) {
       if (typ == c_joke) {
-	sprintf(out_val, "The %s dies laughing!",c_list[m_list[monptr].mptr].name);
+	sprintf(out_val, "The %s dies laughing!",c_list[mptr].name);
       } else {
-	sprintf(out_val, "The %s dissolves!",c_list[m_list[monptr].mptr].name);
+	sprintf(out_val, "The %s dissolves!",c_list[mptr].name);
       }
       msg_print(out_val);
     } else {
       if (typ == c_joke) {
-	sprintf(out_val, "The %s chuckles.",c_list[m_list[monptr].mptr].name);
+	sprintf(out_val, "The %s chuckles.",c_list[mptr].name);
 	msg_print(out_val);
 	m_list[monptr].confused = true;
       } else {
-	sprintf(out_val, "The %s shudders.",c_list[m_list[monptr].mptr].name);
+	sprintf(out_val, "The %s shudders.",c_list[mptr].name);
 	msg_print(out_val);
 	if (typ == c_holy_word) {
 	  if (do_stun(monptr,-4,4+randint(4))) {

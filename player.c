@@ -38,7 +38,9 @@ void rest_off()
 {
   py.flags.rest = 0;
   py.flags.status &= ~IS_RESTING;
-  erase_line(1,1);
+  if (msg_flag) {
+    erase_line(1,1);
+  }
   prt_rest();
   PF.food_digested++;
 };

@@ -145,6 +145,10 @@ void q__potion_effect(integer effect, boolean *idented)
     break;
     
   case 27 :  /*{ Restore Dex }*/
+    PF.petrification -= 100;
+    if ( PF.petrification < 0 ) {
+      PF.petrification = 0;
+    }
     ident = restore_stat(DEX,"X");
     break;
     

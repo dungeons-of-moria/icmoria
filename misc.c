@@ -1995,7 +1995,7 @@ void compact_monsters()
       delete_1 = false;
       i3 = m_list[i1].nptr;
       //with m_list[i1] do;
-      if (cur_dis > m_list[i1].cdis) {
+      if (cur_dis < m_list[i1].cdis) {
 	if (randint(3) == 1) {
 	  if (i2 == 0) {
 	    muptr = i3;
@@ -2018,6 +2018,9 @@ void compact_monsters()
     } while (i1 != 0);
     if (!(delete_any)) {
       cur_dis -= 6;
+      if ( cur_dis < 0 ) {
+	cur_dis = 0; /* not really needed but it makes debugging happier */
+      }
     }
   } while (!delete_any);
   

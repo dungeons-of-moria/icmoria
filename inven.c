@@ -36,6 +36,21 @@ void aii__insert(treas_ptr ptr, integer wgt, treas_ptr new_item)
 };
 
 //////////////////////////////////////////////////////////////////////
+boolean is_players_spell_book(typ)
+{
+     if ( class[py.misc.pclass].mspell ) {        /* cast */
+       return (typ == Magic_Book) ? true : false;
+     } else if ( class[py.misc.pclass].bspell ) { /* sing */
+       return (typ == Song_Book) ? true : false;
+     } else if ( class[py.misc.pclass].dspell ) { /* play */
+       return (typ == Instrument) ? true : false;
+     } else if ( class[py.misc.pclass].pspell ) { /* pray */
+       return (typ == Prayer_Book) ? true : false;
+     }     
+
+     return false;
+}
+//////////////////////////////////////////////////////////////////////
 
 treas_ptr add_inven_item(treasure_type item)
 {
@@ -43,13 +58,11 @@ treas_ptr add_inven_item(treasure_type item)
 
   integer    item_num,wgt,typ,subt;
   boolean    flag = false;
+  boolean    duplicate_spell_book = false;
   treas_ptr  curse,new_item;
   treas_ptr  return_value = nil;
 
-//  printf("    BEGIN add_inven %d %s\n",item.tval,item.name); fflush(stdout);
-
   if (inventory_list == nil) {
-//  printf("    first if\n"); fflush(stdout);
     inventory_list =(treas_ptr)safe_malloc(sizeof(treas_rec),"add_inven_item");
 
     inventory_list->data    = item;
@@ -62,7 +75,6 @@ treas_ptr add_inven_item(treasure_type item)
     inven_ctr++;
 
   } else {
-//  printf("    second if\n"); fflush(stdout);
 
     item_num =  item.number;
     typ      =  item.tval;
@@ -82,23 +94,51 @@ treas_ptr add_inven_item(treasure_type item)
       /*      with curse->data do*/
       if (typ == curse->data.tval) {
 	if (subt == curse->data.subval) { 
+	  //
+	  // Items are of the same type and can be combined
+	  //
 	  if (subt > 255) {
 	    curse->data.number += item_num;
 	    inven_weight += wgt;
 	    return_value  = curse;
 	    flag = true;
-//	    printf("      did a subt insert\n"); fflush(stdout);
+	  }
+	} else if ( is_players_spell_book(typ) ) {
+	  //
+	  // Put the users spell books in subt order sending
+	  // duplicate books to the end of the list.
+	  //
+          if ( subt == curse->data.subval ) {
+	    //
+	    // I don't think this ever happens since the subvals
+	    // are probably > 255 so the books get stacked.
+	    //
+	    duplicate_spell_book = true;
+	  }
+
+	  if (!duplicate_spell_book && (subt < curse->data.subval) ) {
+	    aii__insert(curse,wgt,new_item);
+	    inven_ctr++;
+	    inven_weight += wgt;
+	    return_value  = new_item;
+	    flag = true;
 	  }
 	}
       } else if (curse->data.tval < typ) {
+	//
+        // This puts new items at the end of the list of their tval type
+        //
 	aii__insert(curse,wgt,new_item);
 	inven_ctr++;
 	inven_weight += wgt;
 	return_value  = new_item;
 	flag = true;
-//	printf("      did an aii_insert\n"); fflush(stdout);
       }
 
+      //
+      // move to next item and skip over any items
+      // inside a bag of holding
+      //
       curse = curse->next;
       if ((curse != nil) && (curse->is_in)) {
 	while ((curse != nil) && (curse->is_in)) {
@@ -116,7 +156,6 @@ treas_ptr add_inven_item(treasure_type item)
       return_value = new_item;
       inven_ctr++;
       inven_weight += wgt;
-//      printf("        did an !flag insert\n"); fflush(stdout);
     }
   } /* endif inventory_list == nil */
 
@@ -182,6 +221,7 @@ integer ic__display_inv(treas_ptr cur_display[], vtype prompt,
 
   integer   count,i1;
   vtype     out_val,out_val2,out_val3;
+  char      *t;
 
   for( count=0; (start != NULL) && (count < DISPLAY_SIZE); ) {
     if (start->ok) {
@@ -191,7 +231,7 @@ integer ic__display_inv(treas_ptr cur_display[], vtype prompt,
 	inven_temp->data = start->data;
 	objdes(out_val,inven_temp,true);
 	if ((start->data.flags2 & Holding_bit) != 0) {
-	  if (strstr(start->data.name,"|") != NULL) {
+	  if (strstr(start->data.name,"|") == NULL) {
 	    bag_descrip(start, out_val3);
 	    strcat(out_val, out_val3);
 	  }
@@ -220,9 +260,15 @@ integer ic__display_inv(treas_ptr cur_display[], vtype prompt,
     *next_start = start;
   }
 	  
-  strcpy(out_val, prompt);
-  sprintf(out_val2,"%c",((int)count+96));
-  insert_str(out_val,"%N",out_val2);
+  if (count > 0) {
+    strcpy(out_val, prompt);
+    sprintf(out_val2,"%c",((int)count+96));
+    insert_str(out_val,"%N",out_val2);
+  } else if ( (t = strstr(prompt, "%N")) != NULL) {
+    sprintf(out_val, "No items found%s", t+2);
+  } else {
+    sprintf(out_val, "No items found. %s", prompt);
+  }
   prt(out_val,1,1);
 
   return count;
