@@ -1493,7 +1493,7 @@ boolean genocide()
 
   i1 = muptr;  /* what happens if there are no monsters in the world? */
 
-  if (get_com("Which type of creature do wish exterminated?",&typ)) {
+  if (get_com("Which type of creature do wish exterminated? ",&typ)) {
     do {
       //with m_list[i1]. do;
       //with c_list[m_list[i1].mptr]. do;
@@ -1507,8 +1507,8 @@ boolean genocide()
 		  c_list[m_list[i1].mptr].name);
 	  msg_print(out_val);
 	}
-	i1 = i2;
       }
+      i1 = i2;
     } while (i1 != 0);
   }
 

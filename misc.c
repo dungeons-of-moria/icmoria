@@ -3197,7 +3197,7 @@ integer attack_blows(integer weight, integer *wtohit)
     lev_skill = class[py.misc.pclass].mbth*(py.misc.lev+10);
 
     /*{warriors 100-500, paladin 80-400, priest 60-300, mage 40-200}*/
-    blows = trunc(0.8 + blows/3 + lev_skill/350);
+    blows = trunc(0.8 + (real)blows/3.0 + (real)lev_skill/350.0);
 
     /*{usually 3 for 18+ dex, 5 max except 6 for high level warriors}*/
     adj_weight = (integer)((real)PS.c[STR]/(real)(weight div 100)*2.5);

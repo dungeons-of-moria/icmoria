@@ -175,11 +175,11 @@ void mt__magic_sword(integer x)
   case 4 : /* {Blessed Blade}*/
     
     strcat(t_list[x].name," (BB)");
-    t_list[x].flags |= Magic_proof_worn_bit;
-    t_list[x].tval   = maul;  /* let priests use it */
-    t_list[x].tohit += 2;
-    t_list[x].todam += 4;
-    t_list[x].cost  += 80000;
+    t_list[x].flags2 |= Magic_proof_worn_bit;
+    t_list[x].tval    = maul;  /* let priests use it */
+    t_list[x].tohit  += 2;
+    t_list[x].todam  += 4;
+    t_list[x].cost   += 80000;
     break;
 
   } /* end switch */

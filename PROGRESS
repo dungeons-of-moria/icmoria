@@ -242,7 +242,6 @@ then the old position (shown when the monster was hit) was not redrawn.
 I never noticed that at UW, but this week it happened at least 3 times. Odd.
 
 -------------------------------------------------------------------------------
-
 4.85.15
 
 Jan 7 2000
@@ -256,6 +255,21 @@ newer curses.  If things are still broken let me know.
 Don't just detrap chests when disarming them, unlock them too.
 
 
+
+-------------------------------------------------------------------------------
+4.85.16
+
+Jan 31 2000
+
+Fixed blessed blades so they set the correct flags.
+
+Fix weapon useage penalties for priests and rangers.  Now priests have
+some and rangers do not.
+
+Fixed number of blows per attack code, integer math can cause terrible rounding
+errors.  Monks will be helped a lot by this.
+
+Fixed genocide, it usually went into an infinite loop.
 
 -------------------------------------------------------------------------------
 /* end progress */

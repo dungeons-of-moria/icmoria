@@ -2356,7 +2356,7 @@ boolean py_attack(integer y, integer x)
   boolean   backstab_flag;
 
   obj_set   mages_suck    = {hafted_weapon,pole_arm,sword,maul,0};
-  obj_set   rangers_suck  = {hafted_weapon,pole_arm,dagger,sword,0};
+  obj_set   priests_suck  = {hafted_weapon,pole_arm,dagger,sword,0};
   obj_set   druids_suck   = {hafted_weapon,pole_arm,sword,0};
   obj_set   monks_suck    = {hafted_weapon,pole_arm,maul,0};
   obj_set   catch_this    = {sling_ammo,bolt,arrow,0};
@@ -2401,8 +2401,8 @@ boolean py_attack(integer y, integer x)
 	     (is_in(equipment[Equipment_primary].tval, mages_suck))) {
     tot_tohit -= 5;
 
-  } else if ((PM.pclass == C_RANGER) && 
-	     (is_in(equipment[Equipment_primary].tval, rangers_suck))) {
+  } else if ((PM.pclass == C_PRIEST) && 
+	     (is_in(equipment[Equipment_primary].tval, priests_suck))) {
     tot_tohit -= 4;
 
   } else if ((PM.pclass == C_DRUID) &&
