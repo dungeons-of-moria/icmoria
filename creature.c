@@ -979,10 +979,10 @@ void c__make_attack(integer monptr)
   for (; attstr[0] != 0;) {
 
     /* attstr looks like this: "1 32 4d4|2 21 0d0" */
-    achar = strstr(attstr, "|");
+    achar = strchr(attstr, '|');
     if (achar != NULL) {
       strcpy(attx, attstr);
-      achar = strstr(attx, "|");
+      achar = strchr(attx, '|');
       (*achar) = 0;
       achar++;
       strcpy(attstr, achar);

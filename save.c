@@ -1,5 +1,5 @@
 /* save.c */
-/* code for saving or loading a character */
+/* code for saving and loading characters */
 
 #include "imoria.h"
 #include "master.h"
@@ -523,7 +523,7 @@ void sc__write_monsters(FILE *f1, encrypt_state *cf_state, ntype out_rec)
 	    m_list[i1].fy,m_list[i1].fx,m_list[i1].mptr,m_list[i1].hp,
 	    m_list[i1].cspeed,m_list[i1].csleep,m_list[i1].cdis,m_list[i1].ml,
 	    m_list[i1].confused);
-  encrypt_write(f1, cf_state, out_rec);
+    encrypt_write(f1, cf_state, out_rec);
 
   }
   
@@ -548,7 +548,7 @@ void sc__write_town(FILE *f1, encrypt_state *cf_state, ntype out_rec)
     //with stores[i1]. do;
     /*{ Save items...                 }*/
     sprintf(out_rec,"%d",stores[i1].store_ctr);
-  encrypt_write(f1, cf_state, out_rec);
+    encrypt_write(f1, cf_state, out_rec);
     
     for (i2 = 1; i2 <= stores[i1].store_ctr; i2++) {
       //with stores[i1].store_inven[i2].sitem do;

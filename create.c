@@ -251,7 +251,7 @@ integer cc__next_best_stats(stat_s_type this, stat_s_type user,
 {
   integer   below_sum = 0;
   integer   below;
-  stat_set  tstat;
+  int       tstat;
 
   for (tstat = STR; tstat <= CHR; tstat++) {
     if (this[tstat] < user[tstat]) {

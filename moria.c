@@ -34,7 +34,7 @@ wrong somehow):
 
 /***********************************************************************/
 
-void	main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
   /*// { SYSPRV stays off except when needed...	}*/
   game_state = GS_LOADING;
@@ -175,6 +175,8 @@ void	main(int argc, char *argv[], char *envp[])
 	// { Turn on message trapping, if requested	}
 //    if (want_trap) set_the_trap();
 
+    set_seed(get_seed());
+
     // { Loop till dead, or exit			}
     do {
       //generate = true;
@@ -186,6 +188,7 @@ void	main(int argc, char *argv[], char *envp[])
     upon_death();                         // { Character gets buried }
   
     LEAVE("main", "")
+    return 0;
 }  /* end main */
 
 /***********************************************************************/

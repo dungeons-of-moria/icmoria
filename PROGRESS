@@ -292,4 +292,14 @@ added valuable_gems to things that can be recharged.
 wizard_create will let you create anything now (including traps!).
 
 -------------------------------------------------------------------------------
+4.85.18
+
+Oct 15 2000
+
+correctly set random seed in casino so that it does not always play
+exactly the same games after loading a saved character.
+
+A bunch of little things I did back in March that I have forgotten about.
+
+-------------------------------------------------------------------------------
 /* end progress */

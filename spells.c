@@ -1054,7 +1054,7 @@ boolean ident_spell()
   /* only show things that need to be identified */
   change_all_ok_stats(false,false);
   for (ptr = inventory_list; ptr != NULL; ptr = ptr->next) {
-    if (strstr(ptr->data.name,"^") || strstr(ptr->data.name,"|")) {
+    if (strchr(ptr->data.name,'^') || strchr(ptr->data.name,'|')) {
       ptr->ok = true;
       count++;
     }
@@ -1409,7 +1409,7 @@ boolean recharge(integer num)
 	return_value = true;
 	num = num / (item_ptr->data.level+2);
 	item_ptr->data.p1 += 2 + randint(num);
-	if (strstr(item_ptr->data.name,"^") != NULL) {
+	if (strchr(item_ptr->data.name,'^') != NULL) {
 	  insert_str(item_ptr->data.name," (%P1","^ (%P1");
 	}
       }
@@ -1423,7 +1423,7 @@ boolean recharge(integer num)
 	return_value = true;
 	num *= 100;
 	item_ptr->data.p1 += num / 3 +randint(num);
-	if (strstr(item_ptr->data.name,"^") != NULL) {
+	if (strchr(item_ptr->data.name,'^') != NULL) {
 	  insert_str(item_ptr->data.name," (%P1","^ (%P1");
 	}
       }
@@ -1437,7 +1437,7 @@ boolean recharge(integer num)
 	return_value = true;
 	num *= 80;
 	item_ptr->data.p1 += num / 3 +randint(num);
-	if (strstr(item_ptr->data.name,"^") != NULL) {
+	if (strchr(item_ptr->data.name,'^') != NULL) {
 	  insert_str(item_ptr->data.name," (%P1","^ (%P1");
 	}
       }

@@ -13,6 +13,7 @@
 #include <sys/ioctl.h>
 /* defines TRUE and FALSE */
 #include <curses.h>
+#include <string.h>
 
 #if 0
 #include "config.h"

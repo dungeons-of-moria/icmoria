@@ -18,18 +18,24 @@ void enter(char *routine_name,char *marker)
   
   call_depth++;
 
-  fprintf(debug_file, ":::%4d: ENTER %s | %s |\n",
-	  call_depth,routine_name,marker);
+  if (debug_file != NULL) {
+    fprintf(debug_file, ":::%4d: ENTER %s | %s |\n",
+	    call_depth,routine_name,marker);
 
-//  fprintf(debug_file,":  In    %ld %ld\n",panel_row_min,panel_row_max);
+    //  fprintf(debug_file,":  In    %ld %ld\n",panel_row_min,panel_row_max);
 
-  fflush(debug_file);
+    fflush(debug_file);
+  }
 }
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void leave(char *routine_name,char *marker)
 {
+  if ( debug_file == NULL ) {
+    return;
+  }
+
 //  fprintf(debug_file,":  Out   %ld %ld\n",panel_row_min,panel_row_max);
 
   fprintf(debug_file, ":::%4d: LEAVE %s | %s |\n",
@@ -46,6 +52,10 @@ void leave(char *routine_name,char *marker)
 void return_dbg(char *routine_name,char *marker,
 		char typestr, char *descript, void *valptr)
 {
+
+  if ( debug_file == NULL ) {
+    return;
+  }
 
 //  fprintf(debug_file,":  Ret   %ld %ld\n",panel_row_min,panel_row_max);
 
@@ -93,6 +103,10 @@ void return_dbg(char *routine_name,char *marker,
 //////////////////////////////////////////////////////////////////////
 void log_msg(char *str)
 {
+  if ( debug_file == NULL ) {
+    return;
+  }
+
   fprintf(debug_file, ">            %s\n", str);
   fflush(debug_file);
 };

@@ -342,7 +342,7 @@ void gc__cave_gen()
   obj_set allocSet4 = {1,2,0};          /* treasure things */
   obj_set allocSet5 = {1,2,4,0};        /* treasure things */
 
-  seed = get_seed();
+  set_seed(get_seed());
   i3   = 0;
 
   row_rooms = 2*(integer)(cur_height/SCREEN_HEIGHT);

@@ -13,8 +13,8 @@ void bell();
 #define MAX_HEIGHT  66	    /* Multiple of 11; >= 22 */
 #define MAX_WIDTH  198	  /* Multiple of 33; >= 66 */
 
-#undef CTRL
-#define CTRL(x)		(x & 0x1F)
+#undef CTRL_
+#define CTRL_(x)	(x & 0x1F)
 #define DELETE		0x7f
 #define ESCAPE	      '\033'	/* ESCAPE character -CJS-  */
 

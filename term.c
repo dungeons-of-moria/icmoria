@@ -604,6 +604,7 @@ int attrs;
 #if NCURSES_VERSION_MAJOR == 5
   attr_t old_attr;
   short unused_pair, unused_opts;
+  (void)unused_opts;
   attr_get(&old_attr, &unused_pair, &unused_opts);
 #else
   int old_attr;
@@ -930,7 +931,7 @@ char inkey()
 
   do {
     macgetkey(&ch, FALSE);
-  } while (ch == CTRL('R'));
+  } while (ch == CTRL_('R'));
 
   dir = extractdir(ch, &shift_flag, &ctrl_flag);
   if (dir != -1)
@@ -1022,7 +1023,7 @@ char inkey()
 	    }
 	  return ESCAPE;
 	}
-      if (i != CTRL('R')) {
+      if (i != CTRL_('R')) {
 	msg_flag = false;
 	return (char)i;
       }
@@ -1062,9 +1063,9 @@ char inkeydir()
 	'Y',		'K',		'U'
   };
   static char ctrltab[9] = {
-	CTRL('B'),	CTRL('J'),	CTRL('N'),
-	CTRL('H'),	'.',		CTRL('L'),
-	CTRL('Y'),	CTRL('K'),	CTRL('U')
+	CTRL_('B'),	CTRL_('J'),	CTRL_('N'),
+	CTRL_('H'),	'.',		CTRL_('L'),
+	CTRL_('Y'),	CTRL_('K'),	CTRL_('U')
   };
 
   put_qio();
@@ -1072,7 +1073,7 @@ char inkeydir()
 
   do {
     macgetkey(&ch, FALSE);
-  } while (ch == CTRL('R'));
+  } while (ch == CTRL_('R'));
 
   dir = extractdir(ch, &shift_flag, &ctrl_flag);
 
@@ -1580,10 +1581,10 @@ int row, column, slen;
 	case ESCAPE:
 	  aborted = TRUE;
 	  break;
-	case CTRL('J'): case CTRL('M'):
+	case CTRL_('J'): case CTRL_('M'):
 	  flag	= TRUE;
 	  break;
-	case DELETE: case CTRL('H'):
+	case DELETE: case CTRL_('H'):
 	  if (column > start_col)
 	    {
 	      column--;
