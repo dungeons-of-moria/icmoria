@@ -1,0 +1,179 @@
+/*
+	{ Creatures must be defined here				}
+	{	See TYPES.INC under creature_type for a complete list
+		of all variables for creatures.	 Some of the less obvious
+		are explained below.
+ 
+	Area of affect (aaf) :	Max range that creature is able to "notice"
+				the player.
+ 
+	Armor Class (AC): difficulty to hit.
+ 
+		CMOVE flags:
+Movement.	00000001	Move only to attack
+	.	00000002	20% random movement
+	.	00000004	40% random movement
+	.	00000008	75% random movement
+	.	00000010	On = Water-based; Off = Land-based
+	.	00000040	Drowns/Suffocates in wrong element
+	.	00000300	monster rate in wrong elm't (0=stop,3=full)
+Special	+	00004000	Is a 'good' monster (reputation)
+	+	00008000	Is a monster that will not normally appear
+					(such as Town Guards)
+					These can only be summoned by summon
+					monster by name.
+	+	00010000	Invisible movement
+	+	00020000	Move through door
+	+	00040000	Move through wall
+	+	00080000	Move through creatures
+	+	00100000	Picks up objects
+	+	00200000	Multiply monster
+	+	00400000	Can anchor in water
+	+	00800000	Flying creature
+Carries =	01000000	Carries objects.
+	=	02000000	Carries gold.
+	=	04000000	Has 60% of time.
+	=	08000000	Has 90% of time.
+	=	10000000	1d2 objects/gold.
+	=	20000000	2d2 objects/gold.
+	=	40000000	4d2 objects/gold.
+Special ~	80000000	Win-the-Game creature.
+ 
+		SPELL Flags:
+Frequency	00000001    1	  These add up to x.  Then
+(1 in x).	00000002    2	  if RANDINT(X) = 1 the
+	.	00000004    4	  creature casts a spell.
+	.	00000008    8
+Spells	=	00000010  Teleport short (blink)
+	=	00000020  Teleport long
+	=	00000040  Teleport player to monster
+	=	00000080  Cause light wound
+	=	00000100  Cause serious wound
+	=	00000200  Hold person (Paralysis)
+	=	00000400  Cause blindness
+	=	00000800  Cause confusion
+	=	00001000  Cause fear
+	=	00002000  Summon monster
+	=	00004000  Summon undead
+	=	00008000  Slow Person
+	=	00010000  Drain Mana
+	=	00020000  Shadow Breath/Orb of Draining
+	=	00040000  Not Used
+Breaths +	00080000  Breath Lightning
+	+	00100000  Breath Gas
+	+	00200000  Breath Acid
+	+	00400000  Breath Frost
+	+	00800000  Breath Fire
+	=	01000000  Casts Illusion
+	=	02000000  Summon Demon
+	=	04000000  Summon Multiplying Monster (heh heh)
+	=	08000000  Gaze from distance for petrification
+	.	80000000  makes no casting 1 in x (instead of casting 1 in x)
+ 
+		CDEFENSE flags:
+		0001	Hurt by Slay Dragon.
+		0002	Hurt by Slay Monster.
+		0004	Hurt by Slay Evil.
+		0008	Hurt by Slay Undead.
+		0010	Hurt by Frost.
+		0020	Hurt by Fire.
+		0040	Hurt by Poison.
+		0080	Hurt by Acid.
+		0100	Hurt by Light-Wand.
+		0200	Hurt by Stone-to-Mud.
+		0400	Hurt by Slay Demon.
+		0800	Not used.
+		1000	Cannot be charmed or slept.
+		2000	Can be seen with infra-vision.
+		4000	Max Hit points.
+		8000	Regenerates.
+ 
+	Sleep (sleep)	:	A measure in turns of how fast creature
+				will notice player (on the average).
+									
+	Experience	:	Base Experience for slaying the creature.
+
+	Speed		:	Base Monster Speed.
+
+	Character Rep.	:	The character used on the map.
+	
+	Hit points:	'#1d#2' where #2 is the range of each roll and
+			#1 is the number of added up rolls to make.
+			Example: a creature with 5 eight-sided hit die
+			is given '5d8'.
+ 
+		Attack types:
+		1	Normal attack
+		2	Lose Strength
+		3	Confusion attack
+		4	Fear attack
+		5	Fire attack
+		6	Acid attack
+		7	Cold attack
+		8	Lightning attack
+		9	Corrosion attack
+		10	Blindness attack
+		11	Paralysis attack
+		12	Steal Money
+		13	Steal Object
+		14	Poison
+		15	Lose dexterity
+		16	Lose constitution
+		17	Lose intelligence
+		18	Lose wisdom
+		19	Lose experience
+		20	Aggravation
+		21	Disenchants
+		22	Eats food
+		23	Eats light
+		24	Eats charges
+		25	Lose charisma
+		26	Petrification
+		27	POISON poison
+		99	Blank
+ 
+		Attack descriptions:
+		1	hits you.
+		2	bites you.
+		3	claws you.
+		4	stings you.
+		5	touches you.
+		6	kicks you.
+		7	gazes at you.
+		8	breathes on you.
+		9	spits on you.
+		10	makes a horrible wail.
+		11	embraces you.
+		12	crawls on you.
+		13	releases a cloud of spores.
+		14	begs you for money.
+		15	You've been slimed.
+		16	crushes you.
+		17	tramples you.
+		18	drools on you.
+		19	insults you.
+		23	plays a song.
+		24	kisses you.
+		25	gores you.
+		26	"bovine"s you.
+		27	electrocutes you.
+		28	inks you.
+		29	entangles you.
+		30	blood sucks you.
+		31	goes for your throat.
+		32	blows bubbles at you.
+		33	squawks at you.
+		34	pecks at you.
+		35	barks at you.
+		36	rubs against your leg.
+		99	is repelled.
+
+ 
+	Example:  For a creature which claws twice for 1d6, then stings for
+		  2d4 and loss of dex you would use:
+			'1 3 2-1d6|15 4 2d4'
+
+	Level	: Base level the creature is found on.
+
+	moo.monst in dua2:[sa65] has bovine monsters }
+*/

@@ -1,0 +1,133 @@
+Bank.inc		done with all but deposit of items (it was disabled)
+Bit_Pos.mar		done
+Bit_Pos64.for		done
+Bj.inc			done
+Blow.inc		done
+Build.com		<none>
+Casino.pas		done
+Changer.inc		<none>             (code never used, bank does it...)
+Constants.inc		done
+Create.pas		done   (except "get_ssn")
+Creature.pas		done
+Death.pas		done
+Desc.pas		done
+Distance.mar		<done>
+Dungeon.pas		done           should get rid of globals...
+Eat.inc			done
+Files.pas		done
+Generate.pas		nearly done,   need to implement old_seed stuff
+Get_Account.mar		<none>
+Help.pas		done
+Horse.inc		done           (needs testing, but seems to work)
+Imoria.cld		<done>
+Imoria_Setup.com	<none>
+Insert.mar		done
+Insurance.inc		done
+Inven.pas		done
+Io.pas			done       (trap vms messages not implemented, duh)
+Magic.inc		done
+Maxmin.mar		done
+Minmax.mar		done
+Misc.pas		       already_playing
+Monk.inc		done
+Monsters.dat		<done>
+Moria.pas		done         should probably delete //ed code
+Moriadef.cld		<done>
+Moriahlp.rnh		<done, wrote perl script to display help>
+Netopen.pas		<none> stuff for post, not needed
+Play.inc		done
+Player.pas		done
+Potions.inc		done
+Prayer.inc		done
+Putqio.mar		<done>
+Quest.pas		done, added item rewards
+Randint.mar		<done>
+Randrep.mar		<done>
+Routines.inc		<done>
+Save.pas		done          should check for errors when writing
+Screen.pas		done
+Scrolls.inc		done
+Sing.inc		done
+Slots.inc		done
+Spells.inc		done
+Staffs.inc		done
+Store.pas		done          want to import shakesphere insulter
+Subquad.mar		<done>
+Termdef.pas		<none> probably not needed since I stole umoria code
+Trade.inc		done
+Types.inc		done
+Users.mar		<done>
+Uw_Id.for		<none> probably not needed
+Values.inc		done
+Variables.inc		done
+Wands.inc		done
+Wizard.pas		done
+
+( source can be found at wbcms.cc.buffalo.edu in maslib/games/imoria )
+
+Started on nov 16, 1997.  Got the source, un-sharded it!
+nov 17, actually started converting stuff.
+nov 22, finished with most of the types/vars/values, time to recode!
+dec 7,  you can create a character and get initial inventory and spells!
+
+1998
+march 1, you can actually play the game now
+
+june, mid, Jeanetta started some alpha testing.  wow, lots of bugs.
+	   Actually working on the code again (had to fix J's crashes)
+
+july 10, I don't seem to be keeping this log up to date at all :)
+
+	All but about 8 files are "done".
+
+	No crashes in a while, except when loading damaged save files.
+	encrypts save files, high scores work working on wizard
+	commands (wizard passwords work now so you don't have to
+	use gdb to set it)
+
+	Master file is in place, uses gdbm.
+
+	Insurance, Help and Trading Post are the only major things left
+
+	(want to have a black market so single system users can benifit)
+
+july 11:
+	insurance is done
+
+july 12:
+	added encrypt and decrypt switches (-E and -D) for save files
+	help is done
+
+	running out of stuff before the post has to be done :)
+
+july 13:
+	moved everything up and left by one, icky macros do the job
+	but I did not want to edit every single prt/print/..., fixed right
+	edge
+
+	get_char bails if any lines are bad.
+	
+	bolts and balls are visable now!
+
+july 18:
+	hmmm, done with the post.  is that everything?
+
+-------------------------------------------------------------------------------
+4.85.3
+  july 20 1998		added reduced map and better Locate from umoria
+			fixed store hours and bribes so correct index is used
+
+-------------------------------------------------------------------------------
+4.85.4
+  july 21 1998		fixed learn_spell and learn_prayer offering spell
+			from outside correct range.
+
+  july 24 1998          use Mersenne Twister random number library
+
+  july 25 1998          cut about 30k from save files using run length encoding
+			on the dungeon floor
+
+			always xor save file data against random numbers
+
+
+/* end progress */

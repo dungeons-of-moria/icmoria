@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------
+prerelease alpha
+
+July 12 1998	errors in saving file don't always abort save (write errors)
+
+-------------------------------------------------------------------------------
+
+July 14 1998    should allow move w/o pickup
+
+-------------------------------------------------------------------------------
+
+July 18 1998    is it possible to have identical claim_check numbers?
+                is it possible that creation_time will move if no save?
+		ummmm, create trade file if missing...
+
+July 25         post should check master file before letting ppl in
+
+july 28	        light off, walk up dark hall to panel change, @ is at top
+                of screen [ used_line is not set in term.c ] (fixed)
+
+
+/* end bugs */

@@ -1,0 +1,163 @@
+##############################################################
+define rerun
+run -f ss
+end
+document rerun
+do this: run -f ss
+end
+##############################################################
+define wizon
+set wizard2 = 1
+set wizard1 = 1
+end
+
+document wizon
+turn wizard2 and wizard1 on
+end
+##############################################################
+define wizoff
+set wizard2 = 0
+set wizard1 = 0
+end
+
+document wizoff
+turn wizard2 and wizard1 off
+end
+##############################################################
+define curloc
+printf "player location: [%d][%d]\n", char_row, char_col
+end
+
+define ploc
+curloc
+end
+
+document curloc
+print char_row and char_col
+end
+
+document ploc
+print char_row and char_col
+end
+
+##############################################################
+define curpos
+pcave char_row char_col
+end
+
+define ppos
+curpos
+end
+
+document curpos
+print information about players current position using pcave
+end
+
+document ppos
+print information about players current position using pcave
+end
+##############################################################
+define pcave
+
+printf "cave[%d][%d] = \n", $arg0, $arg1
+print cave[$arg0][$arg1]
+
+if cave[$arg0][$arg1].tptr != 0
+printf "\nt_list[%d] = \n", cave[$arg0][$arg1].tptr
+print t_list[cave[$arg0][$arg1].tptr]
+else
+printf "\n No treasure.\n"
+end
+
+if cave[$arg0][$arg1].cptr != 0
+if cave[$arg0][$arg1].cptr != 1
+printf "\nm_list[%d] = \n", cave[$arg0][$arg1].cptr
+print m_list[cave[$arg0][$arg1].cptr]
+printf "\nc_list[%d] = \n", m_list[cave[$arg0][$arg1].cptr].mptr
+print c_list[m_list[cave[$arg0][$arg1].cptr].mptr]
+else
+printf "\n Player is here.\n"
+end
+else
+printf "\n No monster.\n"
+end
+
+end
+
+##############################
+document pcave
+print information about what is at cave[arg0][arg1]
+end
+##############################################################
+define l100
+set py.misc.lev = 100
+end
+##############################
+document l100
+set py.misc.lev = 100
+end
+##############################################################
+
+define pt
+print t_list[$arg0]
+end
+document pt
+print t_list[arg0]
+end
+
+##############################################################
+define ppas1
+print (unsigned char)password1[0]
+print (unsigned char)password1[1]
+print (unsigned char)password1[2]
+print (unsigned char)password1[3]
+print (unsigned char)password1[4]
+print (unsigned char)password1[5]
+print (unsigned char)password1[6]
+print (unsigned char)password1[7]
+print (unsigned char)password1[8]
+print (unsigned char)password1[9]
+print (unsigned char)password1[10]
+print (unsigned char)password1[11]
+print (unsigned char)password1[12]
+end
+##############################
+document ppas1
+Helps figure out how to set wdata.  Set wdata[0][0] to a seed
+and set the rest of the array to 0.  Start the game, and then
+run ppas1.  It will show what to xor the password against to
+fill in wdata correctly.
+end
+##############################################################
+define ppas2
+print (unsigned char)password2[0]
+print (unsigned char)password2[1]
+print (unsigned char)password2[2]
+print (unsigned char)password2[3]
+print (unsigned char)password2[4]
+print (unsigned char)password2[5]
+print (unsigned char)password2[6]
+print (unsigned char)password2[7]
+print (unsigned char)password2[8]
+print (unsigned char)password2[9]
+print (unsigned char)password2[10]
+print (unsigned char)password2[11]
+print (unsigned char)password2[12]
+end
+##############################
+document ppas2
+Helps figure out how to set wdata.  Set wdata[1][0] to a seed
+and set the rest of the array to 0.  Start the game, and then
+run ppas2.  It will show what to xor the password against to
+fill in wdata correctly.
+end
+##############################################################
+
+##############################
+
+##############################################################
+
+##############################
+
+##############################################################
+##############################################################
