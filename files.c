@@ -768,7 +768,7 @@ void print_map()
   /*{ Prints dungeon map to external file                       -RAK-   }*/
 
   integer    i1,i2,i3,i4,i5,i6,i7,i8;
-  char       dun_line[134];
+  char       dun_line[OUTPAGE_WIDTH + 10];
   char       filename1[81];
   char       tmp;
   FILE      *file1;
@@ -824,7 +824,7 @@ void print_map()
             sprintf(dun_line,"%3ld",i5);
             for (i6 = i2; i6 <= i4; i6++) {
               if (test_light(i5,i6)) {
-                tmp = loc_symbol(i5,i6);
+                tmp = loc_symbol(i5,i6) & 0x7F;
               } else {
                 tmp = ' ';
               }
