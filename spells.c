@@ -1158,6 +1158,7 @@ boolean unlight_area(integer y,integer x)
 	  }
 	} else if (i3 > 0) {
 	  flag = true;
+	  out_val[ov_len] = 0;
 	  print_str(out_val,i1,i3);
 	  out_val[0] = 0;
 	  i3 = 0;
@@ -1166,6 +1167,7 @@ boolean unlight_area(integer y,integer x)
 
       if (i3 > 0) {
 	flag = true;
+	out_val[ov_len] = 0;
 	print_str(out_val,i1,i3);
       }
     } /* end for i1 */

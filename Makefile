@@ -1,9 +1,10 @@
 ###############################################################################
-# Blah blah blah  (used /usr/local/src/hfs/hfsutils-2.0/Makefile as template)
+# Makefile for imoria
 #
 # A hopefuly helpful list of things that probably need to be done:
 #
 # You should fill in the correct paths and stuff in configure.h
+# Put a copy of monsters.dat into the DATA_FILE_PATH
 # Then pick a uid/gid for the game
 # Next pick how to link with mtwist library
 # make mtwist

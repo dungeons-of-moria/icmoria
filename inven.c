@@ -148,9 +148,10 @@ integer change_all_ok_stats(boolean nok,boolean nin)
       curse->ok = nin;
     } else {
       curse->ok = nok;
-      if (curse->ok) {
-	count++;
-      }
+    }
+
+    if (curse->ok) {
+      count++;
     }
   }
 
@@ -1004,208 +1005,222 @@ void ic__show_money()
 
 };
 //////////////////////////////////////////////////////////////////////
+void ic__destroy_bag(treas_ptr bag)
+{
+  while ((bag->next != nil) && (bag->next->is_in)) {
+    /* this seems odd, wasn't it already subtracted from   XXXX
+       inven_weight when it went into the bag?  */
+    //inven_weight -= (bag->next->data.number * bag->next->data.weight);
+    delete_inven_item(bag->next);
+  }
+  inven_weight -= (bag->data.number * bag->data.weight);
+  delete_inven_item(bag);
+};
+//////////////////////////////////////////////////////////////////////
 void ic__put_inside()
 {
-  /*        { Put an item inside of another item            -DMF-   }
-        var
-                put_ptr,into_ptr,temp_ptr       : treas_ptr;
-                curse                           : treas_ptr;
-                count,wgt                       : integer;
-                redraw,blooey                   : boolean;
-        procedure destroy_bag(bag : treas_ptr);
-          begin
-            while (bag->next <> nil) and (bag->next->is_in) do
-              begin
-                inven_weight := inven_weight - bag->next->data.number *
-                                               bag->next->data.weight;
-                delete_inven_item(bag->next);
-              end;
-            inven_weight := inven_weight - bag->data.number * bag->data.weight;
-            delete_inven_item(bag);
-          end;
-        begin
-          blooey := false;
-          change_all_ok_stats(true,true);
-          if (get_item(put_ptr,'Put which item?',redraw,inven_ctr,trash_char,
-                                false,true)) then
-            begin
-              change_all_ok_stats(false,false);
-              temp_ptr := inventory_list;
-              count := 0;
-              while (temp_ptr <> nil) do
-                begin
-                  if (uand(temp_ptr->data.flags2,holding_bit) <> 0) then
-                    begin
-                      temp_ptr->ok := true;
-                      count := count + 1;
-                    end;
-                  temp_ptr := temp_ptr->next;
-                end;
-              if (count = 0) then
-                msg_print('You have nothing to put it into.')
-              else
-                begin
-                  clear_rc(2,1);
-                  if (get_item(into_ptr,"Into which item?",redraw,inven_ctr,
-                                trash_char,false,true)) then
-                    begin
-                      if (into_ptr = put_ptr) then
-                        msg_print("You can't seem to fit it inside itself.")
-                      else if (uand(put_ptr->data.flags2,holding_bit) <> 0) then
-                        begin
-                          msg_print("Uh oh, now you've done it!");
-                          msg_print("You lose the items in both bags!");
-                          destroy_bag(put_ptr);
-                          destroy_bag(into_ptr);
-                        end
-                      else
-                        begin
-                          py.flags.paralysis := py.flags.paralysis + 1;
-                          reset_flag := false;
-                          if (put_ptr = inventory_list) then
-                            begin
-                              temp_ptr := inventory_list;
-                              inventory_list := put_ptr->next;
-                            end
-                          else
-                            begin
-                              curse := inventory_list;
-                              while (curse->next <> put_ptr) do
-                                curse := curse->next;
-                              temp_ptr := put_ptr;
-                              curse->next := put_ptr->next;
-                            end;
-                          curse := inventory_list;
-                          while (curse <> into_ptr) do
-                            curse := curse->next;
-                          put_ptr->next := curse->next;
-                          curse->next := put_ptr;
-                          put_ptr->is_in := true;
-                          into_ptr->insides := into_ptr->insides + 1;
-                          inven_weight := inven_weight - put_ptr->data.weight *
-                                                         put_ptr->data.number;
-                          msg_print('You stuff it inside');
-                          if (uand(put_ptr->data.flags2,sharp_bit) <> 0) then
-                            begin
-                              msg_print('You poke a hole in the bag!');
-                              blooey := true;
-                            end;
-                          temp_ptr := into_ptr->next;
-                          wgt := 0;
-                          while ((temp_ptr <> nil) and (temp_ptr->is_in)) do
-                            begin
-                              wgt := wgt + temp_ptr->data.weight *
-                                           temp_ptr->data.number;
-                              temp_ptr := temp_ptr->next;
-                            end;
-                          if (wgt > into_ptr->data.p1) then
-                            begin
-                              msg_print('The sides of the bag swell and burst!');
-                              blooey := true;
-                            end;
-                          if (blooey) then destroy_bag(into_ptr);
-                        end
-                    end;
-                end;
-            end;
-            cur_inven := inventory_list;
-        end;
-	*/
+  /*        { Put an item inside of another item            -DMF-   }*/
+
+  treas_ptr    put_ptr, into_ptr, temp_ptr;
+  treas_ptr    curse;
+  integer      count, wgt;
+  boolean      redraw, blooey;
+  char         trash_char;
+
+  blooey = false;
+  change_all_ok_stats(true,true);
+
+  if (get_item(&put_ptr, "Put which item?", &redraw, inven_ctr, &trash_char,
+	       false, true)) {
+    change_all_ok_stats(false,false);
+    temp_ptr = inventory_list;
+    count = 0;
+
+    while (temp_ptr != nil) {
+      if ((temp_ptr->data.flags2 & Holding_bit) != 0) {
+	temp_ptr->ok = true;
+	count++;
+      }
+      temp_ptr = temp_ptr->next;
+    }
+    
+    if (count == 0) {
+      msg_print("You have nothing to put it into.");
+    } else {
+      clear_rc(2,1);
+      if (get_item(&into_ptr, "Into which item?", &redraw, inven_ctr,
+		   &trash_char, false, true)) {
+	if (into_ptr == put_ptr) {
+	  msg_print("You can't seem to fit it inside itself.");
+	} else if ((put_ptr->data.flags2 & Holding_bit) != 0) {
+	  msg_print("Uh oh, now you've done it!");
+	  msg_print("You lose the items in both bags!");
+	  ic__destroy_bag(put_ptr);
+	  ic__destroy_bag(into_ptr);
+	} else {
+	  py.flags.paralysis++;
+	  reset_flag = false;
+	  
+	  if (put_ptr == inventory_list) {
+	    temp_ptr = inventory_list;
+	    inventory_list = put_ptr->next;
+	  } else {
+	    curse = inventory_list;
+	    while (curse->next != put_ptr) {
+	      curse = curse->next;
+	    }
+	    temp_ptr = put_ptr;
+	    curse->next = put_ptr->next;
+	  }
+	  
+	  curse = inventory_list;
+	  while (curse != into_ptr) {
+	    curse = curse->next;
+	  }
+	  
+	  put_ptr->next = curse->next;
+	  curse->next = put_ptr;
+	  put_ptr->is_in = true;
+	  (into_ptr->insides)++;
+
+	  inven_weight -= (put_ptr->data.weight * put_ptr->data.number);
+	  msg_print("You stuff it inside");
+	  
+	  if ((put_ptr->data.flags2 & Sharp_bit) != 0) {
+	    msg_print("You poke a hole in the bag!");
+	    blooey = true;
+	  }
+	  
+	  wgt = 0;
+	  temp_ptr = into_ptr->next;
+	  while ((temp_ptr != nil) && (temp_ptr->is_in)) {
+	    wgt += (temp_ptr->data.weight * temp_ptr->data.number);
+	    temp_ptr = temp_ptr->next;
+	  }
+	  
+	  if (!blooey && (wgt > into_ptr->data.p1)) {
+	    msg_print("The sides of the bag swell and burst!");
+	    blooey = true;
+	  }
+	  
+	  if (blooey) {
+	    ic__destroy_bag(into_ptr);
+	  }
+
+	} /* end if (have two legal items) */
+      } /* end if (get_item to put into) */
+    } /* end if (count != 0) */
+  } /* end if (get_item to put in bag) */
+
+  cur_inven = inventory_list;
 };
 //////////////////////////////////////////////////////////////////////
 void ic__take_out()
 {
-  /*        { Take an item out of another item              -DMF-   }
-        var
-                from_ptr,temp_ptr,curse         : treas_ptr;
-                count                           : integer;
-                redraw,flag                     : boolean;
-                old_ctr                         : integer;
-        begin
-         count := change_all_ok_stats(false,true);
-         if (count > 0) then
-          if (get_item(from_ptr,'Remove which item?',redraw,count,trash_char,false,true)) then
-            begin
-              py.flags.paralysis := py.flags.paralysis + 2;
-              reset_flag := false;
-              temp_ptr := inventory_list;
-              while (temp_ptr <> nil) and (temp_ptr <> from_ptr) do
-                begin
-                  if (uand(temp_ptr->data.flags2,holding_bit) <> 0) then
-                    curse := temp_ptr;
-                  temp_ptr := temp_ptr->next;
-                end;
-              if (uand(curse->data.flags2,swallowing_bit) <> 0) then
-                flag := (randint(100) < 6)
-              else
-                flag := true;
-              if (flag) then
-                begin
-                  curse->insides := curse->insides - 1;
-                  curse := inventory_list;
-                  while (curse->next <> from_ptr) do
-                    curse := curse->next;
-                  curse->next := from_ptr->next;
-                  inven_temp->data := from_ptr->data;
-                  old_ctr := inven_ctr;
-                  inven_carry;
-                  {change to next line by Dean; used to begin with
-                           if (inven_ctr=old_ctr) then}
-                  inven_ctr := inven_ctr - 1;
-                  msg_print('You remove the item');
-                end
-              else
-                msg_print('You make several attempts, but cannot seem to get a grip on it.');
-            cur_inven := inventory_list;
-            end
-          else
-            msg_print('You have nothing to remove.');
-        end;
-	*/
+  /*{ Take an item out of another item              -DMF-   }*/
+
+  treas_ptr    from_ptr,temp_ptr,curse;
+  integer      count;
+  boolean      redraw,flag;
+  integer      old_ctr;
+  char         trash_char;
+
+  count = change_all_ok_stats(false,true);
+
+  if (count > 0) {
+    if (get_item(&from_ptr,"Remove which item?",&redraw,count,&trash_char,false,true)) {
+      py.flags.paralysis += 2;
+      reset_flag = false;
+      temp_ptr = inventory_list;
+      
+      while ((temp_ptr != nil) && (temp_ptr != from_ptr)) {
+	if ((temp_ptr->data.flags2 & Holding_bit) != 0) {
+	  curse = temp_ptr;
+	}
+	temp_ptr = temp_ptr->next;
+      }
+
+      if ((curse->data.flags2 & Swallowing_bit) != 0) {
+	/* bag of devouring */
+	flag = (randint(100) < 6);
+      } else {
+	/* bag of holding */
+	flag = true;
+      }
+
+      if (flag) {
+	(curse->insides)--;
+	curse = inventory_list;
+	while (curse->next != from_ptr) {
+	  curse = curse->next;
+	}
+	curse->next = from_ptr->next;
+	inven_temp->data = from_ptr->data;
+	old_ctr = inven_ctr;
+	inven_carry(); /* XXXX is this a memory leak? */
+	/*{change to next line by Dean; used to begin with
+	  if (inven_ctr=old_ctr) then}*/
+	inven_ctr--;
+	msg_print("You remove the item");
+
+      } else {
+	msg_print("You make several attempts, but cannot seem to get a grip on it.");
+	cur_inven = inventory_list;
+      }
+    }
+  } else {
+    msg_print("You have nothing to remove.");
+  }
 };
 //////////////////////////////////////////////////////////////////////
-void ic__selective_inven()
+void ic__selective_inven(integer *scr_state, boolean *valid_flag, 
+			 vtype prompt, treas_ptr cur_display[],
+			 integer *cur_display_size)
 {
-     /*
-        { Inventory of selective items, picked by character     -DMF-   }
-        var
-                ptr             : treas_ptr;
-                out             : string;
-                exit_flag       : boolean;
-                command         : char;
-        begin
-          ptr := inventory_list;
-          out := ' ';
-          while (ptr <> nil) do
-            begin
-              if (index(out,ptr->data.tchar) = 0) then
-                out := ptr->data.tchar + out;
-              ptr := ptr->next;
-            end;
-          out := substr(out,1,length(out)-1);
-          exit_flag := false;
-          repeat
-            prt('What type of items to inventory? ('+out+') ',1,1);
-            if not(get_com('',command)) then
-              exit_flag := true;
-          until (exit_flag) or (index(out,command) <> 0);
-          if not(exit_flag) then
-            begin
-              change_all_ok_stats(false,false);
-              ptr := inventory_list;
-              while (ptr <> nil) do
-                begin
-                  if (ptr->data.tchar = command) then
-                    ptr->ok := true;
-                  ptr := ptr->next;
-                end;
-              clear_display;
-              clear_rc(1,1);
-              prompt := 'You are currently carrying: space for next page';
-              show_inven(ptr,false,false);
-            end;
-        end;
-	*/
+  /*{ Inventory of selective items, picked by character     -DMF-   }*/
+
+  treas_ptr     ptr;
+  string        out, out_str;
+  boolean       exit_flag = false;
+  char          command;
+  char         *out_pos;
+
+  ptr = inventory_list;
+  out_pos = &(out[sizeof(out)]);
+  *(--out_pos) = 0;
+
+  while (ptr != nil) {
+    if (strchr(out_pos,ptr->data.tchar) == NULL) {
+      *(--out_pos) = ptr->data.tchar;
+    }
+    ptr = ptr->next;
+  }
+
+  do {
+    sprintf(out_str, "What type of items to inventory? (%s) ", out_pos);
+    prt(out_str,1,1);
+    if (!(get_com("",&command))) {
+      exit_flag = true;
+    }
+  } while (!(exit_flag || (pindex(out_pos,command) != 0)));
+
+  if (!exit_flag) {
+    change_all_ok_stats(false,false);
+    ptr = inventory_list;
+
+    while (ptr != nil) {
+      if (ptr->data.tchar == command) {
+	ptr->ok = true;
+      }
+      ptr = ptr->next;
+    }
+
+    ic__clear_display(cur_display, cur_display_size);
+    clear_rc(1,1);
+    strcpy(prompt, "You are currently carrying: space for next page");
+    ic__show_inven(&ptr,false,false,scr_state,valid_flag,prompt,cur_display,
+		   cur_display_size);
+  }
 };
 //////////////////////////////////////////////////////////////////////
 
@@ -1391,7 +1406,8 @@ boolean inven_command(char command,treas_ptr *item_ptr,vtype sprompt)
       if (inven_ctr == 0) {
 	msg_print("You are not carrying anything.");
       } else {
-	ic__selective_inven();
+	ic__selective_inven(&scr_state, &valid_flag, prompt, cur_display,
+			    &cur_display_size);
       }
       break;
       

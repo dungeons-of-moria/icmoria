@@ -20,6 +20,11 @@
 
   This is where hours.dat, moria.dat, monsters.dat, moria_gcustom.mst,
   moriamas.dat, moriatop.dat, moriatrd.dat, death.log
+
+  WARNING:  Be sure to copy monsters.dat to this directory!  The game
+            will attempt to create the other files the first time that
+	    it is run.
+	    
 */
 #define DATA_FILE_PATH "/home/kertes/icmoria"
 

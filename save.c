@@ -1033,7 +1033,6 @@ void gc__read_inventory(FILE *f1, encrypt_state *cf_state, ntype in_rec,
   boolean      bag_lost;
   treas_ptr    ptr,cur_bag;
   integer      i1;
-  char         trash_char;
   int          x1,x2,x3,x4,x5,x6,x7,x8,x9,x10;
 
   inventory_list = nil;
@@ -1053,10 +1052,10 @@ void gc__read_inventory(FILE *f1, encrypt_state *cf_state, ntype in_rec,
     }
     
     read_decrypt(f1, cf_state, in_rec, paniced);
-    if (sscanf(in_rec,"%c %d",&trash_char, &x1) != 2) {
+    if (sscanf(in_rec,"%d %d",&x2, &x1) != 2) {
       *paniced = true;
     }
-    inven_temp->is_in = (trash_char == 'T');
+    inven_temp->is_in   = x2;
     inven_temp->insides = x1;
 
     read_decrypt(f1, cf_state, in_rec, paniced);
@@ -1093,8 +1092,7 @@ void gc__read_inventory(FILE *f1, encrypt_state *cf_state, ntype in_rec,
 	bag_lost = true;
       }
       lost_inven_count++;
-      inven_weight = inven_weight - (inven_temp->data.number *
-				     inven_temp->data.weight);
+      inven_weight -= (inven_temp->data.number * inven_temp->data.weight);
     } else if (bag_lost && inven_temp->is_in) {
       lost_inven_count++;
     } else {

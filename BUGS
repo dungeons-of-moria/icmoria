@@ -24,4 +24,11 @@ aug  15         combat with a siren teleported me on top of her, messed stuff
 
 		poisonus berries showed up with a * in the ident list
 
+oct 11		put/take for bags is not written, nor is 'I' (fixed)
+		staff of darkness messes up screen (fixed)
+
+oct 12		^M is not working, getch returns a 10
+		exits w/o error if ncurses dislikes term type?
+		move file paths to Makefile?
+
 /* end bugs */

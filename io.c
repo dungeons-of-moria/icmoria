@@ -327,7 +327,7 @@ boolean msg_print_pass_one(char *str_buff) // : varying[a] of char;
     put_buffer(" -more-",msg_line,old_len);
     do {
       ic = inkey();
-    } while (ic!=3 && ic!=13 && ic!=25 && ic!=26 && ic!=27 && ic!=32);
+    } while (ic!=10 && ic!=13 && ic!=25 && ic!=26 && ic!=27 && ic!=32);
     /* isn't this nicer: until (ord(in_char) in [3,13,25,26,27,32]) ? */
   }
 
@@ -365,7 +365,7 @@ boolean msg_print(char *str_buff) // : varying[a] of char;
 
   integer   old_len;
   char      in_char   = 0;
-  obj_set   big_set   = {3,13,25,26,27,32,0};
+  obj_set   big_set   = {3,10,13,25,26,27,32,0};
   obj_set   small_set = {3,25,26,27,0};
   boolean   flag;
 
