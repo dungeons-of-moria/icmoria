@@ -2425,7 +2425,6 @@ integer get_obj_num(integer level, integer tries)
 	i4 = i1;
 	i3 = object_list[i1].level;
       }
-      /* ummmm, isn't t_level[level] the same thing? oh well.*/
     } else {
       i1 = randint(t_level[level]);
       if (object_list[i1].level >= i3) {

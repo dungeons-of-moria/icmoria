@@ -1962,32 +1962,31 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
     0,	   15, 285,   5,   1,	0,   0,	  0,   0, "0d0"	 , 10},
 {"& Scroll~ %T| of Dispell Undead",  scroll1, '?',0x00000000,0x20000000,
     0,	  200, 286,   5,   1,	0,   0,	  0,   0, "0d0"	 , 40},
-{"& Scroll~ %T| of *Enchant Weapon*",  scroll2, '?',0x00000000,0x00000001,
+{"& Scroll~ %T| of *Enchant Weapon*",  scroll1, '?',0x00001000,0x00000000,
     0,	  500, 257,   5,   1,	0,   0,	  0,   0, "0d0"	 , 50},
-{"& Scroll~ %T| of Curse Weapon",  scroll2, '?',0x00000000,0x00000002,
+{"& Scroll~ %T| of Curse Weapon",  scroll1, '?',0x00000001,0x00000000,
     0,	    0, 258,   5,   1,	0,   0,	  0,   0, "0d0"	 , 50},
-{"& Scroll~ %T| of *Enchant Armor*",  scroll2, '?',0x00000000,0x00000004,
+{"& Scroll~ %T| of *Enchant Armor*",  scroll1, '?',0x00000002,0x00000000,
     0,	  500, 259,   5,   1,	0,   0,	  0,   0, "0d0"	 , 50},
-{"& Scroll~ %T| of Curse Armor",  scroll2, '?',0x00000000,0x00000008,
+{"& Scroll~ %T| of Curse Armor",  scroll1, '?',0x00000004,0x00000000,
     0,	    0, 260,   5,   1,	0,   0,	  0,   0, "0d0"	 , 50},
-{"& Scroll~ %T| of Summon Undead",  scroll2, '?',0x00000000,0x00000010,
+{"& Scroll~ %T| of Summon Undead",  scroll1, '?',0x00000008,0x00000000,
     0,	    0, 261,   5,   1,	0,   0,	  0,   0, "0d0"	 , 15},
-{"& Scroll~ %T| of Blessing",  scroll2, '?',0x00000000,0x00000020,
+{"& Scroll~ %T| of Blessing",  scroll1, '?',0x00000010,0x00000000,
     0,	   15, 262,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  1},
-{"& Scroll~ %T| of Holy Chant",  scroll2, '?',0x00000000,0x00000040,
+{"& Scroll~ %T| of Holy Chant",  scroll1, '?',0x00000020,0x00000000,
     0,	   40, 263,   5,   1,	0,   0,	  0,   0, "0d0"	 , 12},
-{"& Scroll~ %T| of Holy Prayer",  scroll2, '?',0x00000000,0x00000080,
+{"& Scroll~ %T| of Holy Prayer",  scroll1, '?',0x00000040,0x00000000,
     0,	   80, 264,   5,   1,	0,   0,	  0,   0, "0d0"	 , 24},
-{"& Scroll~ %T| of Word-of-Recall",  scroll2, '?',0x00000000,0x00000100,
+{"& Scroll~ %T| of Word-of-Recall",  scroll1, '?',0x00000080,0x00000000,
     0,	  150, 265,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  5},
-{"& Scroll~ %T| of *Destruction*",  scroll2, '?',0x00000000,0x00000200,
+{"& Scroll~ %T| of *Destruction*",  scroll1, '?',0x00000100,0x00000000,
     0,	  250, 266,   5,   1,	0,   0,	  0,   0, "0d0"	 , 40},
-{"& Scroll~ %T| of Wishing",  scroll2, '?',0x00000000,0x00000400,
+{"& Scroll~ %T| of Wishing",  scroll1, '?',0x00000200,0x00000000,
     0,	15000, 267,   5,   1,	0,   0,	  0,   0, "0d0",   50},
-{"& Scroll~ %T| of Feign Death",  scroll2, '?',0x00000000,0x00000800,
+{"& Scroll~ %T| of Feign Death",  scroll1, '?',0x00000400,0x00000000,
     0,	    0, 268,   5,   1,   0,   0,   0,   0, "0d0",   10},
-{"& Scroll~ %T| of Make Munchies",  scroll2, '?',0x00000000
-,0x00001000,
+{"& Scroll~ %T| of Make Munchies",  scroll1, '?',0x00000800,0x00000000,
     0,    150, 269,   5,   1,   0,   0,   0,   0, "0d0",   25},
 {"& %C Potion~| of Gain Strength",  potion1, '!',0x00000000,0x00000001,
     0,	 6500, 257,   4,   1,	0,   0,	  0,   0, "1d1"	 , 25},
@@ -2053,37 +2052,37 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
     0,	  300, 285,   4,   1,	0,   0,	  0,   0, "1d1"	 , 40},
 {"& %C Potion~| of Restore Constitution",  potion1, '!',0x00000000,0x68000000,
     0,	  300, 286,   4,   1,	0,   0,	  0,   0, "1d1"	 , 40},
-{"& %C Potion~| of Learning",  potion2, '!',0x00000000,0x00000001,
+{"& %C Potion~| of Learning",  potion1, '!',0x00008000,0x00000000,
     0,	  200, 287,   4,   1,	0,   0,	  0,   0, "1d1"	 , 45},
-{"& %C Potion~| of Lose Memories",  potion2, '!',0x00000000,0x00000002,
+{"& %C Potion~| of Lose Memories",  potion1, '!',0x00000001,0x00000000,
     0,	    0, 288,   4,   1,	0,   0,	  0,   0, "1d1"	 , 10},
-{"& %C Potion~| of Salt Water",  potion2, '!',0x00000000,0x00000004,
+{"& %C Potion~| of Salt Water",  potion1, '!',0x00000002,0x00000000,
     0,	    0, 289,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  0},
-{"& %C Potion~| of Invulnerability",  potion2, '!',0x00000000,0x00000008,
+{"& %C Potion~| of Invulnerability",  potion1, '!',0x00000004,0x00000000,
     0,	12500, 290,   4,   1,	0,   0,	  0,   0, "1d1"	 , 40},
-{"& %C Potion~| of Heroism",  potion2, '!',0x00000000,0x00000010,
+{"& %C Potion~| of Heroism",  potion1, '!',0x00000008,0x00000000,
     0,	   35, 291,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  1},
-{"& %C Potion~| of Super Heroism",  potion2, '!',0x00000000,0x00000020,
+{"& %C Potion~| of Super Heroism",  potion1, '!',0x00000010,0x00000000,
     0,	  100, 292,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  3},
-{"& %C Potion~| of Boldliness",  potion2, '!',0x00000000,0x00000040,
+{"& %C Potion~| of Boldliness",  potion1, '!',0x00000020,0x00000000,
     0,	   10, 293,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  1},
-{"& %C Potion~| of Restore Life Levels",  potion2, '!',0x00000000,0x00000080,
+{"& %C Potion~| of Restore Life Levels",  potion1, '!',0x00000040,0x00000000,
     0,	  400, 294,   4,   1,	0,   0,	  0,   0, "1d1"	 , 40},
-{"& %C Potion~| of Resist Heat",  potion2, '!',0x00000000,0x00000100,
+{"& %C Potion~| of Resist Heat",  potion1, '!',0x00000080,0x00000000,
     0,	   30, 295,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  1},
-{"& %C Potion~| of Resist Cold",  potion2, '!',0x00000000,0x00000200,
+{"& %C Potion~| of Resist Cold",  potion1, '!',0x00000100,0x00000000,
     0,	   30, 296,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  1},
-{"& %C Potion~| of Detect Invisible",  potion2, '!',0x00000000,0x00000400,
+{"& %C Potion~| of Detect Invisible",  potion1, '!',0x00000200,0x00000000,
     0,	   50, 297,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  3},
-{"& %C Potion~| of Slow Poison",  potion2, '!',0x00000000,0x00000800,
+{"& %C Potion~| of Slow Poison",  potion1, '!',0x00000400,0x00000000,
     0,	   25, 298,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  1},
-{"& %C Potion~| of Neutralize Poison",  potion2, '!',0x00000000,0x00001000,
+{"& %C Potion~| of Neutralize Poison",  potion1, '!',0x00000800,0x00000000,
     0,	   75, 299,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  5},
-{"& %C Potion~| of Restore Mana",  potion2, '!',0x00000000,0x00002000,
+{"& %C Potion~| of Restore Mana",  potion1, '!',0x00001000,0x00000000,
     0,	 3000, 300,   4,   1,	0,   0,	  0,   0, "1d1"	 , 25},
-{"& %C Potion~| of Infra-Vision",  potion2, '!',0x00000000,0x00004000,
+{"& %C Potion~| of Infra-Vision",  potion1, '!',0x00002000,0x00000000,
     0,	   20, 301,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  3},
-{"& %C Potion~| of Flea Bile",  potion2, '!',0x00000000,0x00008000,
+{"& %C Potion~| of Flea Bile",  potion1, '!',0x00004000,0x00000000,
     0,	   50, 302,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  0},
 {"& Flask~ of oil",  flask_of_oil, '!',0x00000000,0x00040000,
  7500,	    3, 257,  10,   1,	0,   0,	  0,   0, "2d6"	 ,  1},
@@ -2650,13 +2649,13 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
   100,	   40, 315,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  0}, //{ 80}
 {"& Potion~ of Cure Critical Wounds",  potion1, '!',0x00000000,0x70004000,
   100,	  100, 316,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  0}, //{ 81}
-{"& Potion~ of Restore Dexterity",  potion1, '!',0x00000000,0x04000000,
+{"& Potion~ of Restore Dexterity",  potion1, '!',0x00010000,0x04000000,
     0,	  300, 317,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  0}, //{ 82}
 {"& Potion~ of Restore Constitution",  potion1, '!',0x00000000,0x68000000,
     0,	  300, 318,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  0}, //{ 83}
-{"& Potion~ of Heroism",  potion2, '!',0x00000000,0x00000010,
+{"& Potion~ of Heroism",  potion1, '!',0x00000008,0x00000000,
     0,	   35, 319,   4,   2,	0,   0,	  0,   0, "1d1"	 ,  0}, //{ 84}
-{"& Potion~ of Boldliness",  potion2, '!',0x00000000,0x00000040,
+{"& Potion~ of Boldliness",  potion1, '!',0x00000020,0x00000000,
     0,	   10, 320,   4,   2,	0,   0,	  0,   0, "1d1"	 ,  0}, //{ 85}
 {"& Wand of Light (%P1 charges)",  wand, '-',0x00000000,0x00000001,
     0,	  200,	 1,  10,   1,	0,   0,	  0,   0, "1d1"	 ,  2}, //{ 86}
@@ -2678,15 +2677,15 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
     0,	  350,	 3,  50,   1,	0,   0,	  0,   0, "1d2"	 ,  7}, //{ 94}
 {"& Staff of Detect Invisible (%P1 charges)",  staff, '_',0x00000000,0x00008000,
     0,	  200,	16,  50,   1,	0,   0,	  0,   0, "1d2"	 ,  3}, //{ 95}
-{"& Potion~ of Restore Life Levels",  potion2, '!',0x00000000,0x00000080,
+{"& Potion~ of Restore Life Levels",  potion1, '!',0x00000040,0x00000000,
     0,	  400, 321,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  0}, //{ 96}
-{"& Scroll~ of Blessing",  scroll2, '?',0x00000000,0x00000020,
+{"& Scroll~ of Blessing",  scroll1, '?',0x00000010,0x00000000,
     0,	   15, 312,   5,   2,	0,   0,	  0,   0, "0d0"	 ,  0}, //{ 97}
-{"& Scroll~ of Word-of-Recall",  scroll2, '?',0x00000000,0x00000100,
+{"& Scroll~ of Word-of-Recall",  scroll1, '?',0x00000080,0x00000000,
     0,	  150,  313,   5,   3,	0,   0,	  0,   0, "0d0"	 ,  0}, //{ 98}
-{"& Potion~ of Slow Poison",  potion2, '!',0x00000000,0x00000800,
+{"& Potion~ of Slow Poison",  potion1, '!',0x00000400,0x00000000,
     0,	   25, 322,   4,   2,	0,   0,	  0,   0, "1d1"	 ,  0}, //{ 99}
-{"& Potion~ of Neutralize Poison",  potion2, '!',0x00000000,0x00001000,
+{"& Potion~ of Neutralize Poison",  potion1, '!',0x00000800,0x00000000,
     0,	   75, 323,   4,   1,	0,   0,	  0,   0, "1d1"	 ,  0}, //{100}
 {"& Wand of Stinking Cloud (%P1 charges)",  wand, '-',0x00000000,0x00200000,
     0,	  400,	22,  10,   1,	0,   0,	  0,   0, "1d1"	 ,  5}, //{101}
@@ -2698,79 +2697,79 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
  4000,	    2, 270,  30,   5,	0,   0,	  0,   0, "1d1"	 ,  1}, //{104}
 {"& Flask~ of oil",  flask_of_oil, '!',0x00000000,0x00040000,
  7500,	    3, 257,  10,   5,	0,   0,	  0,   0, "2d6"	 ,  1}, //{105}
-{"Lodging for one day",  95, '.',0x00000000,Nothing_flag,
+{"Lodging for one day",  lodging_at_inn, '.',0x00000000,Nothing_flag,
     1,	   50, 300,3000,  14,	0,   0,	  0,   0, "0d0"	 ,  0},	//{106}
-{"& Pipes of Peace [Beginners Instruments]",  92, '%',0x00000000,0x000003FF,
+{"& Pipes of Peace [Beginners Instruments]", instrument,'%',0x00000000,0x000003FF,
     0,	   30, 258,  40,   1,-100,   0,	  0,   0, "1d1"	 , 40}, //{107}
-{"& Lyre of Nature [Instrument I]",		92,   '%',0x00000000,0x0007FC00,
+{"& Lyre of Nature [Instrument I]", instrument,'%',0x00000000,0x0007FC00,
     0,	  105, 259,  40,   1,-100,   0,	  0,   0, "0d0"	 , 40}, //{108}
-{"& Lute of the Woods [Instrument II]",		 92,   '%',0x00000000,0x7FF80000,
+{"& Lute of the Woods [Instrument II]",instrument,'%',0x00000000,0x7FF80000,
     0,	  320, 260,  40,   1,-100,   0,	  0,   0, "0d0"	 , 40}, //{109}
-{"& Harp of the Druids [Greater Instrument]",	92, '%',0x000001FF,0x00000000,
+{"& Harp of the Druids [Greater Instrument]", instrument, '%',0x000001FF,0x00000000,
     0,	  850, 261,  40,   1,-100,   0,	  0,   0, "2d1"	 ,40}, //{110}
-{"& Book of Bard Lyrics [Beginners Song book]",	  93,	'%',0x00000000,0x000007FF,
+{"& Book of Bard Lyrics [Beginners Song book]",	song_book,'%',0x00000000,0x000007FF,
     0,	   30, 262,  50,   1,-100,   0,	  0,   0, "0d0"	 , 40}, //{111}
-{"& Songs of Charming [Song Book I]",  93, '%',0x00000000,0x000FF800,
+{"& Songs of Charming [Song Book I]", song_book, '%',0x00000000,0x000FF800,
     0,	  105, 263,  60,   1,-100,   0,	  0,   0, "1d1"	 ,40}, //{112}
-{"& Ballads of Knowledge [Song Book II]",	93, '%',0x00000000,0x7FF00000,
+{"& Ballads of Knowledge [Song Book II]", song_book, '%',0x00000000,0x7FF00000,
     0,	  305, 264,  60,   1,-100,   0,	  0,   0, "1d1"	 ,40}, //{113}
-{"& Epics of the Bards [Greater Song Book]",93,	  '%',0x000001FF,0x00000000,
+{"& Epics of the Bards [Greater Song Book]",song_book, '%',0x000001FF,0x00000000,
     0,	  950, 265,  60,   1,-100,   0,	  0,   0, "0d0"	 , 40}, //{114}
-{"Lodging for the week",   95, '.',0,0,
+{"Lodging for the week",   lodging_at_inn, '.',0,0,
     7,	  200, 301,3000,   1,	0,   0,	  0,   0, "0d0",    0}, //{115}
-{"Lodging for three days",   95, '.',0,0,
+{"Lodging for three days",   lodging_at_inn, '.',0,0,
    30,	  120, 302,3000,   1,	0,   0,	  0,   0, "0d0",    0}, //{116}
-{"Chime of Light (%P1 charges)",   85, '%',0x00000000,0x00000001,
+{"Chime of Light (%P1 charges)",   chime, '%',0x00000000,0x00000001,
     0,	  275,	 1,   1,   1,	0,   0,	  0,   0, "0d0",   10}, //{117}
-{"Chime of Detect Doors/Stairs (%P1 charges)", 85, '%', 0x00000000,0x00000002,
+{"Chime of Detect Doors/Stairs (%P1 charges)", chime, '%', 0x00000000,0x00000002,
     0,	  375,	 2,   1,   1,	0,   0,	  0,   0, "0d0",   15}, //{118}
-{"Chime of Remove Curse (%P1 charges)", 85, '%',0x00000000,0x00001000,
+{"Chime of Remove Curse (%P1 charges)", chime, '%',0x00000000,0x00001000,
     0,	  675,	13,   1,   1,	0,   0,	  0,   0, "0d0",   47}, //{119}
-{"Horn of Soft Sounds (%P1 charges)", 86, '%',0x00000000,0x00040000,
+{"Horn of Soft Sounds (%P1 charges)", horn, '%',0x00000000,0x00040000,
     0,	  600,	 3,  20,   1,	0,   0,	  0,   0, "0d0",    8}, //{120}
-{"Horn of Tritons (%P1 charges)", 86, '%',0x00000000,0x08000000,
+{"Horn of Tritons (%P1 charges)", horn, '%',0x00000000,0x08000000,
     0,	  200,	12,  20,   1,	0,   0,	  0,   0, "0d0",   15}, //{121}
-{"& Finely cut Agate~", 5, '*',0x00000000,0x00000000,
+{"& Finely cut Agate~", valuable_gems, '*',0x00000000,0x00000000,
     0,     50, 257,   5,   1,   0,   0,   0,   0, "0d0",    5}, //{122}
-{"& Finely cut Diamond~", 5, '*',0x00000000,0x00000000,
+{"& Finely cut Diamond~", valuable_gems, '*',0x00000000,0x00000000,
     0,     500, 258,  5,   1,   0,   0,   0,   0, "0d0",     10}, //{123}
-{"& Rough cut Diamond~", 5, '*',0x00000000,0x00000000,
+{"& Rough cut Diamond~", valuable_gems, '*',0x00000000,0x00000000,
     0,     100, 259,  5,   1,   0,   0,   0,   0, "0d0",     10}, //{124}
-{"& Rough cut Sapphire~", 5, '*',0x00000000,0x00000000,
+{"& Rough cut Sapphire~", valuable_gems, '*',0x00000000,0x00000000,
     0,     40, 260,  5,   1,   0,   0,   0,   0, "0d0",     5}, //{125}
-{"& Finely cut Sapphire~", 5, '*',0x00000000,0x00000000,
+{"& Finely cut Sapphire~", valuable_gems, '*',0x00000000,0x00000000,
     0,     250, 261,  5,   1,   0,   0,   0,   0, "0d0",     10}, //{126}
-{"& Small pouch of Diamonds~", 5, '*',0x00000000,0x00000000,
+{"& Small pouch of Diamonds~", valuable_gems, '*',0x00000000,0x00000000,
     0,     1000, 262,  5,   1,   0,   0,   0,   0, "0d0",     10}, //{127}
-{"& Finely wrought gold necklace~", 4, '*',0x00000000,0x00000000,
+{"& Finely wrought gold necklace~", valuable_jewelry, '*',0x00000000,0x00000000,
     0,     100, 263,  5,   1,   0,   0,   0,   0, "0d0",     10}, //{128}
 {"& Small silver bracelet~", bracers, '*',0x00000000,0x00000000,
     0,     80, 264,  5,   1,   0,   0,   0,   0, "0d0",     10}, //{129}
-{"& Large mithril garter-belt~", 4, '*',0x00000000,0x00000000,
+{"& Large mithril garter-belt~", valuable_jewelry, '*',0x00000000,0x00000000,
     0,     1500, 265,  5,   1,   0,   0,   0,   0, "0d0",     20}, //{130}
-{"& Small silver pendant~", 4, '*',0x00000000,0x00000000,
+{"& Small silver pendant~", valuable_jewelry, '*',0x00000000,0x00000000,
     0,     60, 266,  5,   1,   0,   0,   0,   0, "0d0",     5}, //{131}
-{"& Small gold pendant~", 4, '*',0x00000000,0x00000000,
+{"& Small gold pendant~", valuable_jewelry, '*',0x00000000,0x00000000,
     0,     90, 267,  5,   1,   0,   0,   0,   0, "0d0",     10}, //{132}
-{"& Small mithril pendant~", 4, '*',0x00000000,0x00000000,
+{"& Small mithril pendant~", valuable_jewelry, '*',0x00000000,0x00000000,
     0,     450, 268,  5,   1,   0,   0,   0,   0, "0d0",     15}, //{133}
-{"& Finely cut Gem of Detect Monsters (%P1 charges)", 5, '*',nothing_flag,0x00040000,
+{"& Finely cut Gem of Detect Monsters (%P1 charges)", valuable_gems, '*',nothing_flag,0x00040000,
     0,	  350,   1,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{134}
-{"& Finely cut Gem of Dispell Evil (%P1 charges)", 5, '*',nothing_flag,0x00080000,
+{"& Finely cut Gem of Dispell Evil (%P1 charges)", valuable_gems, '*',nothing_flag,0x00080000,
     0,	  1200,  2,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{135}
-{"& Finely cut Gem of Acid Balls (%P1 charges)", 5, '*',nothing_flag,0x00200000,
+{"& Finely cut Gem of Acid Balls (%P1 charges)", valuable_gems, '*',nothing_flag,0x00200000,
     0,	  1000,   4,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{136}
-{"& Finely cut Gem of Detect Invisible (%P1 charges)", 5, '*',nothing_flag,0x00400000,
+{"& Finely cut Gem of Detect Invisible (%P1 charges)", valuable_gems, '*',nothing_flag,0x00400000,
     0,	  200,   5,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{137}
-{"& Finely cut Gem of Identify (%P1 charges)", 5, '*',nothing_flag,0x00800000,
+{"& Finely cut Gem of Identify (%P1 charges)", valuable_gems, '*',nothing_flag,0x00800000,
     0,	  600,   6,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{138}
-{"& Finely cut Gem of Light (%P1 charges)", 5, '*',nothing_flag,0x01000000,
+{"& Finely cut Gem of Light (%P1 charges)", valuable_gems, '*',nothing_flag,0x01000000,
     0,	  100,   7,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{139}
-{"& Finely cut Gem of Remove Curse (%P1 charges)", 5, '*',nothing_flag,0x04000000,
+{"& Finely cut Gem of Remove Curse (%P1 charges)", valuable_gems, '*',nothing_flag,0x04000000,
     0,	  250,   8,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{140}
-{"& Finely cut Gem of Annihilation (%P1 charges)", 5, '*',nothing_flag,0x08000000,
+{"& Finely cut Gem of Annihilation (%P1 charges)", valuable_gems, '*',nothing_flag,0x08000000,
     0,	  350,   7,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{141}
-{"& Finely cut Gem of Recall (%P1 charges)", 5, '*',nothing_flag,0x10000000,
+{"& Finely cut Gem of Recall (%P1 charges)", valuable_gems, '*',nothing_flag,0x10000000,
     0,	 1200,   7,   5,   1,	0,   0,	  0,   0, "0d0"	 ,  10}, //{142}
 {"& Box~ of Piranha Crackers",junk_food, ',',0x00000001,
 0x40000000, 1500,4, 257,   2,   1,   0,   0,   0,   0, "0d0"  , 0}, //{143}
@@ -2801,7 +2800,7 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
 0x40000000, 1500,8, 269,   2,   1,   0,   0,   0,   0, "0d0"  , 0}, //{155}
 {"& Iron Shod Quarterstaff^ (%P2,%P3)",  maul, '\\',0x00000000,Nothing_flag,
     0,	   25,   13, 100,   1,   0,   0,   0,   0, "1d5"  ,  0}, //{156}
-{"Room and board for one day",  95, '.',0x00000000,Nothing_flag,
+{"Room and board for one day",  lodging_at_inn, '.',0x00000000,Nothing_flag,
     1,	   70, 303,3000,  14,	0,   0,	  0,   0, "0d0"	 ,  0} //{157}
 
 };
@@ -3074,7 +3073,7 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
 		      "Turquoise","Zircon"
 		};
 
-
+// sapphire was misspelled as "saphire".  2/15/00 JEB
 	atype		amulets[MAX_AMULETS] =
 		{     "Birch","Cedar","Dogwood","Driftwood",
 		      "Elm wood","Hemlock","Hickory","Mahogany",
@@ -3083,7 +3082,7 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
 		      "Copper","Iron","Lead","Nickel","Agate","Amethyst",
 		      "Diamond","Emerald","Flint","Garnet",
 		      "Jade","Obsidian","Onyx","Opal","Pearl","Quartz",
-		      "Ruby","Saphire","Tiger eye","Topaz","Turquoise"
+		      "Ruby","Sapphire","Tiger eye","Topaz","Turquoise"
 		};
 
 	atype		cloths[MAX_CLOTHS] =

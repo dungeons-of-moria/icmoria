@@ -1,0 +1,1022 @@
+			  the wizard's guide to items:
+      (everything you wanted to know about items but were afraid to ask)
+
+much of what's in this document requires that you understand the treasure_type
+structure, defined in types.h.  when you're reading item descriptions in
+values.h or when you're creating new ones, you're really just filling in values
+for a treasure_type structure, presumably with some understanding of how those
+values interact with the game.
+
+this document is your guide to items, whether you're creating new items,
+researching existing items, or trying to figure out how some item interacts
+with the game at large.  you can find all the game's defined items in the file
+values.h.  however, at times you may be puzzled because some piece of code you
+come across doesn't seem to relate to any item defined in that file.  this is
+because some of the game's items are only partially defined in values.h.
+
+partially defined items only come into full being when the game's magic-adding
+routines add abilities to items from values.h.  For example, by reading blow.c
+you can learn that there's some kind of miscellaneous item that summons a
+beneficial djinni, but that you can't find an item in values.h that has the
+appropriate flags (see below) for invoking that code.  that's because a bottle
+with a djinni in it can only be created when the happens to create "a Corked
+Bottle" as part of putting treasure on a dungeon level, and happens to apply
+magic to that item, and happens to give it the flag for summoning a djinni (as
+opposed to summoning some demons).  the moral is that you may have to look
+through several files in order to figure out the full life cycle of some items.
+
+the game keeps track of several different lists of pre- and partially-defined
+objects.  there is a list for the things that can appear in stores, a list for
+things that can occur as random treasure in the dungeon, a list of some special
+treasures, and so forth.  there is some duplication of items within those
+lists, so if you need an item to occur in different contexts, you may need to
+make sure it is listed in all the relevant lists.
+
+
+
+		       treasure_type, briefly explained:
+
+typedef struct treasure_type
+{
+  ttype   name;   // the object's name.  see below for rules on names.
+  byteint tval;   // the object's type.  this, literally, is what kind of
+                     object it is.
+  char    tchar;  // the character drawn on the screen for this object.  there
+                     is no direct correlation here between character and tval,
+                     although there probably should be.  you could have a
+                     potion show up a 'B' if you wanted...
+  unsigned long   flags2; // flags define an item's properties.  the meaning
+  unsigned long   flags;  // of flag values can depend on the item's tval.
+                             note that the original game designers decided to
+                             use bitwise flags (a good design), but came up
+                             with more than 32 different properties for some
+                             item types (e.g. potions) and so they had to give
+                             items a second flag member to hold them all.
+  integer p1;     // a catch-all member for associating some value of interest
+                     with a particular item.  e.g. for wands, staves, gems,
+		     it's the number of charges, while for certain magical
+		     weapons, it can be a damage multiplier.
+  integer cost;   // the item's nominal cost in iron pieces.
+  integer subval; // a sub-category value.  the semantics of subval also depend
+                     in part on the value of tval.
+  wordint weight; // weight in some ill-defined unit, possibly gold pieces, but
+                     possibly in fifths of a gold piece.
+  wordint number; // for countable items (arrows, scrolls, etc), how many of
+                     them you have.
+
+  // the next four all apply to items that can be worn or wielded (i.e. weapons
+  and armor)
+  worlint tohit;  // an item's magical + to hit
+  worlint todam;  // an item's magical + to damage
+  worlint ac;     // an item's normal armor class value.
+  worlint toac;   // an item's magical + to AC.
+
+  dtype   damage; // the amount of damage an item does to monster.  everything
+                     should have a damage value, even if it's just "0d0".
+
+  bytlint level;  // a vague measurement of how strong an item's magic is.
+
+} treasure_type;
+
+here's a sample item to look at.  you can get displays like this in wizard
+mode, by pressing 's' to see an item's stats on the inventory screen.  i've
+annotated it to show you which members in treasure_type correspond to what the
+item stats command shows you:
+
+name:   & Blue Potion~ of Flea Bile         <-- name
+desc:   2 Blue Potions of Flea Bile
+value:  75                                  <-- tval
+type:   Potion
+char:   '!'                                 <-- tchar
+flags:  0x00000000                          <-- flags
+flags2: 0x00004000                          <-- flags2
+P1:     0                                   <-- p1
+cost:   12000                               <-- cost
+subval: 302                                 <-- subval
+weight: 4 large                             <-- weight
+number: 2                                   <-- number
++thit:  0                                   <-- tohit
++tdam:  0                                   <-- todam
+AC:     0                                   <-- ac
++toac:  0                                   <-- toac
+dam:    1d1                                 <-- damage
+level:  0                                   <-- level
+B.M.:   false
+Insured:false
+
+note that the value of 'number' (2) shows up in the item's description as it's
+shown to the player.  internally, the item's name is stored as shown under
+'name', but is displayed to players as shown under 'desc'.  see "item names"
+below for complete information.
+
+following are complete descriptions of everything you need to know about each
+member of the treasure_type structure.
+
+
+
+			      item names (name):
+
+item names work very much like format strings do in C's printf() function.
+That is to say, you can put special strings within the item's name, which will
+be replaced with appropriate values when the name is displayed to the user.
+
+item names can be at most 68 characters long, and when expanded can be at most
+80 characters long.  take this into account when you name your items.
+
+the special strings and what they're replaced with are:
+string:    replaced with:
+%P1        the item's p1 value, signed
+%P2        the item's tohit value, signed
+%P3        the item's todam value, signed
+%P4        the item's toac value, signed
+%P5        the item's p1 value, unsigned
+%P6        the item's ac value, unsigned
+&          the item's number value, or "a", "an", or "no more" in some contexts
+~          changes singular to plural when item's number value > 1.
+
+additionally, you can use the ^ and | symbols to limit how much of an item's
+name is shown to players depending on whether the item is identified.  Both ^
+and | have the same effect: they mark the end of the portion of the name that
+users are allowed to see.  identifying an item simply removes the ^ or | from
+the item's name.  the ^ symbol is used with items that can be worn or wielded,
+to restrict information about weapons and armor's values.  for instance, there
+are two kinds of iron helm in the game, with the following names:
+
+& Iron Helm^ of Gems [%P6,%P4]
+& Iron Helm^ [%P6,%P4]
+
+before being identified, all the player sees in their inventory is "an Iron
+Helm", and so both look the same.  After being identified, the player is then
+informed of each helm's true nature.
+
+the | symbol works in a similar fashion, but for items that can't be worn or
+wielded.  again, users can't see what's after the | until the item is
+identified.  for instance, there are many kinds of berries in the game:
+
+& Handful~ of Berries| (Smurfberries)
+& Handful~ of Berries| (Goodberries)
+& Handful~ of Berries| (Poisonous)
+
+some item types use both the ^ and the | symbol, in which case the | comes
+first.  the | masks an object's type, while the ^ masks the object's plusses.
+The difference is that when you identify a specific item, you learn all about
+that item, but you may also learn something about similar items.
+For example, when you identify:
+
+& %R Ring| of Protection^ [%P4]
+
+you may learn that you have:
+
+a Zircon Ring of Protection [+2]
+
+which is all there is to know about that item.  but the game remembers that
+you've identified Zircon rings before so the next time you find one you'll
+already know it's a ring of protection.  you just won't know what the new one's
+toac value is.  note that the helm of gems could equally well be defined as:
+
+& Iron Helm| of Gems^ [%P6,%P4]
+
+which would give players the ability to recognize any iron helm of gems once
+they'd discovered one such helm.  why this isn't the case is a question for
+imoria's original designers.
+
+being a clever reader, you probably noticed the %R in the above ring of
+protection example.  and, you've probably noticed that imoria uses many
+different adjectives to describe various classes of objects.  potions all have
+colors, rings all have precious stones, scrolls have nonsense names, etc.  and
+you've probably noticed that these descriptions are different for every
+character you play.  to support this variability, imoria defines several
+different sets of adjectives that can be used with item names, and each set has
+its own special string for use in item names.  they are:
+
+string:  material type:
+%C       colors (potions)
+%T       nonsense syllables (scrolls)
+%R       rocks (gems, wearable gems, rings) 
+%A       various woods, metals, bones, stones, gems (amulets)
+%M       metals (wands, chimes), also mushroom types
+%H       various musical instruments (horns)
+%D       rods
+%N       cloth (bags and sacks)
+%W       woods (staves)
+
+the interaction between these descriptors and the adjectives they're replaced
+with is a little more complex than described above; see magic_init() in desc.c.
+don't just use a random descriptor with any old tval and expect it to work.
+take particular care that there are enough adjectives in the set you pick to
+serve all the items of a given class.  for instance, if you define a new potion
+type, you'll have to add a color to the colors[] array and you'll have to add
+one to MAX_COLORS.  failure to do so could potentially crash the game.  for
+that reason, if you use the wizard-mode "create any item" command, you should
+avoid using any of these random descriptors--just make up an adjective and type
+it in directly.
+
+finally, one last word about item names.  when you're browsing through
+values.h, reading up on your favorite items, note that not all items have ^ or
+| symbols in them.  such items are used in stores, where what you buy is
+already fully identified.
+
+
+			      item values (tval).
+
+an item's tval is probably the most important piece of data about the item.  it
+literally defines what kind of thing the item is.  if you want to add a new
+kind of item to the game, you'll have to pick an unused number, one that
+belongs to no other kind of item, and then add all the code necessary to
+support your new tval throughout the game.  note, however, that you probably
+don't need to do this.  the game designers did a pretty good job of thinking of
+the major categories of items one might like to have, and for everything else
+you can probably make up a new kind of miscellaneous item.
+
+here, then, are the tvals and what they mean.  the "symbolic name" column is
+what you should use to refer to items of that type if you're modifying the
+game's source code.  you shouldn't ever need to refer to tvals directly,
+although the source code has numerous cases of sloppy coding where that takes
+place.  budding imoria hackers may want to take a stab at cleaning up the code
+in this respect.
+
+symbolic name                  tval      Friendly Name
+miscellaneous_object		1        Miscellaneous object
+chest				2        Chest
+misc_usable			3        Miscellaneous usable
+valuable_jewelry		4        Jewelry
+valuable_gems			5        Gem
+bag_or_sack			6        Bag or Sack
+valuable_gems_wear		7        Wearable Gem
+
+sling_ammo			10       Sling ammo
+bolt				11       Bolt
+arrow				12       Arrow
+spike				13       Spike
+
+lamp_or_torch			15       Lamp or torch
+
+bow_crossbow_or_sling		20       Ranged weapon
+hafted_weapon			21       Hafted Weapon
+pole_arm			22       Pole arm
+dagger				23       Sword
+sword				24       Light Weapon
+pick_or_shovel			25       Pick or shovel
+maul				26       Blunt Weapon
+
+gem_helm			29       Gem Helm
+boots				30       Boots
+gloves_and_gauntlets		31       Gloves or gauntlets
+cloak				32       Cloak
+helm				33       Helm
+shield				34       Shield
+hard_armor			35       Hard armor
+soft_armor			36       Soft armor
+bracers				37       Bracers
+belt				38       Belt
+
+amulet				40       Amulet
+
+ring				45       Ring
+
+staff				55       Staff
+
+rod				60       Rod
+
+wand				65       Wand
+
+scroll1				70       Scroll
+scroll2				71       Scroll
+
+potion1				75       Potion
+potion2				76       Potion
+flask_of_oil			77       Flask of Oil
+
+Food				80       Food
+junk_food		 	81       Junk Food
+chime				85       Chime
+horn				86       Horn
+
+magic_book			90       Magic book
+prayer_book			91       Prayer book
+instrument			92       Instrument
+song_book			93       Song book
+lodging_at_inn                  95       lodging in the inn...
+valuable_metal			100      Money
+                                --       Unknown item type: %d
+
+traps use the same tval number space as items, so watch out.  don't define a
+new item type that uses a trap's tval.
+unseen_trap			101
+seen_trap			102
+rubble				103
+open_door			104
+closed_door			105
+up_staircase			107
+down_staircase			108
+secret_door			109
+entrance_to_store		110
+up_steep_staircase		111
+down_steep_staircase		112    
+whirlpool			113
+
+95 seems to be a really weird tval.  it's the tval assigned to spending time in
+the inn, but the game doesn't seem to ever actually use that value for
+anything.  just to be safe, i'd stay away from using 95 as a tval for anything
+else...
+
+
+ 			       flags and flags2
+
+flags and flags2 store an item's abilities, within the item's class.
+different classes of items (i.e. different tvals) assign different meanings to
+the possible values of flags and flags2.  some flags work in conjunction with
+other of an item's data members, usually the p1 value.  such instances are
+noted below.  not all classes of items make use of both flags and flags2.
+many types ignore flags2 entirely.
+
+some flag values have symbolic constants assigned to them, to make life easier
+when reading and modifying imoria's source code.  for those flags, you
+shouldn't ever have to use the flag values directly.  however, the existing
+imoria code is often sloppy in this respect.  in particular, the item
+definitions in values.h use flag values directly to save space at the expense
+of code readability.
+
+here are the flags for items that can be worn or wielded (weapons, armor,
+amulets, neclaces, rings, wearable gems, etc.):
+
+flag1:
+symbolic constant:              value:      description:       
+Strength_worn_bit		0x00000001  gives str (p1)
+Dexterity_worn_bit		0x00000002  gives dex (p1)
+Constitution_worn_bit		0x00000004  gives con (p1)
+Intelligence_worn_bit		0x00000008  gives int (p1)
+Wisdom_worn_bit			0x00000010  gives wis (p1)
+Charisma_worn_bit		0x00000020  gives chr (p1)
+Searching_worn_bit		0x00000040  + to search, - to perception (p1)
+Slow_Digestion_worn_bit		0x00000080  slows digestion
+Stealth_worn_bit		0x00000100  increses stealth (p1)
+Aggravation_worn_bit		0x00000200  aggrivates monsters
+Teleportation_worn_bit		0x00000400  randomly teleports player.
+Regeneration_worn_bit		0x00000800  increases healing rate.
+Speed_worn_bit			0x00001000  increases player speed (p1)
+Slay_Dragon_worn_bit		0x00002000  *4 damage to dragons...
+Slay_Monster_worn_bit		0x00004000  *2 damage to monsters...
+Slay_Evil_worn_bit		0x00008000  *2 damage to evil creatures...
+Slay_Undead_worn_bit		0x00010000  *3 damage to undead...
+Cold_Brand_worn_bit		0x00020000  *1.5 damage to cold based creatures
+Flame_Brand_worn_bit		0x00040000  *1.5 damage to heat based creatures
+Resist_Fire_worn_bit		0x00080000  1/3 dam. from fire attacks
+Resist_Acid_worn_bit		0x00100000  1/3 dam. from acid attacks
+Resist_Cold_worn_bit		0x00200000  1/3 dam. from cold attacks
+Sustain_Stat_worn_bit		0x00400000  protects (p1) stat from degredation
+Free_Action_worn_bit		0x00800000  player can't be paralyzed
+See_Invisible_worn_bit		0x01000000  player can see invisible stuff.
+Resist_Lightning_worn_bit	0x02000000  1/3 dam. from lightning attacks
+Feather_Fall_worn_bit		0x04000000  no damage from falling
+Blindness_worn_bit		0x08000000  blinds player
+Timidness_worn_bit		0x10000000  makes player afraid
+Tunneling_worn_bit		0x20000000  digging power += 50*(p1)
+Infra_Vision_worn_bit		0x40000000  can see some monsters in the dark
+Cursed_worn_bit			0x80000000  object can't be un-worn/wielded
+ 
+flag2:
+Slay_demon_worn_bit		0x00000001  *3 damage to demons...
+Soul_Sword_worn_bit		0x00000002  *2 damage to undead...
+Slay_regen_worn_bit   		0x00000004  *3 damage to regerative creatures
+Swimming_worn_bit		0x00000008  increases swimming by (p1)
+Magic_proof_worn_bit		0x00000010  increases saving throws
+Disarm_worn_bit			0x00000020  increases disarming skill
+Sharp_worn_bit			0x00000040  increases chance of critical hit
+unused				0x00000080
+unused				0x000FFF00
+unused				0x00100000
+Bad_repute_worn_bit		0x00200000  decreases player's reputation
+Hunger_worn_bit			0x00400000  makes player hungry immediately
+Negative_gem_bit		0x00800000  removes flags for other worn gems
+Increase_carry_worn_bit		0x01000000  allows player to carry more weight
+unused				0x02000000
+Holding_bit			0x04000000  relates to quivers and such.
+Swallowing_bit			0x08000000  for bags of devouring
+Sharp_bit			0x10000000  for objects which destroy bags
+Blackmarket_bit			0x20000000  Makes items unsellable
+Insured_bit			0x40000000  Marks items that are insured
+Known_cursed_bit		0x80000000  player knows the item is cursed
+
+
+potion flags:
+there are two potion tvals (potion1 and potion2), which the quaff code takes
+into account to yield more than 32 possible potion types.  thus, a particular
+flag can have two meanings, depending on whether it's attached to an item of
+tval potion1 or potion2.  it looks like the original game designers came up
+with more than 32 potions before they had created the flags2 member, and so
+their only recourse was to create a second set of potions by using an
+additional tval.  eventually the recognized the need for more flags, but did
+not go back to put the potions into a single tval.
+
+as of version 4.85.17 the potions are all of type potion1, and the old
+potion2 effects have been moved into flags2.  Right now potion2 items
+will overlap the potion1 effects, don't use potion2 until this is changed!
+
+flags:          potion1 effect:                potion2 effect:
+0x00000001      gain strength                  unused
+0x00000002      lose strength                  unused
+0x00000004      restore strength               unused
+0x00000008      gain int                       unused
+0x00000010      lose int                       unused
+0x00000020      restore int                    unused
+0x00000040      gain wis                       unused
+0x00000080      lose wis                       unused
+0x00000100      restore wis                    unused
+0x00000200      gain chr                       unused
+0x00000400      lose chr                       unused
+0x00000800      restore chr                    unused
+0x00001000      cure 2d7 wounds                unused
+0x00002000      cure 4d7 wounds                unused
+0x00004000      cure 6d7 wounds                unused
+0x00008000      cure 1000 wounds               unused
+0x00010000      gain con                       unused
+0x00020000      gain experience                unused
+0x00040000      sleep                          unused
+0x00080000      blindness                      unused
+0x00100000      confusion                      unused
+0x00200000      poison                         unused
+0x00400000      haste self                     unused
+0x00800000      slowness                       unused
+0x01000000      detect creatures               unused
+0x02000000      gain dex                       unused
+0x04000000      restore dex                    unused
+0x08000000      restore con                    unused
+0x10000000      cure blindness                 unused
+0x20000000      cure confusion                 unused
+0x40000000      cure poison                    unused
+0x80000000      < should not be used >         < should not be used >
+
+flags2:         potion1 effect:                potion2 effect:
+0x00000001      lose memories/experience       unused
+0x00000002      salt water (cure poison, stun) unused
+0x00000004      invulnerability                unused
+0x00000008      heroism                        unused
+0x00000010      super-heroism                  unused
+0x00000020      remove fear                    unused
+0x00000040      restore level                  unused
+0x00000080      resist heat                    unused
+0x00000100      resist cold                    unused
+0x00000200      detect invisible               unused
+0x00000400      slow poison                    unused
+0x00000800      cure poison                    unused
+0x00001000      restore mana                   unused
+0x00002000      infra-vision                   unused
+0x00004000      cure hallucination             unused
+0x00008000      learning (learn spells)        unused
+0x00010000      reduce petrification           unused
+0x00020000      unused                         unused
+0x00040000      unused                         unused
+0x00080000      unused                         unused
+0x00100000      unused                         unused
+0x00200000      unused                         unused
+0x00400000      unused                         unused
+0x00800000      unused                         unused
+0x01000000      unused                         unused
+0x02000000      unused                         unused
+0x04000000      unused                         unused
+0x08000000      unused                         unused
+0x10000000      unused                         unused
+0x20000000      unused                         unused
+0x40000000      unused                         unused
+0x80000000      unused                         unused
+
+scroll flags:
+
+flags for scrolls work almost exactly the same way as for potions.
+there are two scroll tvals (scroll1 and scroll2) to accomodate more
+than 32 different types of scrolls.  the scroll2 effects have been
+folded into flags2, and scroll2 should not be used until after the
+overlap has been undone.
+
+flags:          scroll1 effect:                scroll2 effect:
+0x00000001      enchant weapon to hit          unused
+0x00000002      enchant weapon to dam          unused
+0x00000004      enchant armor                  unused
+0x00000008      identify                       unused
+0x00000010      remove curse                   unused
+0x00000020      light                          unused
+0x00000040      summon monster                 unused
+0x00000080      phase door                     unused
+0x00000100      teleport                       unused
+0x00000200      teleport level                 unused
+0x00000400      confuse monster                unused
+0x00000800      magic mapping                  unused
+0x00001000      sleep monster                  unused
+0x00002000      rune of protection             unused
+0x00004000      detect treasure                unused
+0x00008000      detect object                  unused
+0x00010000      detect trap                    unused
+0x00020000      detect secret door             unused
+0x00040000      mass genocide                  unused
+0x00080000      detect invisible               unused
+0x00100000      aggrivate monster              unused
+0x00200000      create traps                   unused
+0x00400000      trap/door destruction          unused
+0x00800000      create doors                   unused
+0x01000000      recharging                     unused
+0x02000000      genocide                       unused
+0x04000000      darkness                       unused
+0x08000000      protection from evil           unused
+0x10000000      create food                    unused
+0x20000000      dispell creature               unused
+0x40000000      blank                          unused
+0x80000000      < should not be used >         < should not be used >
+
+flags2:         scroll1 effect:                scroll2 effect:
+0x00000001      curse weapon
+0x00000002      *enchant armor*
+0x00000004      curse armor
+0x00000008      summon undead
+0x00000010      bless (blessing)
+0x00000020      bless more (holy chant)
+0x00000040      bless a lot (holy prayer)
+0x00000080      word of recall
+0x00000100      destroy area (*destruction*)
+0x00000200      wishing
+0x00000400      feign death
+0x00000800      make munchies
+0x00001000      *enchant weapon*
+0x00002000      unused
+0x00004000      unused
+0x00008000      unused
+0x00010000      unused
+0x00020000      unused
+0x00040000      unused
+0x00080000      unused
+0x00100000      unused
+0x00200000      unused
+0x00400000      unused
+0x00800000      unused
+0x01000000      unused
+0x02000000      unused
+0x04000000      unused
+0x08000000      unused
+0x10000000      unused
+0x20000000      unused
+0x40000000      unused
+0x80000000      unused
+
+wand flags:
+flags for wands work much the same as for potions and scrolls, except that
+there are few enough wands not to require two wand tvals.
+
+flags:          wand effect:
+0x00000001      line of light
+0x00000002      lightning bolt
+0x00000004      frost bolt
+0x00000008      fire bolt
+0x00000010      wall to mud
+0x00000020      polymorph monster
+0x00000040      heal monster
+0x00000080      haste monster
+0x00000100      slow monster
+0x00000200      confuse monster
+0x00000400      sleep monster
+0x00000800      drain life
+0x00001000      destroy door/trap
+0x00002000      magic missile
+0x00004000      wall building
+0x00008000      clone monster
+0x00010000      teleport monster
+0x00020000      disarming
+0x00040000      lightning ball
+0x00080000      cold ball
+0x00100000      fire ball
+0x00200000      stinking cloud
+0x00400000      acid ball
+0x00800000      wand of wonder
+0x01000000      probing 
+0x02000000      unused
+0x04000000      unused
+0x08000000      unused
+0x10000000      unused
+0x20000000      unused
+0x40000000      unused
+0x80000000      unused
+
+staff flags:
+nothing new here.  these work just like wand flags.
+
+flags:          staff effect:
+0x00000001      light
+0x00000002      detect doors and stairs
+0x00000004      detect traps
+0x00000008      detect treasure
+0x00000010      detect objects
+0x00000020      teleport
+0x00000040      earthquake
+0x00000080      summon monsters
+0x00000100      genocide
+0x00000200      *destruction*
+0x00000400      starlite
+0x00000800      haste monsters
+0x00001000      slow monsters
+0x00002000      sleep monsters
+0x00004000      cure light wounds
+0x00008000      detect invisible
+0x00010000      speed
+0x00020000      slowness
+0x00040000      mass polymorph
+0x00080000      remove curse
+0x00100000      detect evil
+0x00200000      curing (of blindness, confusion, and poison)
+0x00400000      dispel evil
+0x00800000      mass genocide
+0x01000000      darkness
+0x02000000      identify
+0x04000000      unused
+0x08000000      unused
+0x10000000      unused
+0x20000000      unused
+0x40000000      unused
+0x80000000      unused
+
+chime and horn flags:
+chimes and horns share the same set of flags controlling their effects.  these
+work just like the rest...
+
+flags:          effect:
+0x00000001      light
+0x00000002      detect doors and stairs
+0x00000004      detect traps
+0x00000008      teleport
+0x00000010      earthquake
+0x00000020      summon monsters
+0x00000040      disarming
+0x00000080      aggrivation
+0x00000100      slow monster
+0x00000200      sooth monster
+0x00000400      cure light wounds
+0x00000800      mass polymorph
+0x00001000      remove curse
+0x00002000      curing (of blindness, confusion, and poison)
+0x00004000      dispel evil
+0x00008000      darkness
+0x00010000      bubbles (blindness + darkness)
+0x00020000      summon monsters
+0x00040000      sleep monsters
+0x00080000      destroy_area
+0x00100000      blast of cold
+0x00200000      blast of heat
+0x00400000      blast of gas
+0x00800000      word of recall
+0x01000000      chaos (earthquake + darkness + summon monsters)
+0x02000000      curse equipment
+0x04000000      valhalla (dispell evil + light + heal 20 hp)
+0x08000000      tritons (blessing + cure blindness + cure poison)
+0x10000000      fog (darkness + confuse monsters)
+0x20000000      unused
+0x40000000      unused
+0x80000000      unused
+
+valuable_gem and misc_usable and flags:
+these work exactly like chime and horn flags, and are in fact invoked by the
+same function (blow()) in blow.c
+
+flags:          effect:
+0x00000001      protection from evil
+0x00000002      dispel demons
+0x00000004      summon undead
+0x00000008      summon demon
+0x00000010      djinni in a bottle
+0x00000020      summon several demons, stun player
+0x00000040      create water
+0x00000080      destroy water
+0x00000100      summon many undead
+0x00000200      summon many demons
+0x00000400      restore all stats, life levels, cure everything but paralysis
+0x00000800      unused
+0x00001000      wizard light
+0x00002000      speed monsters a lot
+0x00004000      destroy money
+0x00008000      regain mana
+0x00010000      petrify player; fortunately, this is an empty stub function.
+0x00020000      arms a hand grenade (holy hand grenade of antioch)
+0x00040000      detect monsters
+0x00080000      dispel evil
+0x00100000      darkness
+0x00200000      acid ball
+0x00400000      detect invisible
+0x00800000      identify
+0x01000000      light
+0x02000000      summon monsters
+0x04000000      remove curse
+0x08000000      destroy_area
+0x10000000      fast word of recall
+0x20000000      ring of fire
+0x40000000      lose 100 exp, give you a bad reputation
+0x80000000      unused
+
+chest flags:
+flags on chests work just like the rest, there just aren't very many actually
+defined flags.
+
+flags:          chest effect:
+0x00000001      locked
+0x00000002      unused
+0x00000004      unused
+0x00000008      unused
+0x00000010      poison needle (1d4 damage, may lose strength)
+0x00000020      poison needle (1d6 damage, poisons player)
+0x00000040      gas trap (paralyze player)
+0x00000080      explosive trap (5d8 damage, destroys chest)
+0x00000100      summoning runes (summons 3 monsters)
+0x00000200      unused
+0x00000400      unused
+0x00000800      unused
+0x00001000      unused
+0x00002000      unused
+0x00004000      unused
+0x00008000      unused
+0x00010000      unused
+0x00020000      unused
+0x00040000      unused
+0x00080000      unused
+0x00100000      unused
+0x00200000      unused
+0x00400000      unused
+0x00800000      unused
+0x01000000      unused
+0x02000000      unused
+0x04000000      unused
+0x08000000      unused
+0x10000000      unused
+0x20000000      unused
+0x40000000      unused
+0x80000000      unused
+
+
+
+				item p1 values
+
+p1 is a catch-all member which holds some useful piece of data whose meaning
+varies with an object's item value (its tval).  the following table shows the
+meaning of p1 for different tvals.
+
+tval:                   p1:
+miscellaneous_object	unused
+chest			dungen level of treasures found inside the chest
+misc_usable		number of charges
+valuable_jewelry	unused
+valuable_gems		number of charges
+bag_or_sack		unused
+valuable_gems_wear	unused
+sling_ammo		unused
+bolt			unused
+arrow			unused
+spike			unused
+lamp_or_torch		turns of light remaining
+bow_crossbow_or_sling	type of weapon: 1=sling, 2,3,4=bow, 5,6=crossbow
+hafted_weapon		amount to change various stats, for special weapons.
+pole_arm		amount to change various stats, for special weapons.
+dagger			amount to change various stats, for special weapons.
+sword			amount to change various stats, for special weapons.
+pick_or_shovel		amount of extra digging ability
+maul			amount to change some stat, for special weapons.
+gem_helm		number of gems the helm can hold.
+boots			amount of speed, stealth, etc., for magic boots
+gloves_and_gauntlets	amount of str, dex, disarming, etc. for magic ones
+cloak			amount of stealth, chr, etc. for magic cloaks
+helm			amount of int, wis, infra-vision, etc. for magic helms
+shield			unused
+hard_armor		unused
+soft_armor		unused
+bracers			only used with bracelet of warding, for enchanting?
+belt			w/ girdles of giant strength to increase carry amount.
+amulet			amount of wis, chr, searching for those amulets.
+ring			a stat, speed, or searching amount.
+staff			number of charges
+rod			number of charges
+wand			number of charges
+scroll1			unused
+scroll2			unused
+potion1			food amount
+potion2			food amount
+flask_of_oil		turns of light to add to a lantern
+Food			food amount
+junk_food		food amount
+chime			number of charges
+horn			number of charges
+magic_book		unused
+prayer_book		unused
+instrument		unused
+song_book		unused
+valuable_metal		unused
+
+
+
+				     cost
+
+items' costs, and prices in general throughout the game, are stored in iron
+pieces.  an iron piece is worth 1/240 gold.  however, a few places in the game
+define things in terms of gold pieces, so you will occasionally see an item's
+.cost member being multiplied or divided by the constants COST_ADJ or
+GOLD_VALUE to convert between gold and iron.
+
+in particular, the yums[] array in values.h has items defined in gold pieces.
+code which loads those items into the game (as in treasure.c), will apply a
+gold-to-iron conversion.  these are the sort of inconsistencies you find when
+dealing with code that has been developed and modified by many people over many
+years.
+
+
+
+				    subval
+
+subval, like tval, relates to what kind of item something is.  but, while tval
+specifies an item's general class, subval differentiates between similar items
+of the same class.  as such, any particular combination of tval and subval
+generally only applies to a single kind of item.  for example, most kinds of
+armor have hard_armor as their tval, and differ only in their subval.  chain
+mail has a subval of 2, rusty chain mail a subval of 3, etc.  you can find many
+groups of objects with the same tval but different subvals if you browse around
+in values.h.
+
+subvals themselves only come into play when some piece of code needs to
+differentiate between items of the same tval.  there are many instances of code
+which looks at tval and subval to differentiate items in this way; grep the
+source files for "\.subval" to see some.  one could, if one were terribly bored
+and terribly motivated, compile a table of (tval, subval) pairs, and list what
+item corresponds to both.  i haven't done so because it seems like a fairly
+pointless exercise.
+
+if you create a new item in an existing tval class, the only important thing is
+to make sure that you give it a subval that's different from all the other
+subvals within that class.  otherwise, you run the risk that your new item will
+conflict with some existing code in the game, or that if you write new code to
+support your new (tval, subval) pair, that your new code will also affect items
+you didn't intend for it to.
+
+for example, say you wanted imoria to have Shortswords of Backstabbing.  first,
+you assign "backstabbing" to one of the unused flags for items that can be worn
+or wielded, and add code in py_attack() to support that flag (perhaps by doing
+double-damage to monsters that are still asleep or something).  then you go into
+values.h and add a new shortsword item.  Shortswords are pretty much like
+longswords, so maybe you just cut and paste the entry for longsword, change the
+name, the weight, and the damage value, so you end up with something like this:
+
+{"& Shortsword^ (%P2,%P3)",  sword, '|', 0x10000000, Nothing_flag,
+ 0,     300,   18,  50,   1,   0,   0,   0,   0, "1d6"  ,  7},
+
+finally, you add code in treasure.c to occasionally add " of Backstabbing" to
+the name and your new flag to the flags2 value for shortswords.  but you didn't
+change the subval to something unique.  so what this means is that your item,
+really, is still a longsword, it's just one that has been disguised.  as far as
+adding magic to swords goes, your shortswords will be eligible for all the same
+magic that longswords are, and your new code to add backstabbing will also
+apply to longswords.  in order to restrict the backstabbing attribute to just
+the shortswords you want to have it, you'll need to pick an unused subval and
+assign that to your shortsword item.
+
+the last thing to say about subvals is a subtle but very important point.  the
+actual value of an item's subval determines whether an item is 'countable' or
+not.  that is, whether identical items of that same type can be combined in the
+player's inventory.  items that can be combined in this way, such as rations of
+food, flasks of oil, iron spikes, etc., must have subvals greater than 255.
+
+
+
+				    weight
+
+the weight system, not to put too fine a point on it, is kind of weird.
+it's basically simple: an object's .weight member is however many weight units
+(WGHTs) you want it to be, where 1 WGHT is 1 increment of the "WGHT" display
+on the screen.  as far as that goes, it's all pretty simple.  however, weight
+calculations are performed entirely in integer math.  that means that it isn't
+quite so easy to support items that weigh less than 1 WGHT each, such as coins.
+
+what the designers did was internally to multiply weights for everything except
+money by 100, and then to divide by 100 whenever you need to display weight to
+the user.  that way, the weight numbers for money, because they're _not_
+multiplied by 100, are worth only one 100th the normal amount, and so 1 coin
+can weigh less than 1 WGHT.  this value of 100 is stored in the constant
+WEIGHT_ADJ, but is not consistently used throughout the game.  there are plenty
+of actual "100"s where there should be "WEIGHT_ADJ".
+
+in values.h, you can see the weight values for everything in the game.  you'll
+notice that everything in the gold_list[] array has a value of 5, meaning that
+coins weight 5/100ths of a WGHT.  and indeed, if you play around with picking
+up and dropping money, you can verify that this is the case.  however, the game
+also has a constant, COIN_WEIGHT, listed in constants.h.  this is also defined
+to be 5, and if you look in the code you'll see that whenever monetary
+transactions take place, the game uses COIN_WEIGHT rather than the .weight
+member of actual money items.  as far as i can tell, you could change the
+weight values in gold_list to whatever you want, and coins would still
+effectively weigh COIN_WEIGHT.  there are some benefits and disadvantages here;
+on the one hand, by using COIN_WEIGHT for everything, it isn't possible for
+different money types to weight different amounts (e.g. gold is heavier than
+copper), but on the other hand it's much easier to calculate the weight of
+money when it all weighs the same.
+
+anyway, for all the interesting items in the game (after all, money isn't
+really _that_ interesting; you can't kill monsters with it), an item's weight
+as defined in values.h is exactly how it appears in the "WGHT" display.  for
+the most part you shouldn't care that all this mucking about with WEIGHT_ADJ
+and COIN_WEIGHT is going on inside the game, unless for some reason you're
+playing with the code that deals with a player's inventory or somesuch.
+
+
+
+				    number
+
+the number member only applies to items that are 'countable' (i.e. ones whose
+subval is greater than 255).  that is, when you have more than one of them,
+they only take up one slot in your inventory.  items can only be combined if
+they have the same tval, subval, and subval > 255.  being countable is
+something that should only be true for things whose properties never vary.
+this includes potions, scrolls, food items, and any other item type that is
+always exactly the same as others of that kind.  for example, a scroll of
+enchant weapon always does the same thing, so it's countable.  but individual
+longswords can have different plusses, special powers, etc., and so aren't
+countable.  indeed, if you look in values.h, you'll see that the subval for
+scrolls of enchant weapon is 257, while for longswords the subval is 18.
+
+as you can no doubt guess, for countable items, the number member is how many
+of them you have.  uncountable items should have a number of '1'.
+
+
+
+				     tohit
+
+this is the amount that an item increases or decreases a player's to-hit
+value.  this number can be positive or negative; positive is good for players,
+negative is good for monsters.  negative values are also associated with the
+Cursed_worn_bit, but not necessarily so.  this value only matters for items
+that can be worn or wielded.
+
+
+
+				     todam
+
+this is the amount that an item increases or decreases the amount of damage a
+player inflicts with every hit.  this number can be positive or negative;
+positive is good for players, negative is good for monsters.  negative values
+are also associated with the Cursed_worn_bit, but not necessarily so.  this
+value only matters for items that can be worn or wielded.
+
+
+
+
+				      ac
+
+
+this is the amount of armor class that an item confers when a player wears it.
+this number can be positive or negative; positive is good for players, negative
+is good for monsters.  negative values are also associated with the
+Cursed_worn_bit, but not necessarily so.  this value only matters for items
+that can be worn or wielded.
+
+
+
+
+				     toac
+
+this is the amount that an item increases or decreases a player's armor class.
+this number can be positive or negative; positive is good for players, negative
+is good for monsters.  negative values are also associated with the
+Cursed_worn_bit, but not necessarily so.  this value only matters for items
+that can be worn or wielded.
+
+
+
+
+				    damage
+
+this is a string describing the amount of damage that an item inflicts on
+monsters when the player hits a monster with it.  it takes the form of a
+standard dungeons-and-dragons dice roll, as in "3d8" to describe the total
+formed by rolling three eight-sided dice.  the game converts these strings into
+random number in the proper range and with the proper distribution for such a
+dice roll whenever a player inflicts a hit on a monster.
+
+the number of sides on the imaginary dice is not limited to numbers that real
+dice have.  this has useful ramifications, as well as giving you flexibility in
+how you define your items.  if you want an item to inflict a specific amount of
+damage, specify some number of 1 sided dice, as in "12d1" to inflict exactly 12
+points.  if you want an item to inflict no damage at all, specify "0d0".
+
+both numbers in the damage string should be at least 0.  negative numbers in
+either position will result in 0 total damage.  the final restriction is that
+the total length of the damage string can be at most 5 characters.
+
+
+
+				     level
+
+an item's level serves several purposes.  most straightforward, it is the
+shallowest dungeon level at which the item is permitted to appear.  so an item
+whose level is 10 won't appear until the player reaches the 10th dungeon level,
+or 500 feet down.
+
+less clearly, 'level' is a vague measurement of how powerful an item is.  more
+powerful items have higher levels.  some items cause a player to gain
+experience merely by using them (potions of gain stats, for example); for such
+items, there is generally a direct relationship between the item's level and
+the amount of xp you may get for using it.  for items that have charges, there
+is an inverse relationship between level and the number of charges.  so, more
+powerful wands, horns, etc. will have generally fewer charges than weaker ones.
+
+
+
+

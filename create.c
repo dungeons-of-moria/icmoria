@@ -1016,7 +1016,8 @@ void set_gem_values()
       if (strstr(object_list[count].name,"Alexandrite") != NULL) {
 	object_list[count].cost  += 5000;
       }
-      if (strstr(object_list[count].name,"Amathyst") != NULL) {
+      // amethyst was misspelled as "amathyst".  2/15/00 JEB
+      if (strstr(object_list[count].name,"Amethyst") != NULL) {
 	object_list[count].cost  += 2000;
       }
       if (strstr(object_list[count].name,"Antlerite") != NULL) {

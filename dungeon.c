@@ -4550,7 +4550,7 @@ void d__openobject()
 {
   /*{ Opens a closed door or closed chest...                -RAK-   }*/
 
-  integer    y,x,tmp;
+  integer    y,x,tmp, temp_dun_level;
   boolean    flag;
   char      *tmpc;
 
@@ -4636,7 +4636,24 @@ void d__openobject()
 	/*{ had been killed...                            }*/
 	
 	if (flag) {
+          /* horrible hack alert: chests had a bug where the treasure inside 
+           * a chest is determined by the current dungeon level at the time
+           * when the chest is opened, not when the chest was created.  so, one
+           * could carry a chest up to town level, open it up, and get crap. 
+           * or conversely, carry one way down in the dungeon and get better
+           * treasure than you deserve.  There's no way to pass a level
+           * value from here, where the chest is opened, all the way down into
+           * place_object() where a treasure/dungeon level is actually used,
+           * because the call stack d__openobject->monster_death->summon_object
+           * ->place_object->get_obj_num doesn't have level as a parameter all
+           * the way until get_obj_num().  the only way around this i can think
+           * of, aside from re-engineering all those functions and all calls
+           * to them, is just to temporarily change dun_level for the duration
+           * of the chest's call to monster_death().  2/16/00 JEB */
+	  temp_dun_level = dun_level;
+          dun_level = t_list[cave[y][x].tptr].p1;
 	  monster_death(y,x,t_list[cave[y][x].tptr].flags);
+	  dun_level = temp_dun_level;
 	  t_list[cave[y][x].tptr].flags = 0;  /* clear traps, lock, treasure */
 	}
 	

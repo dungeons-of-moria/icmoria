@@ -407,6 +407,7 @@
 #define	instrument			92
 #define	Song_Book			93
 #define	song_book			93
+#define	lodging_at_inn			95
 #define	valuable_metal			100 /* look in detect_item for limit */
 #define	Unseen_trap			101
 #define	unseen_trap			101

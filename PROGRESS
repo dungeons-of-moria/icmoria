@@ -272,4 +272,24 @@ errors.  Monks will be helped a lot by this.
 Fixed genocide, it usually went into an infinite loop.
 
 -------------------------------------------------------------------------------
+4.85.17
+
+Feb 17 2000
+
+cloister wrote item_guide.txt, a guide to the treasure_type struct.
+
+replaced a bunch of constant tvals with horn, chime, instrument, etc.
+
+fixed spelling in check for Amethyst, now they cost more.
+
+items inside chests will be created at a level near where the chest was
+found rather than at the level the chest is opened.
+
+moved all the potion2 and scroll2 effects into flag2.
+
+added valuable_gems to things that can be recharged.
+
+wizard_create will let you create anything now (including traps!).
+
+-------------------------------------------------------------------------------
 /* end progress */

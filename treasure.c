@@ -1061,8 +1061,18 @@ void mt__ring(integer x,integer level,integer chance,
   case 35 :/*   { Speed -10 or worse }*/
     t_list[x].p1    = -(10+randint(10));
     t_list[x].cost += (1000000*t_list[x].p1);
-    if ((0x80000000 & t_list[x].flags) != 0) { 
-      t_list[x].flags &= 0x7FFFFFFF; /* XXXX what does this bit mean? */
+    // these rings weren't actually cursed; the original code looks like it was
+    // trying to check the cursed_worn_bit and clear the Known_cursed_bit if
+    // the ring was cursed, but it was actually clearing the cursed_worn bit
+    // (i.e. used flags vs. flags2).  added code to set cursed_worn_bit (which
+    // wasn't happening anywhere) and to unset Known_cursed_bit for real.
+    // 2/15/00 JEB
+    if (mt__magik(cursed)) {
+      t_list[x].flags |= Cursed_worn_bit;
+      t_list[x].flags2 &= (~Known_cursed_bit);
+      // original code:
+      //    if ((0x80000000 & t_list[x].flags) != 0) { 
+      //      t_list[x].flags &= 0x7FFFFFFF; /* XXXX what does this bit mean? */
     }
     break;
 
@@ -1344,6 +1354,15 @@ void mt__cloak(integer x,integer level,integer chance,
 void mt__chest(integer x,integer level,integer chance,
 	       integer special, integer cursed, boolean forceit)
 {
+  /*
+   * Items inside the chest will be created as if
+   * found on dungeon level p1.
+   */
+  t_list[x].p1 = dun_level + randint(10) - 5;
+  if ( t_list[x].p1 < 1 ) {
+    t_list[x].p1 = 1;
+  }
+
   if (t_list[x].subval == 5) {
     strcat(t_list[x].name,"^ (Looted)");   /* dead human body */
   } else {

@@ -283,7 +283,8 @@ void rs__scroll_effect(integer effect, boolean *idented,
     ident = true;
     break;
     
-  case 32 :	/*{ Enchant Weapon }*/
+  case 32 :	/*{ Enchant Weapon }*/ /* 32 is the Cursed_worn_bit value */
+  case 45 :	/*{ Enchant Weapon }*/
     //with equipment[Equipment_primary]. do;
     if (equipment[Equipment_primary].tval > 0) {
       inven_temp->data = equipment[Equipment_primary];
@@ -494,8 +495,9 @@ void rs__scroll_effect(integer effect, boolean *idented,
   case 44 : /*{make munchies}*/
     ident = create_food(-1,-2,-3,-4,0);
     break;
-    
-  case 45 :	;
+
+    /* case 45 moved up to 32 */
+
   case 46 :	;
   case 47 :	;
   case 48 :	;
@@ -526,7 +528,7 @@ void read_scroll()
 {
   /*{ Scrolls for the reading				-RAK-	}*/
 
-  unsigned long    i1;
+  unsigned long    q1,q2;
   integer          i3,i5;
   treas_ptr        i2,item_ptr;
   char             trash_char;
@@ -554,10 +556,20 @@ void read_scroll()
 	    draw_cave();
 	  }
 	  reset_flag = false;
-	  i1 = item_ptr->data.flags;
+	  q1 = item_ptr->data.flags;
+	  q2 = item_ptr->data.flags2;
 	  ident = false;
-	  for (;i1 > 0;) {
-	    i5 = bit_pos(&i1)+1;
+	  for (;q1 > 0 || q2 > 0;) {
+	    i5 = bit_pos64(&q2,&q1)+1;
+
+	  /*
+	   * It looks like scroll2 was created before flags2 was
+	   * added to the treasure type, now we can fit all the
+	   * potion effects into the pair of flags.
+	   * 
+	   * The += 31 should be 64 now, I am leaving it at 31 so
+	   * that old characters do not get confused.
+	   */
 	    if (item_ptr->data.tval == scroll2) {
 	      i5 += 31;
 	    }

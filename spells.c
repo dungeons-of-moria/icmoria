@@ -1390,7 +1390,10 @@ boolean recharge(integer num)
   treas_ptr   item_ptr;
   boolean     redraw = false;
   char        trash_char;
-  obj_set     batteries_not_included = {staff,rod,wand,chime,horn,0};
+  // added valuable_gems to this set, which should include any item type that
+  // uses charges.  2/15/00 JEB
+  obj_set     batteries_not_included = {valuable_gems,staff,rod,wand,chime,
+					horn,0}; 
   boolean     return_value = false;
   
   change_all_ok_stats(true,true);

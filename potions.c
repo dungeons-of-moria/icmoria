@@ -145,10 +145,6 @@ void q__potion_effect(integer effect, boolean *idented)
     break;
     
   case 27 :  /*{ Restore Dex }*/
-    PF.petrification -= 100;
-    if ( PF.petrification < 0 ) {
-      PF.petrification = 0;
-    }
     ident = restore_stat(DEX,"X");
     break;
     
@@ -168,7 +164,8 @@ void q__potion_effect(integer effect, boolean *idented)
     cure_me(&py.flags.poisoned);
     break;
     
-  case 32 :  /*{ Learning }*/
+  case 32 :  /*{ Learning }*/  /* 32 is the Cursed_worn_bit value */
+  case 48 :  /*{ Learning }*/
     //with py.misc do;
     //with class[pclass] do;
     if (class[PM.pclass].mspell) {
@@ -276,8 +273,18 @@ void q__potion_effect(integer effect, boolean *idented)
     ident = cure_me(&py.flags.image);
     break;
 
-  case 48 :  ;
-  case 49 :  ;
+    /* case 48 moved up to 32 */
+
+  case 49 :  /* reduce petrification */
+    if ( PF.petrification > 0 ) {
+      ident = true;
+      PF.petrification -= 100;
+      if ( PF.petrification < 0 ) {
+	PF.petrification = 0;
+      }
+    }
+    break;
+
   case 50 :  ;
   case 51 :  ;
   case 52 :  ;
@@ -303,7 +310,7 @@ void quaff()
 {
   /*{ Potions for the quaffing                              -RAK-   }*/
 
-  unsigned long    i1;
+  unsigned long    q1,q2;
   integer          i3,i6;
   treas_ptr        i2,item_ptr;
   char             trash_char;
@@ -322,14 +329,25 @@ void quaff()
 	  draw_cave();
 	}
 	reset_flag = false;
-	i1 = item_ptr->data.flags;
+	q1 = item_ptr->data.flags;
+	q2 = item_ptr->data.flags2;
 	ident = false;
 
-	for (;i1 > 0;) {
-	  i6 = bit_pos(&i1)+1;
+	for (;q1 > 0 || q2 > 0;) {
+	  i6 = bit_pos64(&q2,&q1)+1;
+
+	  /*
+	   * It looks like potion2 was created before flags2 was
+	   * added to the treasure type, now we can fit all the
+	   * potion effects into the pair of flags.
+	   * 
+	   * The += 31 should be 64 now, I am leaving it at 31 so
+	   * that old characters do not get confused.
+	   */
 	  if (item_ptr->data.tval == potion2) {
-	    i6 += 31;
+	    i6 += 31; 
 	  }
+
 	  q__potion_effect(i6, &ident);
 	} /* end for */
 	
