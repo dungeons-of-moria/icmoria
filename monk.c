@@ -108,7 +108,7 @@ void discipline()
 	msg_print("Colors and images run through your head, distracting you.");
     } else {
 	flag = false;
-	for (flag=false,i2=1 ; (i2 <= 40) && !flag ; i2++) {
+	for (i2=0 ; (i2 < 40) && !flag ; i2++) {
 	    if (magic_spell[py.misc.pclass][i2].learned) {
 		flag = true;
 	    }

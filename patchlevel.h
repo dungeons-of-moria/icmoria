@@ -1,9 +1,9 @@
 /* patchlevel.h */
-/* Current version number of Imoria: 4.85.6 */
+/* Current version number of Imoria: 4.85.7 */
 
 #define	CUR_VERSION       4.85
 #define CUR_VERSION_MAJ   4
 #define CUR_VERSION_MIN   85
-#define PATCH_LEVEL       6
+#define PATCH_LEVEL       7
 
 /* END FILE  patchlevel.h */
