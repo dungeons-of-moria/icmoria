@@ -7,7 +7,7 @@
 
 void writeln(char *out_line)
 {
-  printf("%s\n",out_line);
+  printf("%s\n\r",out_line);
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ integer pindex(char *s1, char c1)
 
   char *c2;
   
-  c2 = index(s1, c1);
+  c2 = strchr(s1, c1);
 
   if (c2 == NULL) {
     return 0;
@@ -42,7 +42,7 @@ boolean is_in(integer obj, obj_set oset)
    tmp = 0;
    for (i1=0; i1 < MAX_OBJ_SET; i1++) {
      if ((tmp > oset[i1]) && (oset[i1] > 0)) {
-       printf("bad obj_set i1 = %ld\n", i1);
+       printf("bad obj_set i1 = %ld\n\r", i1);
        fprintf(debug_file,"bad obj_set: %d",oset[i1]);
        for (i1=0; i1 < MAX_OBJ_SET; i1++) {
 	 fprintf(debug_file,"%d  ",oset[i1]);

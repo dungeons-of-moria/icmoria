@@ -29,28 +29,28 @@ FILE *priv_fopen( char *path, char *mode)
 
 void intro_qualifier_help()
 {
-  printf("\n");
-  printf("Invalid Moria option!  Valid qualifiers are:\n");
-  printf("  -f file    Load saved character in file.\n");
-  printf("  -d num     Set difficulity from 1-5, default is 3.\n");
-  printf("  -h         Warn about hearing things in water.\n");
-  printf("  -s         List top 20 high scores.\n");
-  printf("  -t num     List <num> high scores after death or for -s.\n");
-  printf("  -V         Print version info.\n");
+  printf("\n\r");
+  printf("Invalid Moria option!  Valid qualifiers are:\n\r");
+  printf("  -f file    Load saved character in file.\n\r");
+  printf("  -d num     Set difficulity from 1-5, default is 3.\n\r");
+  printf("  -h         Warn about hearing things in water.\n\r");
+  printf("  -s         List top 20 high scores.\n\r");
+  printf("  -t num     List <num> high scores after death or for -s.\n\r");
+  printf("  -V         Print version info.\n\r");
 
-//  printf("  /trap=[keep]        (Put all incoming messages on the message line)\n");
-//  printf("  /notrap             (Default; let messages appear normally)\n");
+//  printf("  /trap=[keep]        (Put all incoming messages on the message line)\n\r");
+//  printf("  /notrap             (Default; let messages appear normally)\n\r");
 
 //  check_pswd("doublespeak",true); /*XXXX get a passwd from command line... */
   if (wizard2 || 1)
     {
-      printf("\n\nWizard commands:\n");
-      printf("  -Wpassword Enter wizard mode password.\n");
-      printf("  -Rfile     Restore character in master file.\n");
-      printf("  -Ufile     Change the dead flag in save file.\n");
-      printf("  -Efile     Encrpyt a character file.\n");
-      printf("  -Dfile     Decrypt a character file.\n");
-      printf("\n");
+      printf("\n\r\n\rWizard commands:\n\r");
+      printf("  -Wpassword Enter wizard mode password.\n\r");
+      printf("  -Rfile     Restore character in master file.\n\r");
+      printf("  -Ufile     Change the dead flag in save file.\n\r");
+      printf("  -Efile     Encrpyt a character file.\n\r");
+      printf("  -Dfile     Decrypt a character file.\n\r");
+      printf("\n\r");
     } /* end if wizard2 */
 
 }; /* end intro_qualifier_help */
@@ -58,10 +58,10 @@ void intro_qualifier_help()
 //////////////////////////////////////////////////////////////////////
 void print_version_info()
 {
-  printf("\n");
-  printf("Linux Imoria Version %3.2f, patch level %d\n",
+  printf("\n\r");
+  printf("Linux Imoria Version %3.2f, patch level %d\n\r",
 	 CUR_VERSION, PATCH_LEVEL);
-  printf("\n");
+  printf("\n\r");
   
   
 }; /* end print_version_info */
@@ -92,7 +92,7 @@ boolean intro_parse_switches(vtype finame, int argc, char *argv[])
         if(--argc) {
           strncpy(finame, (++argv)[0], sizeof(vtype));
         } else {
-          printf("Missing <filename> for -f\n");
+          printf("Missing <filename> for -f\n\r");
           print_usage = true;
         }
         break;
@@ -107,7 +107,7 @@ boolean intro_parse_switches(vtype finame, int argc, char *argv[])
 	if(--argc) {
 	  sscanf((++argv)[0], "%ld", &max_score);
 	} else {
-          printf("Missing <num> for -t\n");
+          printf("Missing <num> for -t\n\r");
           print_usage = true;
 	}
         break;
@@ -125,7 +125,7 @@ boolean intro_parse_switches(vtype finame, int argc, char *argv[])
 	  if (py.misc.diffic > 5) { py.misc.diffic = 5; }
 	  if (py.misc.diffic < 1) { py.misc.diffic = 1; }
 	} else {
-          printf("Missing <num> for -d\n");
+          printf("Missing <num> for -d\n\r");
           print_usage = true;
 	}
 	
@@ -176,7 +176,7 @@ boolean intro_parse_switches(vtype finame, int argc, char *argv[])
 	}
 	if (wizard1) {
 	  encrypt_file(&(argv[0][2]));
-	  printf("\n\n");
+	  printf("\n\r\n\r");
 	  exit_game();
 	}
         break;
@@ -188,13 +188,13 @@ boolean intro_parse_switches(vtype finame, int argc, char *argv[])
 	}
 	if (wizard1) {
 	  decrypt_file(&(argv[0][2]));
-	  printf("\n\n");
+	  printf("\n\r\n\r");
 	  exit_game();
 	}
         break;
 
       default:
-        printf("Unknown switch \"%s\"\n", argv[0]);
+        printf("Unknown switch \"%s\"\n\r", argv[0]);
         print_usage = true;
         break;
       }
@@ -282,7 +282,7 @@ boolean intro_do_hours_file (boolean already_exiting, char * the_file)
           printf("Created %s\n",the_file);
           exit_flag = true;
         } else {
-          printf("Error in creating %s for output.\n",the_file);
+          printf("Error in creating %s for output.\n\r",the_file);
           exit;
         } /* end if file1 (writing) */
 
@@ -325,7 +325,7 @@ boolean intro_do_msg_file(boolean already_exiting, char * the_file)
       file1 = (FILE *)fopen(the_file,"w");
       if (file1 == NULL)
         {
-          printf("Error opening %s for writing\n",the_file);
+          printf("Error opening %s for writing\n\r",the_file);
           exit_game();
         } else {
           
@@ -348,7 +348,7 @@ fprintf(file1,"Linux port by Stephen Kertes, 1997-98.\n");
 fprintf(file1,"\n");
 fprintf(file1,"Dungeon Master: This file may contain updates and news.\n");
 
-        printf("Created %s\n", the_file);
+        printf("Created %s\n\r", the_file);
         fclose(file1);
         exit_flag = true;
         } /* end if file1 (writing) */
@@ -373,7 +373,7 @@ boolean intro_do_death_file(boolean already_exiting, char * the_file)
       /* create a new file */
       file1 = (FILE *)fopen(the_file,"w");
       if (file1 == NULL) {
-        printf("Error creating %s\n", the_file);
+        printf("Error creating %s\n\r", the_file);
         exit_game();
       } else {
 fprintf(file1,"Moria death log file\n");
@@ -396,7 +396,7 @@ fprintf(file1,"             Dif Class   Dung Dung\n");
 fprintf(file1," Username      Race  Lvl Cur  Max  Died from\n");
 fprintf(file1," ------------ - -- -- -- ---- ---- --------------------------------------------\n");
 
-        printf("Created %s\n", the_file);
+        printf("Created %s\n\r", the_file);
         fclose(file1);
         exit_flag = true;
       } /* end if file1 (writing) */
@@ -419,10 +419,10 @@ boolean intro_ensure_file_exists(boolean already_exiting, char * the_file)
       /* create a new file */
       file1 = (FILE *)fopen(the_file,"w");
       if (file1 == NULL) {
-        printf("Error creating %s\n", the_file);
+        printf("Error creating %s\n\r", the_file);
         exit_game();
       } else {
-        printf("Created %s\n", the_file);
+        printf("Created %s\n\r", the_file);
         fclose(file1);
         exit_flag = true;
       } /* end if file1 (writing) */
@@ -464,12 +464,12 @@ void intro(vtype finame, int argc, char *argv[])
 
       file1 = priv_fopen(MORIA_HOU,"r");
       if (file1 == NULL) {
-        printf("Unable to open %s for reading\n", MORIA_HOU);
+        printf("Unable to open %s for reading\n\r", MORIA_HOU);
       } else {
         while (!feof(file1)) {
           in_line[0] = 0;
           fgets(in_line, sizeof(in_line), file1);
-          printf("%s",in_line);
+          printf("%s\r",in_line);
         }
         fclose(file1);
       }

@@ -53,9 +53,9 @@ integer cc__get_min_stat (string prompt, byteint max)
 
   get_string(tmp_str, 1, strlen(out_str)+1, 10);
   if (pindex(tmp_str,'/') > 0) {
-    /* player is asking for an 18/xx */
+    /* player is asking for an 18/xx, 17/00 is left a 0 here, bummer */
 
-    *index(tmp_str,'/') = ' ';
+    *strchr(tmp_str,'/') = ' ';
     sscanf(tmp_str,"%ld %ld",&abil,&perc);
     if (abil == 18) {
       if (perc == 0) {

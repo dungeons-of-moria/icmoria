@@ -8,7 +8,7 @@ void convert_time(
 		  unsigned long int_time,
 		  quad_type *bin_time)
 {
-  printf("UNIMPLEMENTED convert_time\n");
+  printf("UNIMPLEMENTED convert_time\n\r");
 }; 
 
 void sleep_(unsigned long int_time) 

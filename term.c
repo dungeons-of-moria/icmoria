@@ -306,7 +306,7 @@ void init_curses()
 #ifdef AMIGA
   if (opentimer() == 0)
     {
-      (void) printf ("Could not open timer device.\n");
+      (void) printf ("Could not open timer device.\n\r");
       exit (1);
     }
 #endif
@@ -333,12 +333,12 @@ void init_curses()
   if (initscr() == ERR)
 #endif
     {
-      (void) printf("Error allocating screen in curses package.\n");
+      (void) printf("Error allocating screen in curses package.\n\r");
       exit(1);
     }
   if (LINES < 24 || COLS < 80)	 /* Check we have enough screen. -CJS- */
     {
-      (void) printf("Screen too small for moria.\n");
+      (void) printf("Screen too small for moria.\n\r");
       exit (1);
     }
 #ifdef SIGTSTP
@@ -359,7 +359,7 @@ void init_curses()
     )
 #endif
     {
-      (void) printf ("Out of memory in starting up curses.\n");
+      (void) printf ("Out of memory in starting up curses.\n\r");
       exit_game();
     }
   (void) clear();

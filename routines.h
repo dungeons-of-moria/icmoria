@@ -699,6 +699,7 @@
  extern integer weight_limit();
  extern treas_ptr money_carry();
  extern char * cost_str(integer amt, string result);	// was func
+ extern void total_cash(); 
  extern void reset_total_cash(); 
  extern void add_money(integer amount); 
  extern void subtract_money(

@@ -61,7 +61,7 @@ void load_monsters()
   file = priv_fopen(MORIA_MON, "r");
   if (file == NULL)
     {
-      printf("\nUnable to open monster file for reading: %s\n",MORIA_MON);
+      printf("\nUnable to open monster file for reading: %s\n\r",MORIA_MON);
       exit_game();
     }
 
@@ -123,7 +123,8 @@ void load_monsters()
     lm__read_custom(file);
     fclose(file);
   } else {
-    printf("\nUnable to open custom name file for reading: %s\n",MORIA_GCST);
+    printf("\n\rUnable to open custom name file for reading: %s\n\r",
+	   MORIA_GCST);
     pause_game(24);
   }
 
@@ -146,10 +147,10 @@ void load_monsters()
 
 void print_creature(creature_type *c, int c_num, int style)
 {
-  printf("--- %03d ---\n",c_num);
+  printf("--- %03d ---\n\r",c_num);
 
   if (style) {
-      printf("%d\n%d\n%s\n%08lx\n%08lx\n",
+      printf("%d\n\r%d\n\r%s\n\r%08lx\n\r%08lx\n\r",
 	     c->aaf,
 	     c->ac,
 	     c->name,
@@ -157,7 +158,7 @@ void print_creature(creature_type *c, int c_num, int style)
 	     c->spells
 	     );
 
-      printf("%04lx\n%d\n%ld\n%d\n%c\n",
+      printf("%04lx\n\r%d\n\r%ld\n\r%d\n\r%c\n\r",
 	     c->cdefense,
 	     c->sleep,
 	     c->mexp,
@@ -165,7 +166,7 @@ void print_creature(creature_type *c, int c_num, int style)
 	     c->cchar
 	     );
 
-      printf("%s\n%s\n%d\n%d\n",
+      printf("%s\n\r%s\n\r%d\n\r%d\n\r",
 	     c->hd,
 	     c->damage,
 	     c->level,
@@ -173,7 +174,7 @@ void print_creature(creature_type *c, int c_num, int style)
 	     );
 
   } else {
-      printf("aaf: %d\nac: %d\nname: %s\ncmove: %08lx\nspells: %08lx\n",
+      printf("aaf: %d\n\rac: %d\n\rname: %s\n\rcmove: %08lx\n\rspells: %08lx\n\r",
 	     c->aaf,
 	     c->ac,
 	     c->name,
@@ -181,7 +182,7 @@ void print_creature(creature_type *c, int c_num, int style)
 	     c->spells
 	     );
 
-      printf("cdefense: %08lx\nsleep: %d\nmexp: %ld\nspeed: %d\ncchar: %c\n",
+      printf("cdefense: %08lx\n\rsleep: %d\n\rmexp: %ld\n\rspeed: %d\n\rcchar: %c\n\r",
 	     c->cdefense,
 	     c->sleep,
 	     c->mexp,
@@ -189,7 +190,7 @@ void print_creature(creature_type *c, int c_num, int style)
 	     c->cchar
 	     );
 
-      printf("hd: %s\ndamage: %s\nlevel: %d\nmr: %d\n",
+      printf("hd: %s\n\rdamage: %s\n\rlevel: %d\n\rmr: %d\n\r",
 	     c->hd,
 	     c->damage,
 	     c->level,

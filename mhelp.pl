@@ -6,6 +6,7 @@
 # I never found out what all the values really mean.
 #
 # Steve Kertes, December 1997.
+# Version 1.1
 #
 ###########################################################################
 
@@ -100,7 +101,7 @@ for ( ; ($#search_topic >= 0) ; ) {
     #hprint ("-" x 70 . "\n");
     if ($#sub_topics >= 0) {
 	$saved_topic = "";
-	hprint (" \nAdditional information available:\n \n");
+	hprint ("Additional information available:\n \n");
 	hprint_sub_topics(@sub_topics);
     } else {
 	# no subtopics exist, so automaticly pop off a level
@@ -120,18 +121,17 @@ for ( ; ($#search_topic >= 0) ; ) {
     for ($x = 0; $x <= $#help_lines; $x++) {
 	$x = 0 if ($x < 0);
 	
-	#print "$x> " . $help_lines[$x] . "\n";
-	print $help_lines[$x] . "\n";
+	print $help_lines[$x] . "\n\r";
 	
 	if (($x+1) % $num_lines == 0){
-	    print "\n(Press return for more)";
+	    print "\n\r(Press return for more)";
 	    chomp($y = <>);
 	    if ($y eq "b") {
 		$x -= $num_lines * 2;
 	    } elsif ($y eq "a") {
 		
 	    }
-	    print "\n";
+	    print "\n\r";
 	}
     }
 
@@ -140,12 +140,12 @@ for ( ; ($#search_topic >= 0) ; ) {
     #
     if ($#sub_topics >= 0) {
 	if ($found == 0) {
-	    print "\n" . (uc $search_topic[$#search_topic]) . " Topic? ";
+	    print "\n\r" . (uc $search_topic[$#search_topic]) . " Topic? ";
 	} else {
-	    print "\n" . (uc $search_topic[$#search_topic]) . " Subtopic? ";
+	    print "\n\r" . (uc $search_topic[$#search_topic]) . " Subtopic? ";
 	}
     } else {
-	print "\nNo additional information.  Press return to continue: ";
+	print "\n\rNo additional information.  Press return to continue: ";
     }
 
     chomp($y = <>);
@@ -187,8 +187,8 @@ sub bailout {
 # Handler for signals, first argument is signal name
 #
     #local($sig) = @_;
-    #print "Caught a SIG$sig--shutting down\n";
-    #print "\n";
+    #print "Caught a SIG$sig--shutting down\n\r";
+    #print "\n\r";
     exit(0);
 }  
 ###########################################################################
@@ -268,9 +268,9 @@ sub parse_margins {
 ###########################################################################
 sub print_all_topics {
     for($x=0; $x < $topic_count; $x++) {
-	print "============================\n";
-	print ((' ' x ($depth_array[$x]*4)) . "" . $topic_array[$x] . "\n\n");
-#	print $section_array[$x];
+     print "============================\n\r";
+     print ((' ' x ($depth_array[$x]*4)) . "" . $topic_array[$x] . "\n\r\n\r");
+#    print $section_array[$x];
     }
 }
 ###########################################################################
@@ -290,7 +290,7 @@ sub find_topic {
 		$found = 1;
 	    }
 	} elsif ($cur_depth > $depth_array[$y+1]) {
-	    #print ">>>bailing on curdepth $cur_depth  y = $y<<<\n";
+	    #print ">>>bailing on curdepth $cur_depth  y = $y<<<\n\r";
 	    last;
 	}
     }
@@ -357,13 +357,13 @@ sub hprint_selection {
 	    if ( /\.blank\s+(\d+)/ ) {
 #		print "BLANK $1";
 		for ($y = 0; $y < $1; $y++) {
-		    print "\n";
-		 }
+		    hprint("\n");
+		}
 	    }
 
 	    # list
 	    if ( /\.list\s+(\d+)\s+'(.)'/ ) {
-#		print "Start List >>$1<< >>$2<<\n";
+#		print "Start List >>$1<< >>$2<<\n\r";
 		$listmarker = $2;
 		$listline = "";
 		for ( ; $x <= $#lines; $x++) {
@@ -386,7 +386,7 @@ sub hprint_selection {
 
 	    # literal
 	    if ( /\.literal/ ) {
-#		print "Start Literal\n";
+#		print "Start Literal\n\r";
 		for ($x++ ; $x <= $#lines; $x++) {
 		    hprint($lines[$x] . "\n");
 		    last if ( $lines[$x+1] =~ /^(\.el)|(\.end\s+literal)/);
@@ -396,7 +396,7 @@ sub hprint_selection {
 
 	    # paragraph
 	    if ( /\.p/ ) {
-#		print "Start Paragraph\n";
+#		print "Start Paragraph\n\r";
 		$para = "";
 		for ($x++ ; $x <= $#lines; $x++) {
 		    $para .= $lines[$x];
@@ -409,7 +409,7 @@ sub hprint_selection {
 
 	    # unbound paragraph, anything without a . as the first char
 	    if ( !(/^\./) ) {
-#		print "Start Unbound Paragraph\n";
+#		print "Start Unbound Paragraph\n\r";
 		$para = "";
 		for (; $x <= $#lines; $x++) {
 		    $para .= $lines[$x];
@@ -1751,6 +1751,7 @@ __END__
  | Phraint    | 1.20 | 1.30 |  --  |  --  |  --  | 1.50 |
  | Dryad      |  --  | 1.30 | 1.30 |  --  | 1.40 | 1.50 |
  -------------+------+------+------+------+------+------+
+
  
                         Mage  Adven.  Bard   Rogue
          -------------+------+------+------+------+
@@ -1767,7 +1768,7 @@ __END__
          -------------+------+------+------+------+
 .end literal
 4 1.00
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    1400          29th :    50000
@@ -1786,7 +1787,7 @@ __END__
  14th :  1100           28th :   35000
 .end literal
 4 1.10
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    1540          29th :    55000
@@ -1805,7 +1806,7 @@ __END__
  14th :  1210           28th :   38500
 .end literal
 4 1.20
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    1680          29th :    60000
@@ -1824,7 +1825,7 @@ __END__
  14th :  1320           28th :   42000
 .end literal 
 4 1.25
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    1750          29th :    62500
@@ -1843,7 +1844,7 @@ __END__
  14th :  1375           28th :   43750
 .end literal
 4 1.30
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    1820          29th :    65000
@@ -1862,7 +1863,7 @@ __END__
  14th :  1430           28th :   45500
 .end literal 
 4 1.35
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    1890          29th :    67500
@@ -1881,7 +1882,7 @@ __END__
  14th :  1485           28th :   47250
 .end literal 
 4 1.40
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    1960          29th :    70000
@@ -1900,7 +1901,7 @@ __END__
  14th :  1540           28th :   49000
 .end literal 
 4 1.45
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    2030          29th :    72500
@@ -1919,7 +1920,7 @@ __END__
  14th :  1595           28th :   50750
 .end literal 
 4 1.50
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    2100          29th :    75000
@@ -1938,7 +1939,7 @@ __END__
  14th :  1650           28th :   52500
 .end literal 
 4 1.55
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    2170          29th :    77500
@@ -1957,7 +1958,7 @@ __END__
  14th :  1705           28th :   54250
 .end literal 
 4 1.60
-.blank 2
+.blank 0
 .lm 0
 .literal
   1st :     0           15th :    2240          29th :    80000

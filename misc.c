@@ -195,16 +195,17 @@ boolean already_playing()
 char * cost_str(integer amt, string result)
 {
   /*{ Return string describing how much the amount is worth	-DMF-	}*/
+  integer    amtd9 = amt div 9;
 
-  if (amt >= MITHRIL_VALUE) {
+  if (amtd9 >= MITHRIL_VALUE) {
     sprintf(result,"%ld mithril",((amt+MITHRIL_VALUE-1) div MITHRIL_VALUE));
-  } else if (amt >= PLATINUM_VALUE) {
+  } else if (amtd9 >= PLATINUM_VALUE) {
     sprintf(result,"%ld platinum",((amt+PLATINUM_VALUE-1) div PLATINUM_VALUE));
-  } else if (amt >= GOLD_VALUE) {
+  } else if (amtd9 >= GOLD_VALUE) {
     sprintf(result,"%ld gold",((amt+GOLD_VALUE-1) div GOLD_VALUE));
-  } else if (amt >= SILVER_VALUE) {
+  } else if (amtd9 >= SILVER_VALUE) {
     sprintf(result,"%ld silver",((amt+SILVER_VALUE-1) div SILVER_VALUE));
-  } else if (amt >= COPPER_VALUE) {
+  } else if (amtd9 >= COPPER_VALUE) {
     sprintf(result,"%ld copper",((amt+COPPER_VALUE-1) div COPPER_VALUE));
   } else {
     sprintf(result,"%ld iron",amt);
@@ -218,6 +219,8 @@ char * cost_str(integer amt, string result)
 
 void reset_total_cash()
 {
+  /*{ recomputes cash totals for player and bank }*/
+
   integer  i1;
 
   py.misc.money[TOTAL_] = 0;
@@ -225,6 +228,13 @@ void reset_total_cash()
     py.misc.money[TOTAL_] += py.misc.money[i1]*coin_value[i1];
   }
   py.misc.money[TOTAL_] = py.misc.money[TOTAL_] div GOLD_VALUE;
+
+  bank[TOTAL_] = 0;
+  for (i1 = GOLD; i1 <= MITHRIL; i1++) {
+    bank[TOTAL_] += bank[i1] * coin_value[i1];
+  }
+  bank[TOTAL_] = bank[TOTAL_] div GOLD_VALUE;
+
 };
 //////////////////////////////////////////////////////////////////////
 integer weight_limit()

@@ -764,10 +764,10 @@ void gc__read_master(GDBM_FILE f2, boolean *paniced)
   result = master_file_verify(f2, &mkey);
 
   if (result != MF_CHAR_OK) {
-    printf("\n--------------------------------------------------------\n");
-    printf(  "| There was a data corruption error with the character |\n");
-    printf(  "| Terminating IMORIA now.                              |\n");
-    printf(  "--------------------------------------------------------\n");
+    printf("\n\r--------------------------------------------------------\n\r");
+    printf(    "| There was a data corruption error with the character |\n\r");
+    printf(    "| Terminating IMORIA now.                              |\n\r");
+    printf(    "--------------------------------------------------------\n\r");
 //    exit_game();
 
     *paniced = true;
@@ -1017,7 +1017,7 @@ void gc__read_player_record(FILE *f1, encrypt_state *cf_state, ntype in_rec,
     } else {
       msg_print("Unfortunately, you did not pay for insurance.");
       put_qio();
-      printf("\n\n");
+      printf("\n\r\n\r");
       exit_game();
     }
     *was_dead = true;
@@ -1789,7 +1789,7 @@ void restore_char(vtype fnam, boolean present, boolean undead)
   }
 
   put_qio();
-  printf("\n\n");
+  printf("\n\r\n\r");
   exit_game();
 };
 //////////////////////////////////////////////////////////////////////

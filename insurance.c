@@ -228,9 +228,9 @@ void bi__insure_all_equip()
 	if (equipment[i1].tval > 0) {
 	  equipment[i1].flags2 |= Insured_bit;
 	}
-	bi__display_gold();
-	msg_print("Your equipment is now insured");
       }
+      bi__display_gold();
+      msg_print("Your equipment is now insured");
     }      
   } else {
     msg_print("You have no equipment that needs to be insured.");

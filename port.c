@@ -12,12 +12,12 @@ void * safe_malloc(int blocksize, char *message)
   void * new_pointer;
 
   if((new_pointer = (void *)malloc(blocksize)) == NULL) {
-    printf("\n\nMemory error (%d bytes)! Ref: %s.\n\n",blocksize,message);
-    printf("malloc calls: %ld\tmalloc bytes: %ld\n",malloc_calls,malloc_bytes);
-    printf("free   calls: %ld\tfree   bytes: %ld\n",free_calls,free_bytes);
-    printf("\ndelta  calls: %ld\ndelta  bytes: %ld\n",
+    printf("\n\r\n\rMemory error (%d bytes)! Ref: %s.\n\r\n\r",blocksize,message);
+    printf("malloc calls: %ld\tmalloc bytes: %ld\n\r",malloc_calls,malloc_bytes);
+    printf("free   calls: %ld\tfree   bytes: %ld\n\r",free_calls,free_bytes);
+    printf("\n\rdelta  calls: %ld\ndelta  bytes: %ld\n\r",
 	   malloc_calls-free_calls,malloc_bytes-free_bytes);
-    printf("\n\n");
+    printf("\n\r\n\r");
     exit_game();
   }
 
