@@ -1027,8 +1027,8 @@ void mt__ring(integer x,integer level,integer chance,
 
   case 23 :/*	{ Increase To-Hit	}*/
     t_list[x].tohit    = mt__m_bonus(1,20,level,forceit);
-    t_list[x].cost    += t_list[x].todam*10000; /* XXXX seems like tohit... */
-
+    t_list[x].cost    += t_list[x].tohit*10000; /* XXXX seems like tohit... */
+    /* yes indeed.  looks like cut-and-paste error.  fixed 10/18/00 --JEB */
     if (mt__magik(cursed)) {
       t_list[x].flags |= Cursed_worn_bit;
       t_list[x].tohit *= -1;
@@ -1038,7 +1038,8 @@ void mt__ring(integer x,integer level,integer chance,
 
   case 24 :/*	{ Protection		}*/
     t_list[x].toac     = mt__m_bonus(1,20,level,forceit);
-    t_list[x].cost    += t_list[x].todam*10000; /* XXXX seems like toac... */
+    t_list[x].cost    += t_list[x].toac*10000; /* XXXX seems like toac... */
+    /* yes indeed.  looks like cut-and-paste error.  fixed 10/18/00 --JEB */
     if (mt__magik(cursed)) {
       t_list[x].flags |= Cursed_worn_bit;
       t_list[x].toac  *= -1;

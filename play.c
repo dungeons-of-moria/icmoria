@@ -211,7 +211,7 @@ void p__druid_effects(integer effect)
     break;
 		
   case 36 :  /*{ Ring of Fire }*/
-    py.flags.ring_fire = randint(4) + 1;
+    py.flags.ring_fire += randint(4) + 1;
     break;
     
   case 37 :  /*{ Resist Charm }*/

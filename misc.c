@@ -713,11 +713,32 @@ void add_days(game_time_type	*ti,integer d)
 {
   /*	{ Add days to the current date				-DMF-	}*/
 
-	  ti->day++;
-	  ti->month += (ti->day-1) div 28;
-	  ti->day    = ((ti->day-1) % 28) + 1;
-	  ti->year  += (ti->month-1) div 13;
-	  ti->month  = ((ti->month-1) % 13) + 1;
+  //	  ti->day++;
+  //	  ti->month += (ti->day-1) div 28;
+  //	  ti->day    = ((ti->day-1) % 28) + 1;
+  //	  ti->year  += (ti->month-1) div 13;
+  //	  ti->month  = ((ti->month-1) % 13) + 1;
+
+  // 10/26/00 -- JEB:
+  // DMF's code works great (if a little strangely) if you only ever add 1 day,
+  // which this function did.  notice that the above code ignores the 'd'
+  // parameter, which in turn means that no matter how long of a stay you buy
+  // in the inn, you really only get 1 day.  i thought about just putting a loop
+  // around the above code to iterate 'd' times, but that's lame so here's some
+  // more robust code that simply calculates the day, month, and year increments
+  // for any value of 'd'.  note that the above code implies that the year is
+  // 364 days long (13 months of 28 days each), which i've kept:
+
+  byteint yrs, mos;
+  yrs = (int)(d/364);  // yrs = how many years you get from 'd' days
+  d -= 364*yrs;        // d = however many days are left over...
+  mos = (int)(d/28);   // mos = how many months you get from the remaining days
+  d -= 28*mos;         // d = however many days are left over...
+  ti->day   += d;      // add the remaining days, months, and years
+  ti->month += mos;
+  ti->year  += yrs;
+  if(ti->day   > 28) { ti->month++; ti->day   %= 28; }   // fix any overflows
+  if(ti->month > 13) { ti->year++;  ti->month %= 13; }
 };
 
 //////////////////////////////////////////////////////////////////////

@@ -719,7 +719,9 @@ void spend_time(integer days_spent, vtype place,boolean whole_days)
     
   case 3 : 
     msg_print("You spend three days in the inn.");
-    add_days(&(PM.cur_age),28+randint(3));
+    // 10/26/00 --JEB.  what the hell was "28+randint(3)" doing in this context?
+    //    add_days(&(PM.cur_age),28+randint(3));
+    add_days(&(PM.cur_age),3);
     PM.cur_age.hour = 8 + randint(4);
     PM.cur_age.secs = randint(400) - 1;
     time_spent += 400*PM.cur_age.hour + PM.cur_age.secs;

@@ -300,6 +300,37 @@ correctly set random seed in casino so that it does not always play
 exactly the same games after loading a saved character.
 
 A bunch of little things I did back in March that I have forgotten about.
+-------------------------------------------------------------------------------
+4.85.19
+
+Oct 26 2000
+
+Applied some patches from cloister.  Here are his notes:
+
+i found three bugs related to timekeeping when spending time in the inn plus a
+couple of other little bugs.
+
+1. careful observation of the dates in the game reveals that spending time in
+   the inn, no matter how many days you pay for (1, 3, 7), always gets you only
+   1 calendar day, due to a bug in misc.c's add_days() function.  you did,
+   however, get the correct number of loops through store_maint, the correct
+   adjustments to player flags, etc.  it's just py.misc.cur_age that wasn't
+   updated correctly.  fixed add_days.
+2. having fixed add_days, there was a bug in spend_time() when you buy 3 days
+   in the inn.  check out the add_days() call that was there.  i have no idea
+   what the original programmer could have been thinking...
+3. having fixed #2, the p1 value on the "3 days in the inn" item in values.h
+   was also wrong.  it was set to '30', not 3.  my only guess is that
+   originally someone wanted to have an option for spending a month in the
+   inn (which, now that i think about it, would also explain bug number 2, if
+   the person was trying to emulate--albeit poorly--months of slightly
+   differing length).
+4. the druid Ring of Fire spell didn't work analagously to the mage version or
+   the version you get when you use the "broken set of teeth from a dragon"
+   item.  fixed.
+5. the price when selling rings of protection and rings of increase-to-hit was
+   based on the rings' +todam value.  looks like a cut-and-paste error,
+   probably from when those rings were invented originally...
 
 -------------------------------------------------------------------------------
 /* end progress */

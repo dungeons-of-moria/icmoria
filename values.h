@@ -2718,7 +2718,7 @@ Intelligence_worn_bit+Wisdom_worn_bit+Charisma_worn_bit+Searching_worn_bit,
 {"Lodging for the week",   lodging_at_inn, '.',0,0,
     7,	  200, 301,3000,   1,	0,   0,	  0,   0, "0d0",    0}, //{115}
 {"Lodging for three days",   lodging_at_inn, '.',0,0,
-   30,	  120, 302,3000,   1,	0,   0,	  0,   0, "0d0",    0}, //{116}
+    3,	  120, 302,3000,   1,	0,   0,	  0,   0, "0d0",    0}, //{116}
 {"Chime of Light (%P1 charges)",   chime, '%',0x00000000,0x00000001,
     0,	  275,	 1,   1,   1,	0,   0,	  0,   0, "0d0",   10}, //{117}
 {"Chime of Detect Doors/Stairs (%P1 charges)", chime, '%', 0x00000000,0x00000002,
